@@ -1,4 +1,5 @@
 /*  AeroShot - Transparent screenshot utility for Windows
+    Copyright (C) 2021 Cvolton
     Copyright (C) 2015 toe_head2001
     Copyright (C) 2012 Caleb Joseph
 
@@ -16,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -164,7 +166,7 @@ namespace AeroShot
                     foreach (char inv in Path.GetInvalidFileNameChars())
                         name = name.Replace(inv.ToString(), string.Empty);
 
-                    Bitmap s = CaptureCompositeScreenshot(ref data);
+                    Bitmap[] s = CaptureCompositeScreenshot(ref data);
 
                     if (AeroColorToggled)
                     {
@@ -200,19 +202,19 @@ namespace AeroShot
                         if (data.ClipboardNotDisk && data.Background !=
                             ScreenshotTask.BackgroundType.Transparent)
                             // Screenshot is already opaque, don't need to modify it
-                            Clipboard.SetImage(s);
+                            Clipboard.SetImage(s[0]);
                         else if (data.ClipboardNotDisk)
                         {
-                            var whiteS = new Bitmap(s.Width, s.Height, PixelFormat.Format24bppRgb);
+                            var whiteS = new Bitmap(s[0].Width, s[0].Height, PixelFormat.Format24bppRgb);
                             using (Graphics graphics = Graphics.FromImage(whiteS))
                             {
                                 graphics.Clear(Color.White);
-                                graphics.DrawImage(s, 0, 0, s.Width, s.Height);
+                                graphics.DrawImage(s[0], 0, 0, s[0].Width, s[0].Height);
                             }
                             using (var stream = new MemoryStream())
                             {
                                 // Save screenshot in clipboard as PNG which some applications support (eg. Microsoft Office)
-                                s.Save(stream, ImageFormat.Png);
+                                s[0].Save(stream, ImageFormat.Png);
                                 var pngClipboardData = new DataObject("PNG", stream);
 
                                 // Add fallback for applications that don't support PNG from clipboard (eg. Photoshop or Paint)
@@ -227,20 +229,30 @@ namespace AeroShot
                             name = name.Trim();
                             if (name == string.Empty)
                                 name = "AeroShot";
-                            string path = Path.Combine(data.DiskSaveDirectory, name + ".png");
+                            string pathActive = Path.Combine(data.DiskSaveDirectory, name + "_b1.png");
+                            string pathInactive = Path.Combine(data.DiskSaveDirectory, name + "_b2.png");
+							string pathWhiteActive = Path.Combine(data.DiskSaveDirectory, name + "_w1.png");
+							string pathWhiteInactive = Path.Combine(data.DiskSaveDirectory, name + "_w2.png");
 
-                            if (File.Exists(path))
+							if (File.Exists(pathActive) || File.Exists(pathInactive))
                             {
                                 for (int i = 1; i < 9999; i++)
                                 {
-                                    path = Path.Combine(data.DiskSaveDirectory, name + " " + i + ".png");
-                                    if (!File.Exists(path))
+                                    pathActive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_b1.png");
+                                    pathInactive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_b2.png");
+									pathWhiteActive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_b1.png");
+									pathWhiteInactive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_b2.png");
+									if (!File.Exists(pathActive))
                                         break;
                                 }
                             }
-                            s.Save(path, ImageFormat.Png);
-                        }
-                        s.Dispose();
+                            s[0].Save(pathActive, ImageFormat.Png);
+                            s[1].Save(pathInactive, ImageFormat.Png);
+							s[2].Save(pathWhiteActive, ImageFormat.Png);
+							s[3].Save(pathWhiteInactive, ImageFormat.Png);
+						}
+                        s[0].Dispose();
+                        s[1].Dispose();
                     }
 
                     if (data.DoResize)
@@ -317,7 +329,7 @@ namespace AeroShot
             WindowsApi.GetWindowRect(data.WindowHandle, ref r);
             oldWindowSize = r;
 
-            Bitmap f = CaptureCompositeScreenshot(ref data);
+            Bitmap f = CaptureCompositeScreenshot(ref data)[0];
             if (f != null)
             {
                 WindowsApi.SetWindowPos(data.WindowHandle, (IntPtr)0, r.Left, r.Top, data.ResizeX - (f.Width - (r.Right - r.Left)), data.ResizeY - (f.Height - (r.Bottom - r.Top)), SWP_SHOWWINDOW);
@@ -329,9 +341,9 @@ namespace AeroShot
             }
         }
 
-        private static unsafe Bitmap CaptureCompositeScreenshot(ref ScreenshotTask data)
+        private static unsafe Bitmap[] CaptureCompositeScreenshot(ref ScreenshotTask data)
         {
-            Color tmpColor = data.BackgroundColor;
+			Color tmpColor = data.BackgroundColor;
             if (data.Background == ScreenshotTask.BackgroundType.Transparent ||
                 data.Background == ScreenshotTask.BackgroundType.Checkerboard)
                 tmpColor = Color.White;
@@ -377,11 +389,13 @@ namespace AeroShot
             WindowsApi.SetWindowPos(backdrop.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE);
             backdrop.Opacity = 1;
             Application.DoEvents();
+			SendKeys.SendWait("%{F16}");
 
-            // Capture screenshot with white background
-            Bitmap whiteShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+			// Capture screenshot with white background
+			Bitmap whiteShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
-            if (data.Background == ScreenshotTask.BackgroundType.SolidColor)
+			//TODO: Solid Color Background
+			/*if (data.Background == ScreenshotTask.BackgroundType.SolidColor)
             {
                 backdrop.Dispose();
                 if (data.CaptureMouse)
@@ -389,25 +403,56 @@ namespace AeroShot
                 Bitmap final = CropEmptyEdges(whiteShot, tmpColor);
                 whiteShot.Dispose();
                 return final;
-            }
+            }*/
 
-            backdrop.BackColor = Color.Black;
+			backdrop.BackColor = Color.Black;
             Application.DoEvents();
 
             // Capture screenshot with black background
             Bitmap blackShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
-            backdrop.Dispose();
+			EmptyForm emptyForm = new EmptyForm();
+			emptyForm.Show();
+			//backdrop.Dispose();
+			backdrop.BackColor = Color.White;
+			Application.DoEvents();
 
-            Bitmap transparentImage = DifferentiateAlpha(whiteShot, blackShot);
-            if (data.CaptureMouse)
+			// Capture inactive screenshot with white background
+			emptyForm.Show();
+			Bitmap whiteInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+
+			/*if (data.Background == ScreenshotTask.BackgroundType.SolidColor)
+			{
+				backdrop.Dispose();
+				if (data.CaptureMouse)
+					DrawCursorToBitmap(whiteShot, new Point(rct.Left, rct.Top));
+				Bitmap final = CropEmptyEdges(whiteShot, tmpColor);
+				whiteShot.Dispose();
+				return final;
+			}*/
+
+			backdrop.BackColor = Color.Black;
+			Application.DoEvents();
+
+			// Capture inactive screenshot with black background
+			emptyForm.Show();
+			Bitmap blackInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+
+			backdrop.Dispose();
+
+			Bitmap transparentImage = DifferentiateAlpha(whiteShot, blackShot, false);
+			Bitmap transparentInactiveImage = DifferentiateAlpha(whiteInactiveShot, blackInactiveShot, false);
+			Bitmap transparentWhiteImage = DifferentiateAlpha(whiteShot, blackShot, true);
+			Bitmap transparentWhiteInactiveImage = DifferentiateAlpha(whiteInactiveShot, blackInactiveShot, true);
+			if (data.CaptureMouse)
                 DrawCursorToBitmap(transparentImage, new Point(rct.Left, rct.Top));
-            transparentImage = CropEmptyEdges(transparentImage, Color.FromArgb(0, 0, 0, 0));
+			Bitmap[] final = CropEmptyEdges(new[] { transparentImage, transparentInactiveImage, transparentWhiteImage, transparentWhiteInactiveImage }, Color.FromArgb(0, 0, 0, 0));
 
             whiteShot.Dispose();
             blackShot.Dispose();
 
-            if (data.Background == ScreenshotTask.BackgroundType.Checkerboard)
+			//TODO: checkerboard support
+            /*if (data.Background == ScreenshotTask.BackgroundType.Checkerboard)
             {
                 var final = new Bitmap(transparentImage.Width, transparentImage.Height, PixelFormat.Format24bppRgb);
                 Graphics finalGraphics = Graphics.FromImage(final);
@@ -417,9 +462,9 @@ namespace AeroShot
                 finalGraphics.Dispose();
                 transparentImage.Dispose();
                 return final;
-            }
+            }*/
             // Returns a bitmap with transparency, calculated by differentiating the white and black screenshots
-            return transparentImage;
+            return final;
         }
 
         private static void DrawCursorToBitmap(Bitmap windowImage, Point offsetLocation)
@@ -498,14 +543,14 @@ namespace AeroShot
             return b1;
         }
 
-        private static unsafe Bitmap CropEmptyEdges(Bitmap b1, Color trimColor)
+        private static unsafe Bitmap[] CropEmptyEdges(Bitmap[] b1, Color trimColor)
         {
             if (b1 == null)
                 return null;
 
-            int sizeX = b1.Width;
-            int sizeY = b1.Height;
-            var b = new UnsafeBitmap(b1);
+            int sizeX = b1[0].Width;
+            int sizeY = b1[0].Height;
+            var b = new UnsafeBitmap(b1[0]);
             b.LockImage();
 
             int left = -1;
@@ -597,12 +642,24 @@ namespace AeroShot
             if (left >= right || top >= bottom)
                 return null;
 
-            Bitmap final = b1.Clone(new Rectangle(left, top, right - left, bottom - top), b1.PixelFormat);
-            b1.Dispose();
+			int rightSize = right - left;
+			int bottomSize = bottom - top;
+			if (rightSize % 2 == 1)
+				rightSize++;
+			if (bottomSize % 2 == 1)
+				bottomSize++;
+
+			Bitmap[] final = new Bitmap[b1.Length];
+			for(int i = 0; i < b1.Length; i++)
+			{
+				final[i] = b1[i].Clone(new Rectangle(left, top, rightSize, bottomSize), b1[i].PixelFormat);
+				b1[i].Dispose();
+			}
+			
             return final;
         }
 
-        private static unsafe Bitmap DifferentiateAlpha(Bitmap whiteBitmap, Bitmap blackBitmap)
+        private static unsafe Bitmap DifferentiateAlpha(Bitmap whiteBitmap, Bitmap blackBitmap, bool useWhiteMath)
         {
             if (whiteBitmap == null || blackBitmap == null || whiteBitmap.Width != blackBitmap.Width || whiteBitmap.Height != blackBitmap.Height)
                 return null;
@@ -627,17 +684,23 @@ namespace AeroShot
                 pixelF->Alpha = ToByte((pixelB->Red - pixelA->Red + 255 + pixelB->Green - pixelA->Green + 255 + pixelB->Blue - pixelA->Blue + 255) / 3);
                 if (pixelF->Alpha > 0)
                 {
-                    // Following math creates an image optimized to be displayed on a black background
-                    pixelF->Red = ToByte(255 * pixelB->Red / pixelF->Alpha);
-                    pixelF->Green = ToByte(255 * pixelB->Green / pixelF->Alpha);
-                    pixelF->Blue = ToByte(255 * pixelB->Blue / pixelF->Alpha);
+					if (useWhiteMath)
+					{
+						// Following math creates an image optimized to be displayed on a white background
+						pixelF->Red = ToByte(255 * (pixelA->Red + pixelF->Alpha - 255) / pixelF->Alpha);
+						pixelF->Green = ToByte(255 * (pixelA->Green + pixelF->Alpha - 255) / pixelF->Alpha);
+						pixelF->Blue = ToByte(255 * (pixelA->Blue + pixelF->Alpha - 255) / pixelF->Alpha);
 
-                    // Following math creates an image optimized to be displayed on a white background
-                    /*
-                    pixelF->Red = ToByte(255 * (pixelA->Red + pixelF->Alpha - 255) / pixelF->Alpha);
-                    pixelF->Green = ToByte(255 * (pixelA->Green + pixelF->Alpha - 255) / pixelF->Alpha);
-                    pixelF->Blue = ToByte(255 * (pixelA->Blue + pixelF->Alpha - 255) / pixelF->Alpha);
-                    */
+					}
+					else
+					{
+						// Following math creates an image optimized to be displayed on a black background
+						pixelF->Red = ToByte(255 * pixelB->Red / pixelF->Alpha);
+						pixelF->Green = ToByte(255 * pixelB->Green / pixelF->Alpha);
+						pixelF->Blue = ToByte(255 * pixelB->Blue / pixelF->Alpha);
+					}
+
+					
                 }
                 if (empty && pixelF->Alpha > 0)
                     empty = false;

@@ -1,4 +1,5 @@
 /*  AeroShot - Transparent screenshot utility for Windows
+    Copyright (C) 2021 Cvolton
     Copyright (C) 2015 toe_head2001
     Copyright (C) 2012 Caleb Joseph
 

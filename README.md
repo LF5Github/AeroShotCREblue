@@ -1,3 +1,17 @@
+AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of Windows Crazy Error videos. This program saves 4 screenshots with the following file name suffixes:
+* b1 - Optimized for dark/black backgrounds, active titlebar
+* b2 - Optimized for dark/black backgrounds, inactive titlebar
+* w1 - Optimized for light/white backgrounds, active titlebar
+* w2 - Optimized for light/white backgrounds, inactive titlebar
+
+## Changelog
+
+### 1.6.0
+* Automatic inactive screenshot capture
+* Enabled the algorithm for white backgrounds for better colored title bars
+* Temporarily disabled checkerboard and solid backgrounds
+
+# AeroShot
 AeroShot is a free (GPLv3) and open source screenshot utility designed for capturing individual windows. It captures screenshots **with full transparency**, such as seen in the Windows Aero visual style. This allows for a clean and professional screenshot, useful for showcasing an application. The entire program is written in C#, heavily utilizing the Windows API.
 
 AeroShot was originally developed by Caleb Joseph in 2011, and was inspired by the proprietary [Window Clippings](http://www.windowclippings.com/) program.

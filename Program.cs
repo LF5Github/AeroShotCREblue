@@ -1,4 +1,5 @@
 /*  AeroShot - Transparent screenshot utility for Windows
+    Copyright (C) 2021 Cvolton
     Copyright (C) 2015 toe_head2001
     Copyright (C) 2012 Caleb Joseph
 
@@ -20,12 +21,12 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-[assembly: AssemblyTitle("AeroShot Mini")]
-[assembly: AssemblyProduct("AeroShot Mini")]
+[assembly: AssemblyTitle("AeroShotCRE")]
+[assembly: AssemblyProduct("AeroShotCRE")]
 [assembly: AssemblyDescription("Screenshot capture utility for Windows Aero")]
-[assembly: AssemblyCopyright("\u00a9 2015 toe_head2001")]
-[assembly: AssemblyVersion("1.5.0.0")]
-[assembly: AssemblyFileVersion("1.5.0.0")]
+[assembly: AssemblyCopyright("\u00a9 2021 Cvolton")]
+[assembly: AssemblyVersion("1.6.0.0")]
+[assembly: AssemblyFileVersion("1.6.0.0")]
 [assembly: ComVisible(false)]
 
 namespace AeroShot
@@ -41,7 +42,7 @@ namespace AeroShot
                 return;
             }
 
-            bool isFirstInstance;
+			bool isFirstInstance;
 
             // set if truly first instance:
             var mutex = new System.Threading.Mutex(true, "AeroShot", out isFirstInstance);
@@ -49,12 +50,14 @@ namespace AeroShot
             if (!isFirstInstance)
             {
                 return;
-            }
+			}
+			//temporary workaround - we need to lose focus for inactive screenshot captures to work
+			MessageBox.Show("Press OK to start the application", Application.ProductName);
 
-            Application.EnableVisualStyles();
+			Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SysTray());
-            GC.KeepAlive(mutex);
+            //GC.KeepAlive(mutex);
         }
     }
 }
