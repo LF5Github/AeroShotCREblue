@@ -240,8 +240,8 @@ namespace AeroShot
                                 {
                                     pathActive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_b1.png");
                                     pathInactive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_b2.png");
-									pathWhiteActive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_b1.png");
-									pathWhiteInactive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_b2.png");
+									pathWhiteActive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_w1.png");
+									pathWhiteInactive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_w2.png");
 									if (!File.Exists(pathActive))
                                         break;
                                 }
