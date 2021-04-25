@@ -122,28 +122,33 @@ namespace AeroShot
                     }
                     WindowsApi.SetForegroundWindow(data.WindowHandle);
 
-                    bool AeroColorToggled = false;
-                    WindowsApi.DWM_COLORIZATION_PARAMS originalParameters;
-                    WindowsApi.DwmGetColorizationParameters(out originalParameters);
-                    if (data.CustomGlass && AeroEnabled())
-                    {
-                        // Original colorization parameters
-                        originalParameters.clrGlassReflectionIntensity = 50;
+					bool AeroColorToggled = false;
+					WindowsApi.DWM_COLORIZATION_PARAMS originalParameters = new WindowsApi.DWM_COLORIZATION_PARAMS();
+					//TODO: reenable
+					if (Environment.OSVersion.Version.Major >= 6)
+					{
+						WindowsApi.DwmGetColorizationParameters(out originalParameters);
+						if (data.CustomGlass && AeroEnabled())
+						{
+							// Original colorization parameters
+							originalParameters.clrGlassReflectionIntensity = 50;
 
-                        // Custom colorization parameters
-                        WindowsApi.DWM_COLORIZATION_PARAMS parameters;
-                        WindowsApi.DwmGetColorizationParameters(out parameters);
-                        parameters.clrAfterGlowBalance = 2;
-                        parameters.clrBlurBalance = 29;
-                        parameters.clrColor = ColorToBgra(data.AeroColor);
-                        parameters.nIntensity = 69;
+							// Custom colorization parameters
+							WindowsApi.DWM_COLORIZATION_PARAMS parameters;
+							WindowsApi.DwmGetColorizationParameters(out parameters);
+							parameters.clrAfterGlowBalance = 2;
+							parameters.clrBlurBalance = 29;
+							parameters.clrColor = ColorToBgra(data.AeroColor);
+							parameters.nIntensity = 69;
 
-                        // Call the DwmSetColorizationParameters to make the change take effect.
-                        WindowsApi.DwmSetColorizationParameters(ref parameters, false);
-                        AeroColorToggled = true;
-                    }
+							// Call the DwmSetColorizationParameters to make the change take effect.
+							WindowsApi.DwmSetColorizationParameters(ref parameters, false);
+							AeroColorToggled = true;
+						}
+					}
 
-                    bool ShadowToggled = false;
+
+					bool ShadowToggled = false;
                     if (data.DisableShadow && ShadowEnabled())
                     {
                         WindowsApi.SystemParametersInfo(SPI_SETDROPSHADOW, 0, false, 0);
@@ -167,8 +172,8 @@ namespace AeroShot
                         name = name.Replace(inv.ToString(), string.Empty);
 
                     Bitmap[] s = CaptureCompositeScreenshot(ref data);
-
-                    if (AeroColorToggled)
+					
+                    if (AeroColorToggled && Environment.OSVersion.Version.Major >= 6)
                     {
                         WindowsApi.DwmSetColorizationParameters(ref originalParameters, false);
                     }
@@ -263,14 +268,14 @@ namespace AeroShot
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     if (data.WindowHandle != start && data.WindowHandle != taskbar)
                     {
                         WindowsApi.ShowWindow(start, 1);
                         WindowsApi.ShowWindow(taskbar, 1);
                     }
-                    MessageBox.Show("An error occurred while trying to take a screenshot.\r\n\r\nPlease make sure you have selected a valid window.",
+                    MessageBox.Show("An error occurred while trying to take a screenshot.\r\n\r\nPlease make sure you have selected a valid window.\r\n\r\n" + e.ToString(),
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -283,7 +288,7 @@ namespace AeroShot
 
         private static bool AeroEnabled()
         {
-            bool aeroEnabled;
+            bool aeroEnabled = true;
             WindowsApi.DwmIsCompositionEnabled(out aeroEnabled);
             return aeroEnabled;
         }
@@ -389,7 +394,7 @@ namespace AeroShot
             WindowsApi.SetWindowPos(backdrop.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE);
             backdrop.Opacity = 1;
             Application.DoEvents();
-			SendKeys.SendWait("%{F16}");
+			//SendKeys.SendWait("%{F16}");
 
 			// Capture screenshot with white background
 			Bitmap whiteShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));

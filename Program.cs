@@ -36,11 +36,11 @@ namespace AeroShot
         [STAThread]
         private static void Main()
         {
-            if (Environment.OSVersion.Version.Major < 6)
+            /*if (Environment.OSVersion.Version.Major < 6)
             {
                 MessageBox.Show("Windows Vista or newer is required.", Application.ProductName);
                 return;
-            }
+            }*/
 
 			bool isFirstInstance;
 

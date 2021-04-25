@@ -39,7 +39,7 @@ namespace AeroShot
             WindowsApi.RegisterHotKey(Handle, _windowId[0], MOD_ALT, (int)Keys.PrintScreen);
             WindowsApi.RegisterHotKey(Handle, _windowId[1], MOD_ALT | MOD_CONTROL, (int)Keys.PrintScreen);
 
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormClose);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormClose);
         }
 
         private void FormClose(object sender, FormClosingEventArgs e)

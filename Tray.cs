@@ -105,5 +105,17 @@ namespace AeroShot
 
             base.Dispose(disposing);
         }
-    }
+
+		private void InitializeComponent()
+		{
+			this.SuspendLayout();
+			// 
+			// SysTray
+			// 
+			this.ClientSize = new System.Drawing.Size(284, 261);
+			this.Name = "SysTray";
+			this.ResumeLayout(false);
+
+		}
+	}
 }

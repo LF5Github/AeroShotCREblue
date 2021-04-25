@@ -89,9 +89,9 @@ namespace AeroShot
 
         private static bool GlassAvailable()
         {
-            if (Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor > 1) return false;
+            if ((Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor > 1) || Environment.OSVersion.Version.Major >= 10 || Environment.OSVersion.Version.Major < 6) return false;
 
-            bool aeroEnabled;
+            bool aeroEnabled = true;
             WindowsApi.DwmIsCompositionEnabled(out aeroEnabled);
             return aeroEnabled;
         }
