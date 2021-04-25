@@ -5,6 +5,14 @@ AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of W
 * w2 - Optimized for light/white backgrounds, inactive titlebar
 
 ## Changelog
+### 1.7.0
+* Windows XP and Vista Beta support (only certain builds of Vista, requires testing)
+* Added support for capturing the window mask
+* More verbose error messages for debugging
+* Added option to disable any screenshot type in the settings
+
+### 1.6.1
+* Addresses an issue where screenshots optimized for white backgrounds saved in place screenshots optimized for dark backgrounds in certain conditions
 
 ### 1.6.0
 * Automatic inactive screenshot capture
