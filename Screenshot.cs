@@ -124,27 +124,33 @@ namespace AeroShot
 
 					bool AeroColorToggled = false;
 					WindowsApi.DWM_COLORIZATION_PARAMS originalParameters = new WindowsApi.DWM_COLORIZATION_PARAMS();
-					//TODO: reenable
 					if (Environment.OSVersion.Version.Major >= 6)
 					{
-						WindowsApi.DwmGetColorizationParameters(out originalParameters);
-						if (data.CustomGlass && AeroEnabled())
-						{
-							// Original colorization parameters
-							originalParameters.clrGlassReflectionIntensity = 50;
+                        try
+                        {
+                            WindowsApi.DwmGetColorizationParameters(out originalParameters);
+                            if (data.CustomGlass && AeroEnabled())
+                            {
+                                // Original colorization parameters
+                                originalParameters.clrGlassReflectionIntensity = 50;
 
-							// Custom colorization parameters
-							WindowsApi.DWM_COLORIZATION_PARAMS parameters;
-							WindowsApi.DwmGetColorizationParameters(out parameters);
-							parameters.clrAfterGlowBalance = 2;
-							parameters.clrBlurBalance = 29;
-							parameters.clrColor = ColorToBgra(data.AeroColor);
-							parameters.nIntensity = 69;
+                                // Custom colorization parameters
+                                WindowsApi.DWM_COLORIZATION_PARAMS parameters;
+                                WindowsApi.DwmGetColorizationParameters(out parameters);
+                                parameters.clrAfterGlowBalance = 2;
+                                parameters.clrBlurBalance = 29;
+                                parameters.clrColor = ColorToBgra(data.AeroColor);
+                                parameters.nIntensity = 69;
 
-							// Call the DwmSetColorizationParameters to make the change take effect.
-							WindowsApi.DwmSetColorizationParameters(ref parameters, false);
-							AeroColorToggled = true;
-						}
+                                // Call the DwmSetColorizationParameters to make the change take effect.
+                                WindowsApi.DwmSetColorizationParameters(ref parameters, false);
+                                AeroColorToggled = true;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            AeroColorToggled = false; //workaround for Vista Betas
+                        }
 					}
 
 
@@ -239,7 +245,7 @@ namespace AeroShot
 							string pathWhiteActive = Path.Combine(data.DiskSaveDirectory, name + "_w1.png");
 							string pathWhiteInactive = Path.Combine(data.DiskSaveDirectory, name + "_w2.png");
 
-							if (File.Exists(pathActive) || File.Exists(pathInactive))
+							if (File.Exists(pathActive) || File.Exists(pathInactive) || File.Exists(pathWhiteActive) || File.Exists(pathWhiteInactive))
                             {
                                 for (int i = 1; i < 9999; i++)
                                 {
@@ -247,7 +253,7 @@ namespace AeroShot
                                     pathInactive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_b2.png");
 									pathWhiteActive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_w1.png");
 									pathWhiteInactive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_w2.png");
-									if (!File.Exists(pathActive))
+									if (!File.Exists(pathActive) && !File.Exists(pathInactive) && !File.Exists(pathWhiteActive) && !File.Exists(pathWhiteInactive))
                                         break;
                                 }
                             }
@@ -258,6 +264,8 @@ namespace AeroShot
 						}
                         s[0].Dispose();
                         s[1].Dispose();
+                        s[2].Dispose();
+                        s[3].Dispose();
                     }
 
                     if (data.DoResize)

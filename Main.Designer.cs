@@ -131,6 +131,13 @@ namespace AeroShot
             this.shadowGroupBox = new System.Windows.Forms.GroupBox();
             this.shadowLabel = new System.Windows.Forms.Label();
             this.shadowCheckbox = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.saveMaskCheckbox = new System.Windows.Forms.CheckBox();
+            this.saveInactiveLightCheckbox = new System.Windows.Forms.CheckBox();
+            this.saveInactiveDarkCheckbox = new System.Windows.Forms.CheckBox();
+            this.saveActiveLightCheckbox = new System.Windows.Forms.CheckBox();
+            this.saveActiveDarkCheckbox = new System.Windows.Forms.CheckBox();
+            this.screenshotLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.windowHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.windowWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkerValue)).BeginInit();
@@ -142,6 +149,7 @@ namespace AeroShot
             ((System.ComponentModel.ISupportInitialize)(this.delaySeconds)).BeginInit();
             this.clearTypeGroupBox.SuspendLayout();
             this.shadowGroupBox.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // saveToLabel
@@ -280,7 +288,7 @@ namespace AeroShot
             this.opaqueVarLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.opaqueVarLabel.Location = new System.Drawing.Point(192, 48);
             this.opaqueVarLabel.Name = "opaqueVarLabel";
-            this.opaqueVarLabel.Size = new System.Drawing.Size(28, 13);
+            this.opaqueVarLabel.Size = new System.Drawing.Size(27, 13);
             this.opaqueVarLabel.TabIndex = 19;
             this.opaqueVarLabel.Text = "VAR";
             // 
@@ -557,7 +565,7 @@ namespace AeroShot
             this.mouseLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mouseLabel.Location = new System.Drawing.Point(6, 20);
             this.mouseLabel.Name = "mouseLabel";
-            this.mouseLabel.Size = new System.Drawing.Size(310, 13);
+            this.mouseLabel.Size = new System.Drawing.Size(311, 13);
             this.mouseLabel.TabIndex = 27;
             this.mouseLabel.Text = "The system mouse pointer will be preserved in screenshots.";
             // 
@@ -664,7 +672,7 @@ namespace AeroShot
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.Location = new System.Drawing.Point(343, 475);
+            this.cancelButton.Location = new System.Drawing.Point(343, 622);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 36;
@@ -675,7 +683,7 @@ namespace AeroShot
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(259, 475);
+            this.okButton.Location = new System.Drawing.Point(259, 622);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 37;
@@ -712,12 +720,86 @@ namespace AeroShot
             this.shadowCheckbox.UseVisualStyleBackColor = true;
             this.shadowCheckbox.CheckedChanged += new System.EventHandler(this.shadowCheckBox_CheckedChanged);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.saveMaskCheckbox);
+            this.groupBox1.Controls.Add(this.saveInactiveLightCheckbox);
+            this.groupBox1.Controls.Add(this.saveInactiveDarkCheckbox);
+            this.groupBox1.Controls.Add(this.saveActiveLightCheckbox);
+            this.groupBox1.Controls.Add(this.saveActiveDarkCheckbox);
+            this.groupBox1.Controls.Add(this.screenshotLabel);
+            this.groupBox1.Location = new System.Drawing.Point(13, 475);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(405, 140);
+            this.groupBox1.TabIndex = 53;
+            this.groupBox1.TabStop = false;
+            // 
+            // saveMaskCheckbox
+            // 
+            this.saveMaskCheckbox.AutoSize = true;
+            this.saveMaskCheckbox.Location = new System.Drawing.Point(9, 112);
+            this.saveMaskCheckbox.Name = "saveMaskCheckbox";
+            this.saveMaskCheckbox.Size = new System.Drawing.Size(120, 17);
+            this.saveMaskCheckbox.TabIndex = 6;
+            this.saveMaskCheckbox.Text = "Black window mask";
+            this.saveMaskCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // saveInactiveLightCheckbox
+            // 
+            this.saveInactiveLightCheckbox.AutoSize = true;
+            this.saveInactiveLightCheckbox.Location = new System.Drawing.Point(9, 89);
+            this.saveInactiveLightCheckbox.Name = "saveInactiveLightCheckbox";
+            this.saveInactiveLightCheckbox.Size = new System.Drawing.Size(250, 17);
+            this.saveInactiveLightCheckbox.TabIndex = 5;
+            this.saveInactiveLightCheckbox.Text = "Inactive titlebar, optimized for light backgrounds";
+            this.saveInactiveLightCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // saveInactiveDarkCheckbox
+            // 
+            this.saveInactiveDarkCheckbox.AutoSize = true;
+            this.saveInactiveDarkCheckbox.Location = new System.Drawing.Point(9, 66);
+            this.saveInactiveDarkCheckbox.Name = "saveInactiveDarkCheckbox";
+            this.saveInactiveDarkCheckbox.Size = new System.Drawing.Size(252, 17);
+            this.saveInactiveDarkCheckbox.TabIndex = 4;
+            this.saveInactiveDarkCheckbox.Text = "Inactive titlebar, optimized for dark backgrounds";
+            this.saveInactiveDarkCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // saveActiveLightCheckbox
+            // 
+            this.saveActiveLightCheckbox.AutoSize = true;
+            this.saveActiveLightCheckbox.Location = new System.Drawing.Point(9, 43);
+            this.saveActiveLightCheckbox.Name = "saveActiveLightCheckbox";
+            this.saveActiveLightCheckbox.Size = new System.Drawing.Size(242, 17);
+            this.saveActiveLightCheckbox.TabIndex = 3;
+            this.saveActiveLightCheckbox.Text = "Active titlebar, optimized for light backgrounds";
+            this.saveActiveLightCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // saveActiveDarkCheckbox
+            // 
+            this.saveActiveDarkCheckbox.AutoSize = true;
+            this.saveActiveDarkCheckbox.Location = new System.Drawing.Point(9, 20);
+            this.saveActiveDarkCheckbox.Name = "saveActiveDarkCheckbox";
+            this.saveActiveDarkCheckbox.Size = new System.Drawing.Size(244, 17);
+            this.saveActiveDarkCheckbox.TabIndex = 2;
+            this.saveActiveDarkCheckbox.Text = "Active titlebar, optimized for dark backgrounds";
+            this.saveActiveDarkCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // screenshotLabel
+            // 
+            this.screenshotLabel.AutoSize = true;
+            this.screenshotLabel.Location = new System.Drawing.Point(6, 0);
+            this.screenshotLabel.Name = "screenshotLabel";
+            this.screenshotLabel.Size = new System.Drawing.Size(141, 13);
+            this.screenshotLabel.TabIndex = 1;
+            this.screenshotLabel.Text = "Choose screenshots to save";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(430, 505);
+            this.ClientSize = new System.Drawing.Size(430, 652);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.shadowCheckbox);
             this.Controls.Add(this.shadowGroupBox);
             this.Controls.Add(this.okButton);
@@ -765,10 +847,20 @@ namespace AeroShot
             this.clearTypeGroupBox.PerformLayout();
             this.shadowGroupBox.ResumeLayout(false);
             this.shadowGroupBox.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
         #endregion
+
+        private GroupBox groupBox1;
+        private CheckBox saveMaskCheckbox;
+        private CheckBox saveInactiveLightCheckbox;
+        private CheckBox saveInactiveDarkCheckbox;
+        private CheckBox saveActiveLightCheckbox;
+        private CheckBox saveActiveDarkCheckbox;
+        private Label screenshotLabel;
     }
 }

@@ -57,6 +57,10 @@ namespace AeroShot
             delaySeconds.Value = _settings.delaySeconds;
             clearTypeCheckbox.Checked = _settings.clearTypeCheckbox;
             shadowCheckbox.Checked = _settings.shadowCheckbox;
+            saveActiveDarkCheckbox.Checked = _settings.saveActiveDarkCheckbox;
+            saveActiveLightCheckbox.Checked = _settings.saveActiveLightCheckbox;
+            saveInactiveDarkCheckbox.Checked = _settings.saveInactiveDarkCheckbox;
+            saveInactiveLightCheckbox.Checked = _settings.saveInactiveLightCheckbox;
 
             if (!GlassAvailable())
             {
@@ -92,7 +96,13 @@ namespace AeroShot
             if ((Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor > 1) || Environment.OSVersion.Version.Major >= 10 || Environment.OSVersion.Version.Major < 6) return false;
 
             bool aeroEnabled = true;
-            WindowsApi.DwmIsCompositionEnabled(out aeroEnabled);
+            try {
+                WindowsApi.DwmIsCompositionEnabled(out aeroEnabled);
+            }
+            catch (Exception)
+            {
+                //This is fallback intended for beta versions of Windows Vista
+            }
             return aeroEnabled;
         }
 
@@ -346,6 +356,14 @@ namespace AeroShot
             _registryKey.SetValue("ClearType", clearTypeCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
 
             _registryKey.SetValue("Shadow", shadowCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
+
+            _registryKey.SetValue("SaveActiveDark", saveActiveDarkCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
+
+            _registryKey.SetValue("SaveActiveLight", saveActiveDarkCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
+
+            _registryKey.SetValue("SaveInactiveDark", saveActiveDarkCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
+
+            _registryKey.SetValue("SaveInactiveLight", saveActiveDarkCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
 
             // Save delay settings in an 8-byte long
             b = new byte[8];

@@ -57,7 +57,7 @@ namespace AeroShot
 			Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SysTray());
-            //GC.KeepAlive(mutex);
+            GC.KeepAlive(mutex);
         }
     }
 }
