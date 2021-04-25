@@ -46,6 +46,7 @@ namespace AeroShot
         public bool saveActiveLightCheckbox;
         public bool saveInactiveDarkCheckbox;
         public bool saveInactiveLightCheckbox;
+        public bool saveMaskCheckbox;
         private readonly RegistryKey _registryKey;
 
 
@@ -138,15 +139,28 @@ namespace AeroShot
 
             if ((value = _registryKey.GetValue("SaveActiveDark")) != null && value.GetType() == (typeof(int)))
                 saveActiveDarkCheckbox = ((int)value & 1) == 1;
+            else
+                saveActiveDarkCheckbox = true;
 
             if ((value = _registryKey.GetValue("SaveActiveLight")) != null && value.GetType() == (typeof(int)))
                 saveActiveLightCheckbox = ((int)value & 1) == 1;
+            else
+                saveActiveLightCheckbox = true;
 
             if ((value = _registryKey.GetValue("SaveInactiveDark")) != null && value.GetType() == (typeof(int)))
                 saveInactiveDarkCheckbox = ((int)value & 1) == 1;
+            else
+                saveInactiveDarkCheckbox = true;
 
             if ((value = _registryKey.GetValue("SaveInactiveLight")) != null && value.GetType() == (typeof(int)))
                 saveInactiveLightCheckbox = ((int)value & 1) == 1;
+            else
+                saveInactiveLightCheckbox = true;
+
+            if ((value = _registryKey.GetValue("SaveMask")) != null && value.GetType() == (typeof(int)))
+                saveMaskCheckbox = ((int)value & 1) == 1;
+            else
+                saveMaskCheckbox = true;
 
             if ((value = _registryKey.GetValue("Delay")) != null && value.GetType() == (typeof(long)))
             {

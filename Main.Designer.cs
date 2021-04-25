@@ -97,7 +97,6 @@ namespace AeroShot
             this.checkerValue = new System.Windows.Forms.NumericUpDown();
             this.opaqueGroupBox = new System.Windows.Forms.GroupBox();
             this.opaqueColorHexBox = new System.Windows.Forms.TextBox();
-            this.opaqueColorDisplay = new AeroShot.ColorDisplay();
             this.pxLabel = new System.Windows.Forms.Label();
             this.opaqueLabel = new System.Windows.Forms.Label();
             this.opaqueHashLabel = new System.Windows.Forms.Label();
@@ -106,7 +105,6 @@ namespace AeroShot
             this.aeroColorLabel = new System.Windows.Forms.Label();
             this.aeroColorColorLabel = new System.Windows.Forms.Label();
             this.aeroColorHexBox = new System.Windows.Forms.TextBox();
-            this.aeroColorDisplay = new AeroShot.ColorDisplay();
             this.aeroColorHashLabel = new System.Windows.Forms.Label();
             this.aeroColorDialog = new System.Windows.Forms.ColorDialog();
             this.resizeGroupBox = new System.Windows.Forms.GroupBox();
@@ -138,6 +136,8 @@ namespace AeroShot
             this.saveActiveLightCheckbox = new System.Windows.Forms.CheckBox();
             this.saveActiveDarkCheckbox = new System.Windows.Forms.CheckBox();
             this.screenshotLabel = new System.Windows.Forms.Label();
+            this.opaqueColorDisplay = new AeroShot.ColorDisplay();
+            this.aeroColorDisplay = new AeroShot.ColorDisplay();
             ((System.ComponentModel.ISupportInitialize)(this.windowHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.windowWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkerValue)).BeginInit();
@@ -270,6 +270,7 @@ namespace AeroShot
             // opaqueType
             // 
             this.opaqueType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.opaqueType.Enabled = false;
             this.opaqueType.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.opaqueType.FormattingEnabled = true;
             this.opaqueType.Items.AddRange(new object[] {
@@ -340,16 +341,6 @@ namespace AeroShot
             this.opaqueColorHexBox.TabIndex = 21;
             this.opaqueColorHexBox.Text = "FFFFFF";
             this.opaqueColorHexBox.TextChanged += new System.EventHandler(this.opaqueColorHexBoxTextChange);
-            // 
-            // opaqueColorDisplay
-            // 
-            this.opaqueColorDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.opaqueColorDisplay.Color = System.Drawing.Color.White;
-            this.opaqueColorDisplay.Location = new System.Drawing.Point(327, 46);
-            this.opaqueColorDisplay.Name = "opaqueColorDisplay";
-            this.opaqueColorDisplay.Size = new System.Drawing.Size(72, 19);
-            this.opaqueColorDisplay.TabIndex = 22;
-            this.opaqueColorDisplay.Click += new System.EventHandler(this.opaqueColorDisplayClick);
             // 
             // pxLabel
             // 
@@ -441,16 +432,6 @@ namespace AeroShot
             this.aeroColorHexBox.TabIndex = 21;
             this.aeroColorHexBox.Text = "FFFFFF";
             this.aeroColorHexBox.TextChanged += new System.EventHandler(this.AeroColorTextboxTextChange);
-            // 
-            // aeroColorDisplay
-            // 
-            this.aeroColorDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.aeroColorDisplay.Color = System.Drawing.Color.White;
-            this.aeroColorDisplay.Location = new System.Drawing.Point(327, 25);
-            this.aeroColorDisplay.Name = "aeroColorDisplay";
-            this.aeroColorDisplay.Size = new System.Drawing.Size(72, 19);
-            this.aeroColorDisplay.TabIndex = 0;
-            this.aeroColorDisplay.Click += new System.EventHandler(this.AeroColorDisplayClick);
             // 
             // aeroColorHashLabel
             // 
@@ -792,6 +773,26 @@ namespace AeroShot
             this.screenshotLabel.Size = new System.Drawing.Size(141, 13);
             this.screenshotLabel.TabIndex = 1;
             this.screenshotLabel.Text = "Choose screenshots to save";
+            // 
+            // opaqueColorDisplay
+            // 
+            this.opaqueColorDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.opaqueColorDisplay.Color = System.Drawing.Color.White;
+            this.opaqueColorDisplay.Location = new System.Drawing.Point(327, 46);
+            this.opaqueColorDisplay.Name = "opaqueColorDisplay";
+            this.opaqueColorDisplay.Size = new System.Drawing.Size(72, 19);
+            this.opaqueColorDisplay.TabIndex = 22;
+            this.opaqueColorDisplay.Click += new System.EventHandler(this.opaqueColorDisplayClick);
+            // 
+            // aeroColorDisplay
+            // 
+            this.aeroColorDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.aeroColorDisplay.Color = System.Drawing.Color.White;
+            this.aeroColorDisplay.Location = new System.Drawing.Point(327, 25);
+            this.aeroColorDisplay.Name = "aeroColorDisplay";
+            this.aeroColorDisplay.Size = new System.Drawing.Size(72, 19);
+            this.aeroColorDisplay.TabIndex = 0;
+            this.aeroColorDisplay.Click += new System.EventHandler(this.AeroColorDisplayClick);
             // 
             // MainForm
             // 

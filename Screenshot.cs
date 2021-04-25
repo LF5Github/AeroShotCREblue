@@ -51,12 +51,19 @@ namespace AeroShot
         public int ResizeY;
         public bool DisableShadow;
         public IntPtr WindowHandle;
+        public bool SaveActiveDark;
+        public bool SaveActiveLight;
+        public bool SaveInactiveDark;
+        public bool SaveInactiveLight;
+        public bool SaveMask;
 
         public ScreenshotTask(IntPtr window, bool clipboard, string file,
                               bool resize, int resizeX, int resizeY,
                               BackgroundType backType, Color backColor,
                               int checkerSize, bool customGlass, Color aeroColor,
-                              bool mouse, bool clearType, bool shadow)
+                              bool mouse, bool clearType, bool shadow,
+                              bool saveActiveDark, bool saveActiveLight, bool saveInactiveDark,
+                              bool saveInactiveLight, bool saveMask)
         {
             WindowHandle = window;
             ClipboardNotDisk = clipboard;
@@ -72,6 +79,11 @@ namespace AeroShot
             CaptureMouse = mouse;
             DisableClearType = clearType;
             DisableShadow = shadow;
+            SaveActiveDark = saveActiveDark;
+            SaveActiveLight = saveActiveLight;
+            SaveInactiveDark = saveInactiveDark;
+            SaveInactiveLight = saveInactiveLight;
+            SaveMask = saveMask;
         }
     }
 
@@ -244,8 +256,9 @@ namespace AeroShot
                             string pathInactive = Path.Combine(data.DiskSaveDirectory, name + "_b2.png");
 							string pathWhiteActive = Path.Combine(data.DiskSaveDirectory, name + "_w1.png");
 							string pathWhiteInactive = Path.Combine(data.DiskSaveDirectory, name + "_w2.png");
+							string pathMask = Path.Combine(data.DiskSaveDirectory, name + "_mask.png");
 
-							if (File.Exists(pathActive) || File.Exists(pathInactive) || File.Exists(pathWhiteActive) || File.Exists(pathWhiteInactive))
+							if (File.Exists(pathActive) || File.Exists(pathInactive) || File.Exists(pathWhiteActive) || File.Exists(pathWhiteInactive) || File.Exists(pathMask))
                             {
                                 for (int i = 1; i < 9999; i++)
                                 {
@@ -253,19 +266,36 @@ namespace AeroShot
                                     pathInactive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_b2.png");
 									pathWhiteActive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_w1.png");
 									pathWhiteInactive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_w2.png");
-									if (!File.Exists(pathActive) && !File.Exists(pathInactive) && !File.Exists(pathWhiteActive) && !File.Exists(pathWhiteInactive))
+									pathMask = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_mask.png");
+									if (!File.Exists(pathActive) && !File.Exists(pathInactive) && !File.Exists(pathWhiteActive) && !File.Exists(pathWhiteInactive) && !File.Exists(pathMask))
                                         break;
                                 }
                             }
-                            s[0].Save(pathActive, ImageFormat.Png);
-                            s[1].Save(pathInactive, ImageFormat.Png);
-							s[2].Save(pathWhiteActive, ImageFormat.Png);
-							s[3].Save(pathWhiteInactive, ImageFormat.Png);
-						}
-                        s[0].Dispose();
-                        s[1].Dispose();
-                        s[2].Dispose();
-                        s[3].Dispose();
+                            if (data.SaveActiveDark)
+                                s[0].Save(pathActive, ImageFormat.Png);
+
+                            if (data.SaveInactiveDark)
+                                s[1].Save(pathInactive, ImageFormat.Png);
+
+                            if (data.SaveActiveLight)
+                                s[2].Save(pathWhiteActive, ImageFormat.Png);
+
+                            if (data.SaveInactiveLight)
+                                s[3].Save(pathWhiteInactive, ImageFormat.Png);
+
+                            if (data.SaveMask)
+                                s[4].Save(pathMask, ImageFormat.Png);
+                        }
+                        if (s[0] != null)
+                            s[0].Dispose();
+                        if (s[1] != null)
+                            s[1].Dispose();
+                        if (s[2] != null)
+                            s[2].Dispose();
+                        if (s[3] != null)
+                            s[3].Dispose();
+                        if (s[4] != null)
+                            s[4].Dispose();
                     }
 
                     if (data.DoResize)
@@ -424,42 +454,79 @@ namespace AeroShot
             // Capture screenshot with black background
             Bitmap blackShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
-			EmptyForm emptyForm = new EmptyForm();
-			emptyForm.Show();
-			//backdrop.Dispose();
-			backdrop.BackColor = Color.White;
-			Application.DoEvents();
+            Bitmap transparentImage;
+            Bitmap transparentInactiveImage = null;
+            Bitmap transparentWhiteImage;
+            Bitmap transparentWhiteInactiveImage = null;
+            Bitmap transparentMaskImage = null;
 
-			// Capture inactive screenshot with white background
-			emptyForm.Show();
-			Bitmap whiteInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+            //Capture black mask screenshot
+            if (data.SaveMask)
+            {
+                
+                bool ShadowToggled = false;
+                if (ShadowEnabled())
+                {
+                    WindowsApi.SystemParametersInfo(SPI_SETDROPSHADOW, 0, false, 0);
+                    ShadowToggled = true;
+                }
 
-			/*if (data.Background == ScreenshotTask.BackgroundType.SolidColor)
-			{
-				backdrop.Dispose();
-				if (data.CaptureMouse)
-					DrawCursorToBitmap(whiteShot, new Point(rct.Left, rct.Top));
-				Bitmap final = CropEmptyEdges(whiteShot, tmpColor);
-				whiteShot.Dispose();
-				return final;
-			}*/
+                backdrop.BackColor = Color.White;
+                Application.DoEvents();
+                Bitmap whiteMaskShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
-			backdrop.BackColor = Color.Black;
-			Application.DoEvents();
+                backdrop.BackColor = Color.Black;
+                Application.DoEvents();
+                Bitmap blackMaskShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
-			// Capture inactive screenshot with black background
-			emptyForm.Show();
-			Bitmap blackInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+                transparentMaskImage = CreateMask(DifferentiateAlpha(whiteMaskShot, blackMaskShot, false));
 
-			backdrop.Dispose();
+                if (ShadowToggled)
+                {
+                    WindowsApi.SystemParametersInfo(SPI_SETDROPSHADOW, 0, true, 0);
+                }
 
-			Bitmap transparentImage = DifferentiateAlpha(whiteShot, blackShot, false);
-			Bitmap transparentInactiveImage = DifferentiateAlpha(whiteInactiveShot, blackInactiveShot, false);
-			Bitmap transparentWhiteImage = DifferentiateAlpha(whiteShot, blackShot, true);
-			Bitmap transparentWhiteInactiveImage = DifferentiateAlpha(whiteInactiveShot, blackInactiveShot, true);
+                whiteMaskShot.Dispose();
+                blackMaskShot.Dispose();
+
+            }
+
+            EmptyForm emptyForm = new EmptyForm();
+            emptyForm.Show();
+            //backdrop.Dispose();
+
+            // Capture inactive screenshots
+            if (data.SaveInactiveDark || data.SaveInactiveLight)
+            {
+                backdrop.BackColor = Color.White;
+                Application.DoEvents();
+
+                // Capture inactive screenshot with white background
+                emptyForm.Show();
+                Bitmap whiteInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+
+                backdrop.BackColor = Color.Black;
+                Application.DoEvents();
+
+                // Capture inactive screenshot with black background
+                emptyForm.Show();
+                Bitmap blackInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+
+
+                transparentInactiveImage = DifferentiateAlpha(whiteInactiveShot, blackInactiveShot, false);
+                transparentWhiteInactiveImage = DifferentiateAlpha(whiteInactiveShot, blackInactiveShot, true);
+
+                whiteInactiveShot.Dispose();
+                blackInactiveShot.Dispose();
+            }
+
+            backdrop.Dispose();
+
+            transparentImage = DifferentiateAlpha(whiteShot, blackShot, false);
+			transparentWhiteImage = DifferentiateAlpha(whiteShot, blackShot, true);
 			if (data.CaptureMouse)
                 DrawCursorToBitmap(transparentImage, new Point(rct.Left, rct.Top));
-			Bitmap[] final = CropEmptyEdges(new[] { transparentImage, transparentInactiveImage, transparentWhiteImage, transparentWhiteInactiveImage }, Color.FromArgb(0, 0, 0, 0));
+			Bitmap[] final = CropEmptyEdges(new[] { transparentImage, transparentInactiveImage, transparentWhiteImage, transparentWhiteInactiveImage, transparentMaskImage }, Color.FromArgb(0, 0, 0, 0));
 
             whiteShot.Dispose();
             blackShot.Dispose();
@@ -665,6 +732,8 @@ namespace AeroShot
 			Bitmap[] final = new Bitmap[b1.Length];
 			for(int i = 0; i < b1.Length; i++)
 			{
+                if (b1[i] == null)
+                    continue;
 				final[i] = b1[i].Clone(new Rectangle(left, top, rightSize, bottomSize), b1[i].PixelFormat);
 				b1[i].Dispose();
 			}
@@ -731,6 +800,45 @@ namespace AeroShot
             b.UnlockImage();
             f.UnlockImage();
             return empty ? null : final;
+        }
+
+        private static unsafe Bitmap CreateMask(Bitmap bitmap)
+        {
+            if (bitmap == null)
+                return null;
+            int sizeX = bitmap.Width;
+            int sizeY = bitmap.Height;
+            var final = new Bitmap(sizeX, sizeY, PixelFormat.Format32bppArgb);
+            var a = new UnsafeBitmap(bitmap);
+            var f = new UnsafeBitmap(final);
+            a.LockImage();
+            f.LockImage();
+
+            for (int x = 0, y = 0; x < sizeX && y < sizeY;)
+            {
+                PixelData* pixelA = a.GetPixel(x, y);
+                PixelData* pixelF = f.GetPixel(x, y);
+
+                if(pixelA->Alpha > 0)
+                {
+                    pixelF->Blue = 0;
+                    pixelF->Green = 0;
+                    pixelF->Red = 0;
+                    pixelF->Alpha = 255;
+                }
+
+                if (x == sizeX - 1)
+                {
+                    y++;
+                    x = 0;
+                    continue;
+                }
+                x++;
+            }
+
+            a.UnlockImage();
+            f.UnlockImage();
+            return final;
         }
 
         private static byte ToByte(int i)
