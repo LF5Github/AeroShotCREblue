@@ -132,14 +132,20 @@ namespace AeroShot
             this.shadowLabel = new System.Windows.Forms.Label();
             this.shadowCheckbox = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.saveInactiveTransparentCheckbox = new System.Windows.Forms.CheckBox();
+            this.saveActiveTransparentCheckbox = new System.Windows.Forms.CheckBox();
             this.saveMaskCheckbox = new System.Windows.Forms.CheckBox();
             this.saveInactiveLightCheckbox = new System.Windows.Forms.CheckBox();
             this.saveInactiveDarkCheckbox = new System.Windows.Forms.CheckBox();
             this.saveActiveLightCheckbox = new System.Windows.Forms.CheckBox();
             this.saveActiveDarkCheckbox = new System.Windows.Forms.CheckBox();
             this.screenshotLabel = new System.Windows.Forms.Label();
-            this.saveActiveTransparentCheckbox = new System.Windows.Forms.CheckBox();
-            this.saveInactiveTransparentCheckbox = new System.Windows.Forms.CheckBox();
+            this.canvasSizeCheckbox = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.canvasLabel = new System.Windows.Forms.Label();
+            this.canvasHeight = new System.Windows.Forms.NumericUpDown();
+            this.canvasWidth = new System.Windows.Forms.NumericUpDown();
+            this.x2Label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.windowHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.windowWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkerValue)).BeginInit();
@@ -152,6 +158,9 @@ namespace AeroShot
             this.clearTypeGroupBox.SuspendLayout();
             this.shadowGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.canvasHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.canvasWidth)).BeginInit();
             this.SuspendLayout();
             // 
             // saveToLabel
@@ -675,7 +684,7 @@ namespace AeroShot
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.Location = new System.Drawing.Point(343, 665);
+            this.cancelButton.Location = new System.Drawing.Point(343, 726);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 36;
@@ -686,7 +695,7 @@ namespace AeroShot
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(259, 665);
+            this.okButton.Location = new System.Drawing.Point(259, 726);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 37;
@@ -738,6 +747,26 @@ namespace AeroShot
             this.groupBox1.Size = new System.Drawing.Size(405, 184);
             this.groupBox1.TabIndex = 53;
             this.groupBox1.TabStop = false;
+            // 
+            // saveInactiveTransparentCheckbox
+            // 
+            this.saveInactiveTransparentCheckbox.AutoSize = true;
+            this.saveInactiveTransparentCheckbox.Location = new System.Drawing.Point(9, 135);
+            this.saveInactiveTransparentCheckbox.Name = "saveInactiveTransparentCheckbox";
+            this.saveInactiveTransparentCheckbox.Size = new System.Drawing.Size(178, 17);
+            this.saveInactiveTransparentCheckbox.TabIndex = 8;
+            this.saveInactiveTransparentCheckbox.Text = "Inactive titlebar, fully transparent";
+            this.saveInactiveTransparentCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // saveActiveTransparentCheckbox
+            // 
+            this.saveActiveTransparentCheckbox.AutoSize = true;
+            this.saveActiveTransparentCheckbox.Location = new System.Drawing.Point(9, 66);
+            this.saveActiveTransparentCheckbox.Name = "saveActiveTransparentCheckbox";
+            this.saveActiveTransparentCheckbox.Size = new System.Drawing.Size(170, 17);
+            this.saveActiveTransparentCheckbox.TabIndex = 7;
+            this.saveActiveTransparentCheckbox.Text = "Active titlebar, fully transparent";
+            this.saveActiveTransparentCheckbox.UseVisualStyleBackColor = true;
             // 
             // saveMaskCheckbox
             // 
@@ -798,33 +827,104 @@ namespace AeroShot
             this.screenshotLabel.TabIndex = 1;
             this.screenshotLabel.Text = "Choose screenshots to save";
             // 
-            // saveActiveTransparentCheckbox
+            // canvasSizeCheckbox
             // 
-            this.saveActiveTransparentCheckbox.AutoSize = true;
-            this.saveActiveTransparentCheckbox.Location = new System.Drawing.Point(9, 66);
-            this.saveActiveTransparentCheckbox.Name = "saveActiveTransparentCheckbox";
-            this.saveActiveTransparentCheckbox.Size = new System.Drawing.Size(170, 17);
-            this.saveActiveTransparentCheckbox.TabIndex = 7;
-            this.saveActiveTransparentCheckbox.Text = "Active titlebar, fully transparent";
-            this.saveActiveTransparentCheckbox.UseVisualStyleBackColor = true;
+            this.canvasSizeCheckbox.AutoSize = true;
+            this.canvasSizeCheckbox.BackColor = System.Drawing.Color.Transparent;
+            this.canvasSizeCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.canvasSizeCheckbox.Location = new System.Drawing.Point(20, 665);
+            this.canvasSizeCheckbox.Name = "canvasSizeCheckbox";
+            this.canvasSizeCheckbox.Size = new System.Drawing.Size(124, 17);
+            this.canvasSizeCheckbox.TabIndex = 15;
+            this.canvasSizeCheckbox.Text = "Custom canvas size";
+            this.canvasSizeCheckbox.UseVisualStyleBackColor = false;
             // 
-            // saveInactiveTransparentCheckbox
+            // groupBox2
             // 
-            this.saveInactiveTransparentCheckbox.AutoSize = true;
-            this.saveInactiveTransparentCheckbox.Location = new System.Drawing.Point(9, 135);
-            this.saveInactiveTransparentCheckbox.Name = "saveInactiveTransparentCheckbox";
-            this.saveInactiveTransparentCheckbox.Size = new System.Drawing.Size(178, 17);
-            this.saveInactiveTransparentCheckbox.TabIndex = 8;
-            this.saveInactiveTransparentCheckbox.Text = "Inactive titlebar, fully transparent";
-            this.saveInactiveTransparentCheckbox.UseVisualStyleBackColor = true;
+            this.groupBox2.Controls.Add(this.canvasLabel);
+            this.groupBox2.Controls.Add(this.canvasHeight);
+            this.groupBox2.Controls.Add(this.canvasWidth);
+            this.groupBox2.Controls.Add(this.x2Label);
+            this.groupBox2.Location = new System.Drawing.Point(13, 665);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(405, 55);
+            this.groupBox2.TabIndex = 16;
+            this.groupBox2.TabStop = false;
+            // 
+            // canvasLabel
+            // 
+            this.canvasLabel.AutoSize = true;
+            this.canvasLabel.BackColor = System.Drawing.Color.Transparent;
+            this.canvasLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.canvasLabel.Location = new System.Drawing.Point(6, 20);
+            this.canvasLabel.Name = "canvasLabel";
+            this.canvasLabel.Size = new System.Drawing.Size(216, 26);
+            this.canvasLabel.TabIndex = 11;
+            this.canvasLabel.Text = "Sets the exact resolution screenshots are\r\ncaptured in with added empty space.";
+            // 
+            // canvasHeight
+            // 
+            this.canvasHeight.Location = new System.Drawing.Point(338, 25);
+            this.canvasHeight.Maximum = new decimal(new int[] {
+            16777215,
+            0,
+            0,
+            0});
+            this.canvasHeight.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.canvasHeight.Name = "canvasHeight";
+            this.canvasHeight.Size = new System.Drawing.Size(60, 20);
+            this.canvasHeight.TabIndex = 14;
+            this.canvasHeight.Value = new decimal(new int[] {
+            720,
+            0,
+            0,
+            0});
+            // 
+            // canvasWidth
+            // 
+            this.canvasWidth.Location = new System.Drawing.Point(262, 25);
+            this.canvasWidth.Maximum = new decimal(new int[] {
+            16777215,
+            0,
+            0,
+            0});
+            this.canvasWidth.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.canvasWidth.Name = "canvasWidth";
+            this.canvasWidth.Size = new System.Drawing.Size(60, 20);
+            this.canvasWidth.TabIndex = 12;
+            this.canvasWidth.Value = new decimal(new int[] {
+            1280,
+            0,
+            0,
+            0});
+            // 
+            // x2Label
+            // 
+            this.x2Label.AutoSize = true;
+            this.x2Label.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.x2Label.Location = new System.Drawing.Point(324, 27);
+            this.x2Label.Name = "x2Label";
+            this.x2Label.Size = new System.Drawing.Size(12, 13);
+            this.x2Label.TabIndex = 13;
+            this.x2Label.Text = "x";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(430, 695);
+            this.ClientSize = new System.Drawing.Size(430, 756);
+            this.Controls.Add(this.canvasSizeCheckbox);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.shadowCheckbox);
             this.Controls.Add(this.shadowGroupBox);
             this.Controls.Add(this.okButton);
@@ -874,6 +974,10 @@ namespace AeroShot
             this.shadowGroupBox.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.canvasHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.canvasWidth)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -889,5 +993,11 @@ namespace AeroShot
         private Label screenshotLabel;
         private CheckBox saveInactiveTransparentCheckbox;
         private CheckBox saveActiveTransparentCheckbox;
+        private CheckBox canvasSizeCheckbox;
+        private GroupBox groupBox2;
+        private Label canvasLabel;
+        private NumericUpDown canvasHeight;
+        private NumericUpDown canvasWidth;
+        private Label x2Label;
     }
 }

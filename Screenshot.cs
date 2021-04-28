@@ -49,6 +49,9 @@ namespace AeroShot
         public bool DoResize;
         public int ResizeX;
         public int ResizeY;
+        public bool DoCanvas;
+        public int CanvasX;
+        public int CanvasY;
         public bool DisableShadow;
         public IntPtr WindowHandle;
         public bool SaveActiveDark;
@@ -66,7 +69,8 @@ namespace AeroShot
                               bool mouse, bool clearType, bool shadow,
                               bool saveActiveDark, bool saveActiveLight, bool saveInactiveDark,
                               bool saveInactiveLight, bool saveMask, bool saveActiveTransparent,
-                              bool saveInactiveTransparent)
+                              bool saveInactiveTransparent,
+                              bool canvas, int canvasX, int canvasY)
         {
             WindowHandle = window;
             ClipboardNotDisk = clipboard;
@@ -74,6 +78,9 @@ namespace AeroShot
             DoResize = resize;
             ResizeX = resizeX;
             ResizeY = resizeY;
+            DoCanvas = canvas;
+            CanvasX = canvasX;
+            CanvasY = canvasY;
             Background = backType;
             BackgroundColor = backColor;
             CheckerboardSize = checkerSize;
@@ -629,7 +636,7 @@ namespace AeroShot
             
 			if (data.CaptureMouse)
                 DrawCursorToBitmap(transparentImage, new Point(rct.Left, rct.Top));
-			Bitmap[] final = CropEmptyEdges(new[] { transparentImage, transparentInactiveImage, transparentWhiteImage, transparentWhiteInactiveImage, transparentMaskImage, transparentTransparentImage, transparentTransparentInactiveImage }, Color.FromArgb(0, 0, 0, 0));
+			Bitmap[] final = CropEmptyEdges(new[] { transparentImage, transparentInactiveImage, transparentWhiteImage, transparentWhiteInactiveImage, transparentMaskImage, transparentTransparentImage, transparentTransparentInactiveImage }, Color.FromArgb(0, 0, 0, 0), ref data);
 
 
 			//TODO: checkerboard support
@@ -724,7 +731,7 @@ namespace AeroShot
             return b1;
         }
 
-        private static unsafe Bitmap[] CropEmptyEdges(Bitmap[] b1, Color trimColor)
+        private static unsafe Bitmap[] CropEmptyEdges(Bitmap[] b1, Color trimColor, ref ScreenshotTask data)
         {
             if (b1 == null)
                 return null;
@@ -836,6 +843,16 @@ namespace AeroShot
                 if (b1[i] == null)
                     continue;
 				final[i] = b1[i].Clone(new Rectangle(left, top, rightSize, bottomSize), b1[i].PixelFormat);
+                if (data.DoCanvas)
+                {
+                    Bitmap temp = new Bitmap(data.CanvasX, data.CanvasY);
+                    using (Graphics grD = Graphics.FromImage(temp))
+                    {
+                        grD.DrawImage(final[i], new Rectangle(0, 0, final[i].Width, final[i].Height), new Rectangle(0, 0, final[i].Width, final[i].Height), GraphicsUnit.Pixel);
+                    }
+                    final[i].Dispose();
+                    final[i] = temp;
+                }
 				b1[i].Dispose();
 			}
 			

@@ -33,8 +33,11 @@ namespace AeroShot
         public bool aeroColorCheckbox;
         public string aeroColorHexBox;
         public bool resizeCheckbox;
-        public int windowHeight = 640;
-        public int windowWidth = 480;
+        public bool canvasSizeCheckbox;
+        public int windowHeight = 480;
+        public int windowWidth = 640;
+        public int canvasHeight = 720;
+        public int canvasWidth = 1280;
         public bool diskButton;
         public bool clipboardButton;
         public bool mouseCheckbox;
@@ -90,6 +93,16 @@ namespace AeroShot
                 resizeCheckbox = (b[0] & 1) == 1;
                 windowWidth = b[1] << 16 | b[2] << 8 | b[3];
                 windowHeight = b[4] << 16 | b[5] << 8 | b[6];
+            }
+
+            if ((value = _registryKey.GetValue("CanvasSize")) != null && value.GetType() == (typeof(long)))
+            {
+                var b = new byte[8];
+                for (int i = 0; i < 8; i++)
+                    b[i] = (byte)(((long)value >> (i * 8)) & 0xff);
+                canvasSizeCheckbox = (b[0] & 1) == 1;
+                canvasWidth = b[1] << 16 | b[2] << 8 | b[3];
+                canvasHeight = b[4] << 16 | b[5] << 8 | b[6];
             }
 
             if ((value = _registryKey.GetValue("Opaque")) != null && value.GetType() == (typeof(long)))

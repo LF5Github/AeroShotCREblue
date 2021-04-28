@@ -46,6 +46,9 @@ namespace AeroShot
             resizeCheckbox.Checked = _settings.resizeCheckbox;
             windowWidth.Value = _settings.windowWidth;
             windowHeight.Value = _settings.windowHeight;
+            canvasSizeCheckbox.Checked = _settings.canvasSizeCheckbox;
+            canvasWidth.Value = _settings.canvasWidth;
+            canvasHeight.Value = _settings.canvasHeight;
             opaqueCheckbox.Checked = _settings.opaqueCheckbox;
             opaqueType.SelectedIndex = _settings.opaqueType;
             checkerValue.Value = _settings.checkerValue;
@@ -329,6 +332,21 @@ namespace AeroShot
 
             long data = BitConverter.ToInt64(b, 0);
             _registryKey.SetValue("WindowSize", data, RegistryValueKind.QWord);
+
+            // Save canvas settings in an 8-byte long
+            b = new byte[8];
+            b[0] = (byte)(canvasSizeCheckbox.Checked ? 1 : 0);
+
+            b[3] = (byte)((int)canvasWidth.Value & 0xff);
+            b[2] = (byte)(((int)canvasWidth.Value >> 8) & 0xff);
+            b[1] = (byte)(((int)canvasWidth.Value >> 16) & 0xff);
+
+            b[6] = (byte)((int)canvasHeight.Value & 0xff);
+            b[5] = (byte)(((int)canvasHeight.Value >> 8) & 0xff);
+            b[4] = (byte)(((int)canvasHeight.Value >> 16) & 0xff);
+
+            data = BitConverter.ToInt64(b, 0);
+            _registryKey.SetValue("CanvasSize", data, RegistryValueKind.QWord);
 
             // Save background color settings in an 8-byte long
             b = new byte[8];

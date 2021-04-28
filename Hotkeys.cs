@@ -116,7 +116,10 @@ namespace AeroShot
                     _settings.saveInactiveLightCheckbox,
                     _settings.saveMaskCheckbox,
                     _settings.saveActiveTransparentCheckbox,
-                    _settings.saveInactiveTransparentCheckbox);
+                    _settings.saveInactiveTransparentCheckbox,
+                    _settings.canvasSizeCheckbox,
+                    _settings.canvasWidth,
+                    _settings.canvasHeight);
         }
     }
 }
