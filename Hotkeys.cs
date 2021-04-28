@@ -114,7 +114,9 @@ namespace AeroShot
                     _settings.saveActiveLightCheckbox,
                     _settings.saveInactiveDarkCheckbox,
                     _settings.saveInactiveLightCheckbox,
-                    _settings.saveMaskCheckbox);
+                    _settings.saveMaskCheckbox,
+                    _settings.saveActiveTransparentCheckbox,
+                    _settings.saveInactiveTransparentCheckbox);
         }
     }
 }

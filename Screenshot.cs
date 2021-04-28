@@ -53,8 +53,10 @@ namespace AeroShot
         public IntPtr WindowHandle;
         public bool SaveActiveDark;
         public bool SaveActiveLight;
+        public bool SaveActiveTransparent;
         public bool SaveInactiveDark;
         public bool SaveInactiveLight;
+        public bool SaveInactiveTransparent;
         public bool SaveMask;
 
         public ScreenshotTask(IntPtr window, bool clipboard, string file,
@@ -63,7 +65,8 @@ namespace AeroShot
                               int checkerSize, bool customGlass, Color aeroColor,
                               bool mouse, bool clearType, bool shadow,
                               bool saveActiveDark, bool saveActiveLight, bool saveInactiveDark,
-                              bool saveInactiveLight, bool saveMask)
+                              bool saveInactiveLight, bool saveMask, bool saveActiveTransparent,
+                              bool saveInactiveTransparent)
         {
             WindowHandle = window;
             ClipboardNotDisk = clipboard;
@@ -81,8 +84,10 @@ namespace AeroShot
             DisableShadow = shadow;
             SaveActiveDark = saveActiveDark;
             SaveActiveLight = saveActiveLight;
+            SaveActiveTransparent = saveActiveTransparent;
             SaveInactiveDark = saveInactiveDark;
             SaveInactiveLight = saveInactiveLight;
+            SaveInactiveTransparent = saveInactiveTransparent;
             SaveMask = saveMask;
         }
     }
@@ -141,6 +146,11 @@ namespace AeroShot
                         try
                         {
                             WindowsApi.DwmGetColorizationParameters(out originalParameters);
+                            /*MessageBox.Show($"clrAfterGlow: {originalParameters.clrAfterGlow.ToString("X")}\r\n" +
+                                $"clrAfterGlowBalance: {originalParameters.clrAfterGlowBalance}\r\n" +
+                                $"clrBlurBalance: {originalParameters.clrBlurBalance}\r\n" +
+                                $"clrColor: {originalParameters.clrColor.ToString("X")}\r\n" +
+                                $"clrGlassReflectionIntensity: {originalParameters.clrGlassReflectionIntensity}");*/
                             if (data.CustomGlass && AeroEnabled())
                             {
                                 // Original colorization parameters
@@ -257,8 +267,10 @@ namespace AeroShot
 							string pathWhiteActive = Path.Combine(data.DiskSaveDirectory, name + "_w1.png");
 							string pathWhiteInactive = Path.Combine(data.DiskSaveDirectory, name + "_w2.png");
 							string pathMask = Path.Combine(data.DiskSaveDirectory, name + "_mask.png");
+                            string pathTransparentActive = Path.Combine(data.DiskSaveDirectory, name + "_t1.png");
+                            string pathTransparentInactive = Path.Combine(data.DiskSaveDirectory, name + "_t2.png");
 
-							if (File.Exists(pathActive) || File.Exists(pathInactive) || File.Exists(pathWhiteActive) || File.Exists(pathWhiteInactive) || File.Exists(pathMask))
+                            if (File.Exists(pathActive) || File.Exists(pathInactive) || File.Exists(pathWhiteActive) || File.Exists(pathWhiteInactive) || File.Exists(pathMask) || File.Exists(pathTransparentActive) || File.Exists(pathTransparentInactive))
                             {
                                 for (int i = 1; i < 9999; i++)
                                 {
@@ -267,7 +279,9 @@ namespace AeroShot
 									pathWhiteActive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_w1.png");
 									pathWhiteInactive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_w2.png");
 									pathMask = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_mask.png");
-									if (!File.Exists(pathActive) && !File.Exists(pathInactive) && !File.Exists(pathWhiteActive) && !File.Exists(pathWhiteInactive) && !File.Exists(pathMask))
+                                    pathTransparentActive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_t1.png");
+                                    pathTransparentInactive = Path.Combine(data.DiskSaveDirectory, name + " " + i + "_t2.png");
+                                    if (!File.Exists(pathActive) && !File.Exists(pathInactive) && !File.Exists(pathWhiteActive) && !File.Exists(pathWhiteInactive) && !File.Exists(pathMask) && !File.Exists(pathTransparentActive) && !File.Exists(pathTransparentInactive))
                                         break;
                                 }
                             }
@@ -285,6 +299,12 @@ namespace AeroShot
 
                             if (data.SaveMask)
                                 s[4].Save(pathMask, ImageFormat.Png);
+
+                            if (data.SaveActiveTransparent) //data.savetransparent
+                                s[5].Save(pathTransparentActive, ImageFormat.Png);
+
+                            if (data.SaveInactiveTransparent)
+                                s[6].Save(pathTransparentInactive, ImageFormat.Png);
                         }
                         if (s[0] != null)
                             s[0].Dispose();
@@ -459,6 +479,14 @@ namespace AeroShot
             Bitmap transparentWhiteImage;
             Bitmap transparentWhiteInactiveImage = null;
             Bitmap transparentMaskImage = null;
+            Bitmap transparentTransparentImage = null;
+            Bitmap transparentTransparentInactiveImage = null;
+
+            transparentImage = DifferentiateAlpha(whiteShot, blackShot, false);
+            transparentWhiteImage = DifferentiateAlpha(whiteShot, blackShot, true);
+
+            whiteShot.Dispose();
+            blackShot.Dispose();
 
             //Capture black mask screenshot
             if (data.SaveMask)
@@ -491,6 +519,45 @@ namespace AeroShot
 
             }
 
+            //Capture active fully transparent
+            if (data.SaveActiveTransparent)
+            {
+                try
+                {
+                    //Get original colorization parameters
+                    WindowsApi.DWM_COLORIZATION_PARAMS parameters, originalParameters;
+                    WindowsApi.DwmGetColorizationParameters(out parameters);
+                    WindowsApi.DwmGetColorizationParameters(out originalParameters);
+
+                    //Set custom fully transparent parameters
+                    parameters.clrAfterGlowBalance = 0;
+                    parameters.clrBlurBalance = 100;
+                    parameters.nIntensity = 0;
+
+                    // Call the DwmSetColorizationParameters to make the change take effect.
+                    WindowsApi.DwmSetColorizationParameters(ref parameters, false);
+
+                    backdrop.BackColor = Color.White;
+                    Application.DoEvents();
+                    Bitmap whiteTransparentShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+
+                    backdrop.BackColor = Color.Black;
+                    Application.DoEvents();
+                    Bitmap blackTransparentShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+
+                    transparentTransparentImage = DifferentiateAlpha(whiteTransparentShot, blackTransparentShot, false);
+                    whiteTransparentShot.Dispose();
+                    blackTransparentShot.Dispose();
+                    
+                    WindowsApi.DwmSetColorizationParameters(ref originalParameters, false);
+                }
+                catch (Exception)
+                {
+                    transparentTransparentImage = transparentImage;
+                }
+            }
+
+            //Show form to steal focus
             EmptyForm emptyForm = new EmptyForm();
             emptyForm.Show();
             //backdrop.Dispose();
@@ -520,16 +587,50 @@ namespace AeroShot
                 blackInactiveShot.Dispose();
             }
 
-            backdrop.Dispose();
+            //Capture inactive fully transparent
+            if (data.SaveInactiveTransparent)
+            {
+                try
+                {
+                    //Get original colorization parameters
+                    WindowsApi.DWM_COLORIZATION_PARAMS parameters, originalParameters;
+                    WindowsApi.DwmGetColorizationParameters(out parameters);
+                    WindowsApi.DwmGetColorizationParameters(out originalParameters);
 
-            transparentImage = DifferentiateAlpha(whiteShot, blackShot, false);
-			transparentWhiteImage = DifferentiateAlpha(whiteShot, blackShot, true);
+                    //Set custom fully transparent parameters
+                    parameters.clrAfterGlowBalance = 0;
+                    parameters.clrBlurBalance = 100;
+                    parameters.nIntensity = 0;
+
+                    // Call the DwmSetColorizationParameters to make the change take effect.
+                    WindowsApi.DwmSetColorizationParameters(ref parameters, false);
+
+                    backdrop.BackColor = Color.White;
+                    Application.DoEvents();
+                    Bitmap whiteTransparentInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+
+                    backdrop.BackColor = Color.Black;
+                    Application.DoEvents();
+                    Bitmap blackTransparentInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+
+                    transparentTransparentInactiveImage = DifferentiateAlpha(whiteTransparentInactiveShot, blackTransparentInactiveShot, false);
+                    whiteTransparentInactiveShot.Dispose();
+                    blackTransparentInactiveShot.Dispose();
+
+                    WindowsApi.DwmSetColorizationParameters(ref originalParameters, false);
+                }
+                catch (Exception)
+                {
+                    transparentTransparentInactiveImage = transparentInactiveImage;
+                }
+            }
+
+            backdrop.Dispose();
+            
 			if (data.CaptureMouse)
                 DrawCursorToBitmap(transparentImage, new Point(rct.Left, rct.Top));
-			Bitmap[] final = CropEmptyEdges(new[] { transparentImage, transparentInactiveImage, transparentWhiteImage, transparentWhiteInactiveImage, transparentMaskImage }, Color.FromArgb(0, 0, 0, 0));
+			Bitmap[] final = CropEmptyEdges(new[] { transparentImage, transparentInactiveImage, transparentWhiteImage, transparentWhiteInactiveImage, transparentMaskImage, transparentTransparentImage, transparentTransparentInactiveImage }, Color.FromArgb(0, 0, 0, 0));
 
-            whiteShot.Dispose();
-            blackShot.Dispose();
 
 			//TODO: checkerboard support
             /*if (data.Background == ScreenshotTask.BackgroundType.Checkerboard)

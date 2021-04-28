@@ -57,11 +57,14 @@ namespace AeroShot
             delaySeconds.Value = _settings.delaySeconds;
             clearTypeCheckbox.Checked = _settings.clearTypeCheckbox;
             shadowCheckbox.Checked = _settings.shadowCheckbox;
+
             saveActiveDarkCheckbox.Checked = _settings.saveActiveDarkCheckbox;
             saveActiveLightCheckbox.Checked = _settings.saveActiveLightCheckbox;
             saveInactiveDarkCheckbox.Checked = _settings.saveInactiveDarkCheckbox;
             saveInactiveLightCheckbox.Checked = _settings.saveInactiveLightCheckbox;
             saveMaskCheckbox.Checked = _settings.saveMaskCheckbox;
+            saveActiveTransparentCheckbox.Checked = _settings.saveActiveTransparentCheckbox;
+            saveInactiveTransparentCheckbox.Checked = _settings.saveInactiveTransparentCheckbox;
 
             if (!GlassAvailable())
             {
@@ -367,6 +370,10 @@ namespace AeroShot
             _registryKey.SetValue("SaveInactiveLight", saveInactiveLightCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
 
             _registryKey.SetValue("SaveMask", saveMaskCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
+
+            _registryKey.SetValue("SaveActiveTransparent", saveActiveTransparentCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
+
+            _registryKey.SetValue("SaveInactiveTransparent", saveInactiveTransparentCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
 
             // Save delay settings in an 8-byte long
             b = new byte[8];
