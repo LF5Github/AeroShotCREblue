@@ -438,12 +438,14 @@ namespace AeroShot
             else
             {
                 // DwmGetWindowAttribute() succeeded
-                // Add a 100px margin for window shadows. Excess transparency is trimmed out later
-                rct.Left -= 100;
-                rct.Right += 100;
-                rct.Top -= 100;
-                rct.Bottom += 100;
+                
             }
+
+            // Add a 100px margin for window shadows. Excess transparency is trimmed out later
+            rct.Left -= 100;
+            rct.Right += 100;
+            rct.Top -= 100;
+            rct.Bottom += 100;
 
             // These next 4 checks handle if the window is outside of the visible screen
             if (rct.Left < totalSize.Left)
@@ -483,14 +485,14 @@ namespace AeroShot
 
             Bitmap transparentImage;
             Bitmap transparentInactiveImage = null;
-            Bitmap transparentWhiteImage;
+            Bitmap transparentWhiteImage = null;
             Bitmap transparentWhiteInactiveImage = null;
             Bitmap transparentMaskImage = null;
             Bitmap transparentTransparentImage = null;
             Bitmap transparentTransparentInactiveImage = null;
 
             transparentImage = DifferentiateAlpha(whiteShot, blackShot, false);
-            transparentWhiteImage = DifferentiateAlpha(whiteShot, blackShot, true);
+            if (data.SaveActiveLight) transparentWhiteImage = DifferentiateAlpha(whiteShot, blackShot, true);
 
             whiteShot.Dispose();
             blackShot.Dispose();
@@ -587,8 +589,8 @@ namespace AeroShot
                 Bitmap blackInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
 
-                transparentInactiveImage = DifferentiateAlpha(whiteInactiveShot, blackInactiveShot, false);
-                transparentWhiteInactiveImage = DifferentiateAlpha(whiteInactiveShot, blackInactiveShot, true);
+                if (data.SaveInactiveDark) transparentInactiveImage = DifferentiateAlpha(whiteInactiveShot, blackInactiveShot, false);
+                if (data.SaveInactiveLight) transparentWhiteInactiveImage = DifferentiateAlpha(whiteInactiveShot, blackInactiveShot, true);
 
                 whiteInactiveShot.Dispose();
                 blackInactiveShot.Dispose();
@@ -842,7 +844,9 @@ namespace AeroShot
 			{
                 if (b1[i] == null)
                     continue;
-				final[i] = b1[i].Clone(new Rectangle(left, top, rightSize, bottomSize), b1[i].PixelFormat);
+
+                
+                final[i] = b1[i].Clone(new Rectangle(left, top, rightSize, bottomSize), b1[i].PixelFormat);
                 if (data.DoCanvas)
                 {
                     Bitmap temp = new Bitmap(data.CanvasX, data.CanvasY);
