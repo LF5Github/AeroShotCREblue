@@ -5,6 +5,17 @@ AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of W
 * w2 - Optimized for light/white backgrounds, inactive titlebar
 
 ## Changelog
+### 1.8.1
+* Performance improvements (Disabled calculating white optimized screenshot if it's disabled)
+* Fix for out of memory errors on Windows XP when a window dimension is an even number
+* Fixed a "bug" that made a small rectangle appear in inactive window screenshot if the window was positioned in the upper left corner of the screen while capturing the image
+* Deleted all traces of opaque screenshots feature which was disabled since v1.6.0
+  * The setting dialog is smaller as a result and fits on a 720p screen now
+
+### 1.8.0
+* Added support for fully transparent screenshots (t1, t2)
+* Added Custom canvas size
+
 ### 1.7.0
 * Windows XP and Vista Beta support (only certain builds of Vista, requires testing)
 * Added support for capturing the window mask
