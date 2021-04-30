@@ -1,8 +1,11 @@
-AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of Windows Crazy Error videos. This program saves 4 screenshots with the following file name suffixes:
+AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of Windows Crazy Error videos. This program saves 7 screenshots with the following file name suffixes:
 * b1 - Optimized for dark/black backgrounds, active titlebar
 * b2 - Optimized for dark/black backgrounds, inactive titlebar
 * w1 - Optimized for light/white backgrounds, active titlebar
 * w2 - Optimized for light/white backgrounds, inactive titlebar
+* t1 - Fully transparent title bar, active
+* t2 - Fully transparent title bar, inactive
+* mask - A black mask showing the shape of the window without shadows
 
 ## Changelog
 ### 1.8.1
