@@ -88,12 +88,6 @@ namespace AeroShot
 
         private ScreenshotTask GetParamteresFromUI()
         {
-            var type = ScreenshotTask.BackgroundType.Transparent;
-            if (_settings.opaqueCheckbox && _settings.opaqueType == 0)
-                type = ScreenshotTask.BackgroundType.Checkerboard;
-            else if (_settings.opaqueCheckbox && _settings.opaqueType == 1)
-                type = ScreenshotTask.BackgroundType.SolidColor;
-
             return
                 new ScreenshotTask(
                     WindowsApi.GetForegroundWindow(),
@@ -102,9 +96,6 @@ namespace AeroShot
                     _settings.resizeCheckbox,
                     _settings.windowWidth,
                     _settings.windowHeight,
-                    type,
-                    Color.FromArgb(Convert.ToInt32("FF" + _settings.opaqueColorHexBox, 16)),
-                    _settings.checkerValue,
                     _settings.aeroColorCheckbox,
                     Color.FromArgb(Convert.ToInt32("FF" + _settings.aeroColorHexBox, 16)),
                     _settings.mouseCheckbox,

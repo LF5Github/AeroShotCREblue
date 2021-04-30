@@ -25,11 +25,7 @@ namespace AeroShot
     public class Settings
     {
         public bool firstRun;
-        public int checkerValue = 8;
-        public string opaqueColorHexBox;
         public string folderTextBox;
-        public bool opaqueCheckbox;
-        public byte opaqueType;
         public bool aeroColorCheckbox;
         public string aeroColorHexBox;
         public bool resizeCheckbox;
@@ -105,28 +101,6 @@ namespace AeroShot
                 canvasHeight = b[4] << 16 | b[5] << 8 | b[6];
             }
 
-            if ((value = _registryKey.GetValue("Opaque")) != null && value.GetType() == (typeof(long)))
-            {
-                var b = new byte[8];
-                for (int i = 0; i < 8; i++)
-                    b[i] = (byte)(((long)value >> (i * 8)) & 0xff);
-                opaqueCheckbox = (b[0] & 1) == 1;
-                if ((b[0] & 2) == 2)
-                    opaqueType = 0;
-                if ((b[0] & 4) == 4)
-                    opaqueType = 1;
-
-                checkerValue = b[1] + 2;
-
-                var hex = new StringBuilder(6);
-                hex.AppendFormat("{0:X2}", b[2]);
-                hex.AppendFormat("{0:X2}", b[3]);
-                hex.AppendFormat("{0:X2}", b[4]);
-                opaqueColorHexBox = hex.ToString();
-            }
-            else
-                opaqueType = 0;
-
             if ((value = _registryKey.GetValue("AeroColor")) != null && value.GetType() == (typeof(long)))
             {
                 var b = new byte[8];
@@ -140,8 +114,8 @@ namespace AeroShot
                 hex.AppendFormat("{0:X2}", b[3]);
                 aeroColorHexBox = hex.ToString();
             }
-            else
-                opaqueType = 0;
+            /*else
+                opaqueType = 0;*/
 
             if ((value = _registryKey.GetValue("CapturePointer")) != null && value.GetType() == (typeof(int)))
                 mouseCheckbox = ((int)value & 1) == 1;

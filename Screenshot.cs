@@ -30,18 +30,8 @@ namespace AeroShot
 {
     internal struct ScreenshotTask
     {
-        public enum BackgroundType
-        {
-            Transparent,
-            Checkerboard,
-            SolidColor
-        }
-
-        public BackgroundType Background;
-        public Color BackgroundColor;
         public bool CaptureMouse;
         public bool DisableClearType;
-        public int CheckerboardSize;
         public bool CustomGlass;
         public Color AeroColor;
         public bool ClipboardNotDisk;
@@ -64,8 +54,7 @@ namespace AeroShot
 
         public ScreenshotTask(IntPtr window, bool clipboard, string file,
                               bool resize, int resizeX, int resizeY,
-                              BackgroundType backType, Color backColor,
-                              int checkerSize, bool customGlass, Color aeroColor,
+                              bool customGlass, Color aeroColor,
                               bool mouse, bool clearType, bool shadow,
                               bool saveActiveDark, bool saveActiveLight, bool saveInactiveDark,
                               bool saveInactiveLight, bool saveMask, bool saveActiveTransparent,
@@ -81,9 +70,6 @@ namespace AeroShot
             DoCanvas = canvas;
             CanvasX = canvasX;
             CanvasY = canvasY;
-            Background = backType;
-            BackgroundColor = backColor;
-            CheckerboardSize = checkerSize;
             CustomGlass = customGlass;
             AeroColor = aeroColor;
             CaptureMouse = mouse;
@@ -239,11 +225,7 @@ namespace AeroShot
                     }
                     else
                     {
-                        if (data.ClipboardNotDisk && data.Background !=
-                            ScreenshotTask.BackgroundType.Transparent)
-                            // Screenshot is already opaque, don't need to modify it
-                            Clipboard.SetImage(s[0]);
-                        else if (data.ClipboardNotDisk)
+                        if (data.ClipboardNotDisk)
                         {
                             var whiteS = new Bitmap(s[0].Width, s[0].Height, PixelFormat.Format24bppRgb);
                             using (Graphics graphics = Graphics.FromImage(whiteS))
@@ -413,10 +395,7 @@ namespace AeroShot
 
         private static unsafe Bitmap[] CaptureCompositeScreenshot(ref ScreenshotTask data)
         {
-			Color tmpColor = data.BackgroundColor;
-            if (data.Background == ScreenshotTask.BackgroundType.Transparent ||
-                data.Background == ScreenshotTask.BackgroundType.Checkerboard)
-                tmpColor = Color.White;
+			Color tmpColor = Color.White;
             var backdrop = new Form
             {
                 BackColor = tmpColor,
@@ -465,17 +444,6 @@ namespace AeroShot
 
 			// Capture screenshot with white background
 			Bitmap whiteShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
-
-			//TODO: Solid Color Background
-			/*if (data.Background == ScreenshotTask.BackgroundType.SolidColor)
-            {
-                backdrop.Dispose();
-                if (data.CaptureMouse)
-                    DrawCursorToBitmap(whiteShot, new Point(rct.Left, rct.Top));
-                Bitmap final = CropEmptyEdges(whiteShot, tmpColor);
-                whiteShot.Dispose();
-                return final;
-            }*/
 
 			backdrop.BackColor = Color.Black;
             Application.DoEvents();
@@ -639,21 +607,8 @@ namespace AeroShot
 			if (data.CaptureMouse)
                 DrawCursorToBitmap(transparentImage, new Point(rct.Left, rct.Top));
 			Bitmap[] final = CropEmptyEdges(new[] { transparentImage, transparentInactiveImage, transparentWhiteImage, transparentWhiteInactiveImage, transparentMaskImage, transparentTransparentImage, transparentTransparentInactiveImage }, Color.FromArgb(0, 0, 0, 0), ref data);
-
-
-			//TODO: checkerboard support
-            /*if (data.Background == ScreenshotTask.BackgroundType.Checkerboard)
-            {
-                var final = new Bitmap(transparentImage.Width, transparentImage.Height, PixelFormat.Format24bppRgb);
-                Graphics finalGraphics = Graphics.FromImage(final);
-                var brush = new TextureBrush(GenerateChecker(data.CheckerboardSize));
-                finalGraphics.FillRectangle(brush, finalGraphics.ClipBounds);
-                finalGraphics.DrawImageUnscaled(transparentImage, 0, 0);
-                finalGraphics.Dispose();
-                transparentImage.Dispose();
-                return final;
-            }*/
-            // Returns a bitmap with transparency, calculated by differentiating the white and black screenshots
+            
+			// Returns a bitmap with transparency, calculated by differentiating the white and black screenshots
             return final;
         }
 

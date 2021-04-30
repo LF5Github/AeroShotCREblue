@@ -49,10 +49,6 @@ namespace AeroShot
             canvasSizeCheckbox.Checked = _settings.canvasSizeCheckbox;
             canvasWidth.Value = _settings.canvasWidth;
             canvasHeight.Value = _settings.canvasHeight;
-            opaqueCheckbox.Checked = _settings.opaqueCheckbox;
-            opaqueType.SelectedIndex = _settings.opaqueType;
-            checkerValue.Value = _settings.checkerValue;
-            opaqueColorHexBox.Text = _settings.opaqueColorHexBox;
             aeroColorCheckbox.Checked = _settings.aeroColorCheckbox;
             aeroColorHexBox.Text = _settings.aeroColorHexBox;
             mouseCheckbox.Checked = _settings.mouseCheckbox;
@@ -88,7 +84,6 @@ namespace AeroShot
             }
 
             resizeGroupBox.Enabled = resizeCheckbox.Checked;
-            opaqueGroupBox.Enabled = opaqueCheckbox.Checked;
             mouseGroupBox.Enabled = mouseCheckbox.Checked;
             delayGroupBox.Enabled = delayCheckbox.Checked;
             clearTypeGroupBox.Enabled = clearTypeCheckbox.Checked;
@@ -146,20 +141,6 @@ namespace AeroShot
             }
         }
 
-        private void opaqueColorDisplayClick(object sender, EventArgs e)
-        {
-            if (opaqueColorDialog.ShowDialog() == DialogResult.OK)
-            {
-                opaqueColorDisplay.Color = opaqueColorDialog.Color;
-
-                var hex = new StringBuilder(6);
-                hex.AppendFormat("{0:X2}", opaqueColorDisplay.Color.R);
-                hex.AppendFormat("{0:X2}", opaqueColorDisplay.Color.G);
-                hex.AppendFormat("{0:X2}", opaqueColorDisplay.Color.B);
-                opaqueColorHexBox.Text = hex.ToString();
-            }
-        }
-
         private void AeroColorDisplayClick(object sender, EventArgs e)
         {
             if (aeroColorDialog.ShowDialog() == DialogResult.OK)
@@ -177,11 +158,6 @@ namespace AeroShot
         private void ResizeCheckboxStateChange(object sender, EventArgs e)
         {
             resizeGroupBox.Enabled = resizeCheckbox.Checked;
-        }
-
-        private void OpaqueCheckboxStateChange(object sender, EventArgs e)
-        {
-            opaqueGroupBox.Enabled = opaqueCheckbox.Checked;
         }
 
         private void AeroColorCheckboxStateChange(object sender, EventArgs e)
@@ -227,63 +203,6 @@ namespace AeroShot
             browseButton.Enabled = true;
         }
 
-        private void OpaqueTypeItemChange(object sender, EventArgs e)
-        {
-            if (opaqueType.SelectedIndex == 0)
-            {
-                opaqueVarLabel.Text = "Checker size:";
-                checkerValue.Enabled = true;
-                checkerValue.Visible = true;
-                pxLabel.Visible = true;
-
-                opaqueColorDisplay.Enabled = false;
-                opaqueColorDisplay.Visible = false;
-                opaqueColorHexBox.Enabled = false;
-                opaqueColorHexBox.Visible = false;
-                opaqueHashLabel.Visible = false;
-            }
-            if (opaqueType.SelectedIndex == 1)
-            {
-                opaqueVarLabel.Text = "Color:";
-                opaqueColorDisplay.Enabled = true;
-                opaqueColorDisplay.Visible = true;
-                opaqueColorHexBox.Enabled = true;
-                opaqueColorHexBox.Visible = true;
-                opaqueHashLabel.Visible = true;
-
-                checkerValue.Enabled = false;
-                checkerValue.Visible = false;
-                pxLabel.Visible = false;
-            }
-        }
-
-        private void opaqueColorHexBoxTextChange(object sender, EventArgs e)
-        {
-            var c = new[] {
-                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'a', 'b', 'c', 'd', 'e', 'f'
-            };
-            foreach (char v in opaqueColorHexBox.Text)
-            {
-                bool b = false;
-                foreach (char v1 in c)
-                {
-                    if (v == v1)
-                    {
-                        b = true;
-                        break;
-                    }
-                }
-                if (!b)
-                    opaqueColorHexBox.Text = opaqueColorHexBox.Text.Replace(v.ToString(), string.Empty);
-            }
-
-            if (opaqueColorHexBox.TextLength != 6)
-                return;
-
-            opaqueColorDisplay.Color = Color.FromArgb(Convert.ToInt32("FF" + opaqueColorHexBox.Text, 16));
-            opaqueColorDialog.Color = Color.FromArgb(Convert.ToInt32("FF" + opaqueColorHexBox.Text, 16));
-        }
-
         private void AeroColorTextboxTextChange(object sender, EventArgs e)
         {
             var c = new[] {
@@ -303,9 +222,6 @@ namespace AeroShot
                 if (!b)
                     aeroColorHexBox.Text = aeroColorHexBox.Text.Replace(v.ToString(), string.Empty);
             }
-
-            if (opaqueColorHexBox.TextLength != 6)
-                return;
 
             aeroColorDisplay.Color = Color.FromArgb(Convert.ToInt32("FF" + aeroColorHexBox.Text, 16));
             aeroColorDialog.Color = Color.FromArgb(Convert.ToInt32("FF" + aeroColorHexBox.Text, 16));
@@ -347,17 +263,6 @@ namespace AeroShot
 
             data = BitConverter.ToInt64(b, 0);
             _registryKey.SetValue("CanvasSize", data, RegistryValueKind.QWord);
-
-            // Save background color settings in an 8-byte long
-            b = new byte[8];
-            b[0] = (byte)(opaqueCheckbox.Checked ? 1 : 0);
-            b[0] += (byte)Math.Pow(2, opaqueType.SelectedIndex + 1);
-
-            b[1] = (byte)(checkerValue.Value - 2);
-
-            b[2] = opaqueColorDialog.Color.R;
-            b[3] = opaqueColorDialog.Color.G;
-            b[4] = opaqueColorDialog.Color.B;
 
             data = BitConverter.ToInt64(b, 0);
             _registryKey.SetValue("Opaque", data, RegistryValueKind.QWord);
