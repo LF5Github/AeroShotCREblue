@@ -49,15 +49,6 @@ Press **Alt + Print Screen** on the desired window to be captured, while AeroSho
 
 This save a transparent or opaque PNG image into the chosen folder with a file name corresponding to the title of the captured window, or to the clipboard if selected. Please be aware that very few applications support pasting transparent images from the clipboard, and that they will most likely not be correctly pasted.
 
-## Examples
-These examples have all been captured with AeroShot, using the "Resize window" option. Note how they have been captured with a transparent background, checkerboards have been added to better show this effect.
-
-![Example 1](http://i43.tinypic.com/4h5tl1.png)
-
-![Example 2](http://i43.tinypic.com/nyiaes.png)
-
-![Example 3](http://i41.tinypic.com/2jj3k.png)
-
 ## Change Log
 
 ### 1.5.0
