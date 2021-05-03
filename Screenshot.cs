@@ -137,6 +137,9 @@ namespace AeroShot
                     WindowsApi.SetForegroundWindow(data.WindowHandle);
 
 					bool AeroColorToggled = false;
+                    uint ColorizationColor = 0;
+                    bool ColorizationOpaqueBlend = false;
+
 					WindowsApi.DWM_COLORIZATION_PARAMS originalParameters = new WindowsApi.DWM_COLORIZATION_PARAMS();
 					if (Environment.OSVersion.Version.Major >= 6)
 					{
@@ -150,19 +153,29 @@ namespace AeroShot
                                 $"clrGlassReflectionIntensity: {originalParameters.clrGlassReflectionIntensity}");*/
                             if (data.CustomGlass && AeroEnabled())
                             {
-                                // Original colorization parameters
-                                originalParameters.clrGlassReflectionIntensity = 50;
+                                if (data.OptimizeVista)
+                                {
+                                    WindowsApi.DwmGetColorizationColor(out ColorizationColor, out ColorizationOpaqueBlend);
+                                    Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationOpaqueBlend", 0);
+                                    Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationColor", ColorToBgra(data.AeroColor));
+                                    RestartDWM();
+                                }
+                                else
+                                {
+                                    // Original colorization parameters
+                                    //originalParameters.clrGlassReflectionIntensity = 50;
 
-                                // Custom colorization parameters
-                                WindowsApi.DWM_COLORIZATION_PARAMS parameters;
-                                WindowsApi.DwmGetColorizationParameters(out parameters);
-                                parameters.clrAfterGlowBalance = 2;
-                                parameters.clrBlurBalance = 29;
-                                parameters.clrColor = ColorToBgra(data.AeroColor);
-                                parameters.nIntensity = 69;
+                                    // Custom colorization parameters
+                                    WindowsApi.DWM_COLORIZATION_PARAMS parameters;
+                                    WindowsApi.DwmGetColorizationParameters(out parameters);
+                                    parameters.clrAfterGlowBalance = 2;
+                                    parameters.clrBlurBalance = 29;
+                                    parameters.clrColor = ColorToBgra(data.AeroColor);
+                                    parameters.nIntensity = 69;
 
-                                // Call the DwmSetColorizationParameters to make the change take effect.
-                                WindowsApi.DwmSetColorizationParameters(ref parameters, false);
+                                    // Call the DwmSetColorizationParameters to make the change take effect.
+                                    WindowsApi.DwmSetColorizationParameters(ref parameters, false);
+                                }
                                 AeroColorToggled = true;
                             }
                         }
@@ -200,7 +213,14 @@ namespace AeroShot
 					
                     if (AeroColorToggled && Environment.OSVersion.Version.Major >= 6)
                     {
-                        WindowsApi.DwmSetColorizationParameters(ref originalParameters, false);
+                        if (data.OptimizeVista)
+                        {
+                            Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationOpaqueBlend", ColorizationOpaqueBlend);
+                            Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationColor", ColorizationColor);
+                            RestartDWM();
+                        }
+                        else
+                            WindowsApi.DwmSetColorizationParameters(ref originalParameters, false);
                     }
 
                     if (ClearTypeToggled)
