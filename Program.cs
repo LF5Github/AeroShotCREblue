@@ -25,8 +25,8 @@ using System.Windows.Forms;
 [assembly: AssemblyProduct("AeroShotCRE")]
 [assembly: AssemblyDescription("Screenshot capture utility for Windows Aero")]
 [assembly: AssemblyCopyright("\u00a9 2021 Cvolton")]
-[assembly: AssemblyVersion("1.8.1.0")]
-[assembly: AssemblyFileVersion("1.8.1.0")]
+[assembly: AssemblyVersion("1.8.2.0")]
+[assembly: AssemblyFileVersion("1.8.2.0")]
 [assembly: ComVisible(false)]
 
 namespace AeroShot
