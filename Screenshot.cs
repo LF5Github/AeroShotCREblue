@@ -493,11 +493,18 @@ namespace AeroShot
             if (data.SaveMask)
             {
                 int minAlpha = 0;
-                bool isCompositing;
+                bool isCompositing = false;
                 bool ShadowToggled = false;
                 bool ColorToggled = false;
 
-                WindowsApi.DwmIsCompositionEnabled(out isCompositing);
+                try
+                {
+                    WindowsApi.DwmIsCompositionEnabled(out isCompositing);
+                }
+                catch (Exception)
+                {
+                    //OS doesn't have a supported version of DWM
+                }
 
                 //We can't disable shadows on Vista without disabling DWM, which would cause the mask to be inaccurate
                 if (isCompositing && data.OptimizeVista)
@@ -592,7 +599,7 @@ namespace AeroShot
                 }
                 catch (Exception)
                 {
-                    transparentTransparentImage = transparentImage;
+                    transparentTransparentImage = new Bitmap(transparentImage);
                 }
             }
 
@@ -660,7 +667,7 @@ namespace AeroShot
                 }
                 catch (Exception)
                 {
-                    transparentTransparentInactiveImage = transparentInactiveImage;
+                    transparentTransparentInactiveImage = new Bitmap(transparentInactiveImage);
                 }
             }
 
