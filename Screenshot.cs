@@ -16,6 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -50,6 +51,7 @@ namespace AeroShot
         public bool SaveInactiveDark;
         public bool SaveInactiveLight;
         public bool SaveInactiveTransparent;
+        public bool OptimizeVista;
         public bool SaveMask;
 
         public ScreenshotTask(IntPtr window, bool clipboard, string file,
@@ -59,7 +61,8 @@ namespace AeroShot
                               bool saveActiveDark, bool saveActiveLight, bool saveInactiveDark,
                               bool saveInactiveLight, bool saveMask, bool saveActiveTransparent,
                               bool saveInactiveTransparent,
-                              bool canvas, int canvasX, int canvasY)
+                              bool canvas, int canvasX, int canvasY,
+                              bool optimizeVista)
         {
             WindowHandle = window;
             ClipboardNotDisk = clipboard;
@@ -82,6 +85,7 @@ namespace AeroShot
             SaveInactiveLight = saveInactiveLight;
             SaveInactiveTransparent = saveInactiveTransparent;
             SaveMask = saveMask;
+            OptimizeVista = optimizeVista;
         }
     }
 
@@ -468,13 +472,43 @@ namespace AeroShot
             //Capture black mask screenshot
             if (data.SaveMask)
             {
-                
+                int minAlpha = 0;
+                bool isCompositing;
                 bool ShadowToggled = false;
-                if (ShadowEnabled())
+                bool ColorToggled = false;
+
+                WindowsApi.DwmIsCompositionEnabled(out isCompositing);
+
+                //We can't disable shadows on Vista without disabling DWM, which would cause the mask to be inaccurate
+                if (isCompositing && data.OptimizeVista)
+                {
+                    minAlpha = 254;
+                    bool fOpaque;
+
+                    WindowsApi.DwmGetColorizationColor(out _, out fOpaque);
+                    //MessageBox.Show($"{fOpaque}");
+
+                    if(fOpaque == false)
+                    {
+                        Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationOpaqueBlend", 1);
+
+                        //Restarting DWM to apply our new settings
+                        RestartDWM();
+                        ColorToggled = true;
+                    }
+                    
+                }
+                else if(ShadowEnabled())
                 {
                     WindowsApi.SystemParametersInfo(SPI_SETDROPSHADOW, 0, false, 0);
                     ShadowToggled = true;
                 }
+
+                /*MessageBox.Show($"clrAfterGlow: {originalParameters.clrAfterGlow.ToString("X")}\r\n" +
+                    $"clrAfterGlowBalance: {originalParameters.clrAfterGlowBalance}\r\n" +
+                    $"clrBlurBalance: {originalParameters.clrBlurBalance}\r\n" +
+                    $"clrColor: {originalParameters.clrColor.ToString("X")}\r\n" +
+                    $"clrGlassReflectionIntensity: {originalParameters.clrGlassReflectionIntensity}");*/
 
                 backdrop.BackColor = Color.White;
                 Application.DoEvents();
@@ -484,11 +518,19 @@ namespace AeroShot
                 Application.DoEvents();
                 Bitmap blackMaskShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
-                transparentMaskImage = CreateMask(DifferentiateAlpha(whiteMaskShot, blackMaskShot, false));
+                transparentMaskImage = CreateMask(DifferentiateAlpha(whiteMaskShot, blackMaskShot, false), minAlpha);
 
                 if (ShadowToggled)
                 {
                     WindowsApi.SystemParametersInfo(SPI_SETDROPSHADOW, 0, true, 0);
+                }
+
+                if (ColorToggled)
+                {
+                    Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationOpaqueBlend", 0);
+
+                    //Restarting DWM to apply our new settings
+                    RestartDWM();
                 }
 
                 whiteMaskShot.Dispose();
@@ -879,7 +921,7 @@ namespace AeroShot
             return empty ? null : final;
         }
 
-        private static unsafe Bitmap CreateMask(Bitmap bitmap)
+        private static unsafe Bitmap CreateMask(Bitmap bitmap, int minAlpha)
         {
             if (bitmap == null)
                 return null;
@@ -896,7 +938,7 @@ namespace AeroShot
                 PixelData* pixelA = a.GetPixel(x, y);
                 PixelData* pixelF = f.GetPixel(x, y);
 
-                if(pixelA->Alpha > 0)
+                if(pixelA->Alpha > minAlpha)
                 {
                     pixelF->Blue = 0;
                     pixelF->Green = 0;
@@ -921,6 +963,13 @@ namespace AeroShot
         private static byte ToByte(int i)
         {
             return (byte)(i > 255 ? 255 : (i < 0 ? 0 : i));
+        }
+
+        private static void RestartDWM()
+        {
+            WindowsApi.DwmEnableComposition(false);
+            WindowsApi.DwmEnableComposition(true);
+            Thread.Sleep(2000);
         }
     }
 }

@@ -48,6 +48,7 @@ namespace AeroShot
         public bool saveMaskCheckbox;
         public bool saveActiveTransparentCheckbox;
         public bool saveInactiveTransparentCheckbox;
+        public bool optimizeVistaCheckbox;
         private readonly RegistryKey _registryKey;
 
 
@@ -160,6 +161,11 @@ namespace AeroShot
                 saveInactiveTransparentCheckbox = ((int)value & 1) == 1;
             else
                 saveInactiveTransparentCheckbox = true;
+
+            if ((value = _registryKey.GetValue("OptimizeVista")) != null && value.GetType() == (typeof(int)))
+                optimizeVistaCheckbox = ((int)value & 1) == 1;
+            else
+                optimizeVistaCheckbox = (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0) ? true : false;
 
             if ((value = _registryKey.GetValue("Delay")) != null && value.GetType() == (typeof(long)))
             {

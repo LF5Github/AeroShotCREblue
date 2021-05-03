@@ -110,7 +110,8 @@ namespace AeroShot
                     _settings.saveInactiveTransparentCheckbox,
                     _settings.canvasSizeCheckbox,
                     _settings.canvasWidth,
-                    _settings.canvasHeight);
+                    _settings.canvasHeight,
+                    _settings.optimizeVistaCheckbox);
         }
     }
 }
