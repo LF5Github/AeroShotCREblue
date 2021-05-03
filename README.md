@@ -8,6 +8,12 @@ AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of W
 * mask - A black mask showing the shape of the window without shadows
 
 ## Changelog
+### 1.8.2
+* Added a special colorization mode for Windows Vista
+  * Fixes masks on Vista
+* Condensed the settings window, fixed TabIndexes
+* Fixed certain crashes on Windows XP
+
 ### 1.8.1
 * Performance improvements (Disabled calculating white optimized screenshot if it's disabled)
 * Fix for out of memory errors on Windows XP when a window dimension is an even number
