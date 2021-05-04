@@ -145,7 +145,6 @@ namespace AeroShot
 					{
                         try
                         {
-                            WindowsApi.DwmGetColorizationParameters(out originalParameters);
                             /*MessageBox.Show($"clrAfterGlow: {originalParameters.clrAfterGlow.ToString("X")}\r\n" +
                                 $"clrAfterGlowBalance: {originalParameters.clrAfterGlowBalance}\r\n" +
                                 $"clrBlurBalance: {originalParameters.clrBlurBalance}\r\n" +
@@ -156,12 +155,12 @@ namespace AeroShot
                                 if (data.OptimizeVista)
                                 {
                                     WindowsApi.DwmGetColorizationColor(out ColorizationColor, out ColorizationOpaqueBlend);
-                                    Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationOpaqueBlend", 0);
-                                    Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationColor", ColorToBgra(data.AeroColor));
-                                    RestartDWM();
+                                    WindowsApi.DwmpSetColorization(ColorToBgra(data.AeroColor), true, 0xFF);
                                 }
                                 else
                                 {
+                                    WindowsApi.DwmGetColorizationParameters(out originalParameters);
+
                                     // Original colorization parameters
                                     //originalParameters.clrGlassReflectionIntensity = 50;
 
@@ -215,9 +214,7 @@ namespace AeroShot
                     {
                         if (data.OptimizeVista)
                         {
-                            Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationOpaqueBlend", ColorizationOpaqueBlend);
-                            Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationColor", ColorizationColor);
-                            RestartDWM();
+                            WindowsApi.DwmpSetColorization(ColorizationColor, ColorizationOpaqueBlend, 0xFF);
                         }
                         else
                             WindowsApi.DwmSetColorizationParameters(ref originalParameters, false);
@@ -507,20 +504,18 @@ namespace AeroShot
                 }
 
                 //We can't disable shadows on Vista without disabling DWM, which would cause the mask to be inaccurate
+                UInt32 ColorizationColor = 0;
+                bool fOpaque = true;
                 if (isCompositing && data.OptimizeVista)
                 {
                     minAlpha = 254;
-                    bool fOpaque;
 
-                    WindowsApi.DwmGetColorizationColor(out _, out fOpaque);
+                    WindowsApi.DwmGetColorizationColor(out ColorizationColor, out fOpaque);
                     //MessageBox.Show($"{fOpaque}");
 
-                    if(fOpaque == false)
+                    if (fOpaque == false)
                     {
-                        Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationOpaqueBlend", 1);
-
-                        //Restarting DWM to apply our new settings
-                        RestartDWM();
+                        WindowsApi.DwmpSetColorization(ColorizationColor, true, 0xFF);
                         ColorToggled = true;
                     }
                     
@@ -554,10 +549,7 @@ namespace AeroShot
 
                 if (ColorToggled)
                 {
-                    Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationOpaqueBlend", 0);
-
-                    //Restarting DWM to apply our new settings
-                    RestartDWM();
+                    WindowsApi.DwmpSetColorization(ColorizationColor, fOpaque, 0xFF);
                 }
 
                 whiteMaskShot.Dispose();
@@ -990,13 +982,6 @@ namespace AeroShot
         private static byte ToByte(int i)
         {
             return (byte)(i > 255 ? 255 : (i < 0 ? 0 : i));
-        }
-
-        private static void RestartDWM()
-        {
-            WindowsApi.DwmEnableComposition(false);
-            WindowsApi.DwmEnableComposition(true);
-            Thread.Sleep(2000);
         }
     }
 }

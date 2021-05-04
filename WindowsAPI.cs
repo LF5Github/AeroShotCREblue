@@ -221,6 +221,9 @@ namespace AeroShot
         [DllImport("dwmapi.dll", PreserveSig = false)]
         public static extern void DwmGetColorizationColor(out uint ColorizationColor, [MarshalAs(UnmanagedType.Bool)]out bool ColorizationOpaqueBlend);
 
+        [DllImport("dwmapi.dll", EntryPoint = "#104")]
+        public static extern int DwmpSetColorization(UInt32 ColorizationColor, bool ColorizationOpaqueBlend, UInt32 Opacity);
+
         [DllImport("gdi32.dll")]
         internal static extern bool BitBlt(IntPtr hdcDest, int xDest, int yDest, int wDest, int hDest, IntPtr hdcSource, int xSrc, int ySrc, CopyPixelOperation rop);
 
