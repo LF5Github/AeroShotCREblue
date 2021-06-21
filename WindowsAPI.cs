@@ -146,6 +146,14 @@ namespace AeroShot
             public bool fOpaque;
         }
 
+        internal enum DeviceCap
+        {
+            VERTRES = 10,
+            DESKTOPVERTRES = 117,
+
+            // http://pinvoke.net/default.aspx/gdi32/GetDeviceCaps.html
+        }
+
         [DllImport("user32.dll")]
         internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
@@ -205,6 +213,9 @@ namespace AeroShot
 
         [DllImport("user32.dll")]
         internal static extern bool RedrawWindow(IntPtr hWnd, IntPtr lpRectUpdate, IntPtr hrgnUpdate, UInt32 flags);
+
+        [DllImport("user32.dll")]
+        internal static extern int GetDpiForWindow(IntPtr hWnd);
 
         [DllImport("dwmapi.dll")]
         internal static extern int DwmIsCompositionEnabled(out bool enabled);

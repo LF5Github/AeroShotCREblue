@@ -52,7 +52,7 @@ namespace AeroShot
                 return;
 			}
 			//temporary workaround - we need to lose focus for inactive screenshot captures to work
-			MessageBox.Show("Press OK to start the application", Application.ProductName);
+			//MessageBox.Show("Press OK to start the application", Application.ProductName);
 
 			Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

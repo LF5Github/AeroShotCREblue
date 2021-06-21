@@ -7,7 +7,7 @@
     <OutputType>WinExe</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>AeroShot</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
@@ -64,12 +64,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EmptyForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EmptyForm.Designer.cs">
-      <DependentUpon>EmptyForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Hotkeys.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,9 +83,6 @@
     <Compile Include="WindowsAPI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EmptyForm.resx">
-      <DependentUpon>EmptyForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="icon.ico" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
