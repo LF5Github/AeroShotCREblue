@@ -343,6 +343,8 @@ namespace AeroShot
                         WindowsApi.ShowWindow(start, 1);
                         WindowsApi.ShowWindow(taskbar, 1);
                     }
+                    //File.WriteAllText(@"C:\aeroshoterror.txt", e.ToString());
+
                     MessageBox.Show("An error occurred while trying to take a screenshot.\r\n\r\nPlease make sure you have selected a valid window.\r\n\r\n" + e.ToString(),
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -416,16 +418,7 @@ namespace AeroShot
 
         private static unsafe Bitmap[] CaptureCompositeScreenshot(ref ScreenshotTask data)
         {
-			Color tmpColor = Color.White;
-            var backdrop = new Form
-            {
-                BackColor = tmpColor,
-                FormBorderStyle = FormBorderStyle.None,
-                ShowInTaskbar = false,
-                Opacity = 0
-            };
-
-            // Generate a rectangle with the size of all monitors combined
+			// Generate a rectangle with the size of all monitors combined
             Rectangle totalSize = Rectangle.Empty;
             foreach (Screen s in Screen.AllScreens)
                 totalSize = Rectangle.Union(totalSize, s.Bounds);
@@ -457,20 +450,34 @@ namespace AeroShot
             if (rct.Bottom > totalSize.Bottom)
                 rct.Bottom = totalSize.Bottom;
 
+            Color tmpColor = Color.White;
+            var backdrop = new Form
+            {
+                BackColor = tmpColor,
+                FormBorderStyle = FormBorderStyle.None,
+                ShowInTaskbar = false,
+                Opacity = 0,
+                Size = new Size(rct.Right - rct.Left, rct.Bottom - rct.Top)
+            };
+
             WindowsApi.ShowWindow(backdrop.Handle, 4);
             WindowsApi.SetWindowPos(backdrop.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE);
             backdrop.Opacity = 1;
             Application.DoEvents();
-			//SendKeys.SendWait("%{F16}");
-
+            //SendKeys.SendWait("%{F16}");
+            //Thread.Sleep(100); //pls no more arbitrary sleeps i hate arbitrary sleeps, this arbitrary sleep aims to fix the issue where the screenshot is taken before dwm renders the backdrop window
 			// Capture screenshot with white background
 			Bitmap whiteShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+
+            whiteShot.Save(@"C:\Users\brabe\Documents\git\aeroshot\bin\Debug\testdir\debug_white.png", ImageFormat.Png);
 
 			backdrop.BackColor = Color.Black;
             Application.DoEvents();
 
             // Capture screenshot with black background
             Bitmap blackShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
+
+            blackShot.Save(@"C:\Users\brabe\Documents\git\aeroshot\bin\Debug\testdir\debug_black.png", ImageFormat.Png);
 
             Bitmap transparentImage;
             Bitmap transparentInactiveImage = null;
@@ -850,29 +857,33 @@ namespace AeroShot
 
 			int rightSize = right - left;
 			int bottomSize = bottom - top;
-			if (rightSize % 2 == 1)
-				rightSize++;
-			if (bottomSize % 2 == 1)
-				bottomSize++;
+            
+            int canvasRightSize = rightSize % 2 == 0 ? rightSize : rightSize + 1;
+            int canvasBottomSize = bottomSize % 2 == 0 ? bottomSize : bottomSize + 1;
 
-			Bitmap[] final = new Bitmap[b1.Length];
+            if (data.DoCanvas)
+            {
+                canvasRightSize = data.CanvasX;
+                canvasBottomSize = data.CanvasY;
+            }
+
+            Bitmap[] final = new Bitmap[b1.Length];
 			for(int i = 0; i < b1.Length; i++)
 			{
                 if (b1[i] == null)
                     continue;
 
-                
+
                 final[i] = b1[i].Clone(new Rectangle(left, top, rightSize, bottomSize), b1[i].PixelFormat);
-                if (data.DoCanvas)
+                
+                Bitmap temp = new Bitmap(canvasRightSize, canvasBottomSize);
+                using (Graphics grD = Graphics.FromImage(temp))
                 {
-                    Bitmap temp = new Bitmap(data.CanvasX, data.CanvasY);
-                    using (Graphics grD = Graphics.FromImage(temp))
-                    {
-                        grD.DrawImage(final[i], new Rectangle(0, 0, final[i].Width, final[i].Height), new Rectangle(0, 0, final[i].Width, final[i].Height), GraphicsUnit.Pixel);
-                    }
-                    final[i].Dispose();
-                    final[i] = temp;
+                    grD.DrawImage(final[i], new Rectangle(0, 0, final[i].Width, final[i].Height), new Rectangle(0, 0, final[i].Width, final[i].Height), GraphicsUnit.Pixel);
                 }
+                final[i].Dispose();
+                final[i] = temp;
+                
 				b1[i].Dispose();
 			}
 			

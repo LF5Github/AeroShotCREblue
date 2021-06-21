@@ -69,7 +69,7 @@ namespace AeroShot
             {
                 saveLocation = "the Clipboard";
             }
-            trayIcon.ShowBalloonTip(10000, "Press Alt+PrtSrn to Capture Screenshots", "Screenshot will be save to " + saveLocation + ".", ToolTipIcon.Info);
+            trayIcon.ShowBalloonTip(10000, "Press Alt+PrtSrn to Capture Screenshots", "Screenshot will be saved to " + saveLocation + ".", ToolTipIcon.Info);
         }
 
         private void OnExit(object sender, EventArgs e)
