@@ -434,11 +434,21 @@ namespace AeroShot
                 
             }
 
+            int DPI = 96;
+            try
+            {
+                DPI = WindowsApi.GetDpiForWindow(data.WindowHandle);
+            }
+            catch { }
+
+            double scalingFactor = DPI / 96;
+            int backdropOffset = Convert.ToInt32(100 * scalingFactor);
+
             // Add a 100px margin for window shadows. Excess transparency is trimmed out later
-            rct.Left -= 100;
-            rct.Right += 100;
-            rct.Top -= 100;
-            rct.Bottom += 100;
+            rct.Left -= backdropOffset;
+            rct.Right += backdropOffset;
+            rct.Top -= backdropOffset;
+            rct.Bottom += backdropOffset;
 
             // These next 4 checks handle if the window is outside of the visible screen
             if (rct.Left < totalSize.Left)
@@ -603,8 +613,18 @@ namespace AeroShot
             }
 
             //Show form to steal focus
-            EmptyForm emptyForm = new EmptyForm();
-            emptyForm.Show();
+            var emptyForm = new Form
+            {
+                BackColor = tmpColor,
+                FormBorderStyle = FormBorderStyle.None,
+                ShowInTaskbar = false,
+                Opacity = 0,
+            };
+
+            WindowsApi.ShowWindow(emptyForm.Handle, 5);
+            WindowsApi.SetWindowPos(emptyForm.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, 0);
+            WindowsApi.SetForegroundWindow(emptyForm.Handle);
+
             //backdrop.Dispose();
 
             // Capture inactive screenshots
@@ -614,14 +634,14 @@ namespace AeroShot
                 Application.DoEvents();
 
                 // Capture inactive screenshot with white background
-                emptyForm.Show();
+                //emptyForm.Show();
                 Bitmap whiteInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
                 backdrop.BackColor = Color.Black;
                 Application.DoEvents();
 
                 // Capture inactive screenshot with black background
-                emptyForm.Show();
+                //emptyForm.Show();
                 Bitmap blackInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
 
@@ -671,6 +691,7 @@ namespace AeroShot
             }
 
             backdrop.Dispose();
+            emptyForm.Dispose();
             
 			if (data.CaptureMouse)
                 DrawCursorToBitmap(transparentImage, new Point(rct.Left, rct.Top));
