@@ -857,6 +857,9 @@ namespace AeroShot
 
 			int rightSize = right - left;
 			int bottomSize = bottom - top;
+
+            if (rightSize >= b1[1].Width || bottomSize >= b1[1].Height)
+                MessageBox.Show("Background removal very likely failed, please check the final screenshot after capture.");
             
             int canvasRightSize = rightSize % 2 == 0 ? rightSize : rightSize + 1;
             int canvasBottomSize = bottomSize % 2 == 0 ? bottomSize : bottomSize + 1;
