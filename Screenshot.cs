@@ -469,7 +469,7 @@ namespace AeroShot
 			// Capture screenshot with white background
 			Bitmap whiteShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
-            whiteShot.Save(@"C:\Users\brabe\Documents\git\aeroshot\bin\Debug\testdir\debug_white.png", ImageFormat.Png);
+            //whiteShot.Save(@"C:\Users\brabe\Documents\git\aeroshot\bin\Debug\testdir\debug_white.png", ImageFormat.Png);
 
 			backdrop.BackColor = Color.Black;
             Application.DoEvents();
@@ -477,7 +477,7 @@ namespace AeroShot
             // Capture screenshot with black background
             Bitmap blackShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
-            blackShot.Save(@"C:\Users\brabe\Documents\git\aeroshot\bin\Debug\testdir\debug_black.png", ImageFormat.Png);
+            //blackShot.Save(@"C:\Users\brabe\Documents\git\aeroshot\bin\Debug\testdir\debug_black.png", ImageFormat.Png);
 
             Bitmap transparentImage;
             Bitmap transparentInactiveImage = null;
