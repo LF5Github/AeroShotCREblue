@@ -29,6 +29,7 @@ using System.Windows.Forms;
 
 namespace AeroShot
 {
+
     internal struct ScreenshotTask
     {
         public bool CaptureMouse;
@@ -416,6 +417,11 @@ namespace AeroShot
             }
         }
 
+        private static void Backdrop_Shown(object sender, System.EventArgs e)
+        {
+            //MessageBox.Show("test");
+        }
+
         private static unsafe Bitmap[] CaptureCompositeScreenshot(ref ScreenshotTask data)
         {
 			// Generate a rectangle with the size of all monitors combined
@@ -466,13 +472,20 @@ namespace AeroShot
                 BackColor = tmpColor,
                 FormBorderStyle = FormBorderStyle.None,
                 ShowInTaskbar = false,
-                Opacity = 0,
-                Size = new Size(rct.Right - rct.Left, rct.Bottom - rct.Top)
+                //Opacity = 0,
+                Size = new Size(rct.Right - rct.Left, rct.Bottom - rct.Top),
+                StartPosition = FormStartPosition.Manual,
+                Location = new Point(rct.Left, rct.Top)
+
             };
 
-            WindowsApi.ShowWindow(backdrop.Handle, 4);
-            WindowsApi.SetWindowPos(backdrop.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE);
-            backdrop.Opacity = 1;
+            backdrop.Shown += new EventHandler(Backdrop_Shown);
+            backdrop.Show();
+            WindowsApi.SetForegroundWindow(data.WindowHandle);
+
+            //WindowsApi.ShowWindow(backdrop.Handle, 4);
+            //WindowsApi.SetWindowPos(backdrop.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE);
+            //backdrop.Opacity = 1;
             Application.DoEvents();
             //SendKeys.SendWait("%{F16}");
             //Thread.Sleep(100); //pls no more arbitrary sleeps i hate arbitrary sleeps, this arbitrary sleep aims to fix the issue where the screenshot is taken before dwm renders the backdrop window
@@ -615,7 +628,6 @@ namespace AeroShot
             //Show form to steal focus
             var emptyForm = new Form
             {
-                BackColor = tmpColor,
                 FormBorderStyle = FormBorderStyle.None,
                 ShowInTaskbar = false,
                 Opacity = 0,
