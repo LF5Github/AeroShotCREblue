@@ -592,18 +592,38 @@ namespace AeroShot
             {
                 try
                 {
-                    //Get original colorization parameters
-                    WindowsApi.DWM_COLORIZATION_PARAMS parameters, originalParameters;
-                    WindowsApi.DwmGetColorizationParameters(out parameters);
-                    WindowsApi.DwmGetColorizationParameters(out originalParameters);
+                    //win 7
+                    WindowsApi.DWM_COLORIZATION_PARAMS parameters, originalParameters = new WindowsApi.DWM_COLORIZATION_PARAMS();
+                    //win vista
+                    UInt32 ColorizationColor = 0;
+                    bool fOpaque = true;
 
-                    //Set custom fully transparent parameters
-                    parameters.clrAfterGlowBalance = 0;
-                    parameters.clrBlurBalance = 100;
-                    parameters.nIntensity = 0;
 
-                    // Call the DwmSetColorizationParameters to make the change take effect.
-                    WindowsApi.DwmSetColorizationParameters(ref parameters, false);
+                    if (data.OptimizeVista)
+                    {
+
+                        WindowsApi.DwmGetColorizationColor(out ColorizationColor, out fOpaque);
+
+                        if (fOpaque == false)
+                        {
+                            WindowsApi.DwmpSetColorization(0xFFFFFF, false, 0xFF);
+                        }
+
+                    }
+                    else
+                    {
+                        WindowsApi.DwmGetColorizationParameters(out parameters);
+                        WindowsApi.DwmGetColorizationParameters(out originalParameters);
+
+                        //Set custom fully transparent parameters
+                        parameters.clrAfterGlowBalance = 0;
+                        parameters.clrBlurBalance = 100;
+                        parameters.nIntensity = 0;
+
+                        // Call the DwmSetColorizationParameters to make the change take effect.
+                        WindowsApi.DwmSetColorizationParameters(ref parameters, false);
+                    }
+                    
 
                     backdrop.BackColor = Color.White;
                     Application.DoEvents();
@@ -616,8 +636,15 @@ namespace AeroShot
                     transparentTransparentImage = DifferentiateAlpha(whiteTransparentShot, blackTransparentShot, false);
                     whiteTransparentShot.Dispose();
                     blackTransparentShot.Dispose();
-                    
-                    WindowsApi.DwmSetColorizationParameters(ref originalParameters, false);
+
+                    if (data.OptimizeVista)
+                    {
+                        WindowsApi.DwmpSetColorization(ColorizationColor, fOpaque, 0xFF);
+                    }
+                    else
+                    {
+                        WindowsApi.DwmSetColorizationParameters(ref originalParameters, false);
+                    }
                 }
                 catch (Exception)
                 {

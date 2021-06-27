@@ -170,12 +170,12 @@ namespace AeroShot
             if ((value = _registryKey.GetValue("SaveActiveTransparent")) != null && value.GetType() == (typeof(int)))
                 saveActiveTransparentCheckbox = ((int)value & 1) == 1;
             else
-                saveActiveTransparentCheckbox = HasAeroAfterglow();
+                saveActiveTransparentCheckbox = HasAeroTransparency();
 
             if ((value = _registryKey.GetValue("SaveInactiveTransparent")) != null && value.GetType() == (typeof(int)))
                 saveInactiveTransparentCheckbox = ((int)value & 1) == 1;
             else
-                saveInactiveTransparentCheckbox = HasAeroAfterglow();
+                saveInactiveTransparentCheckbox = HasAeroTransparency();
 
             if ((value = _registryKey.GetValue("OptimizeVista")) != null && value.GetType() == (typeof(int)))
                 optimizeVistaCheckbox = ((int)value & 1) == 1;
