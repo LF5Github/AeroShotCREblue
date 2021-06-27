@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 using System;
+using System.Diagnostics;
 using System.Text;
 using Microsoft.Win32;
 
@@ -51,6 +52,20 @@ namespace AeroShot
         public bool optimizeVistaCheckbox;
         private readonly RegistryKey _registryKey;
 
+        bool AeroGlassForWin8IsRunning()
+        {
+            return Process.GetProcessesByName("aerohost").Length > 0;
+        }
+
+        bool HasAeroAfterglow()
+        {
+            return (Environment.OSVersion.Version.Build >= 6730 && Environment.OSVersion.Version.Build < 8432) || AeroGlassForWin8IsRunning();
+        }
+
+        bool HasAeroTransparency()
+        {
+            return (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Build < 8432) || AeroGlassForWin8IsRunning();
+        }
 
         public Settings()
         {
@@ -135,7 +150,7 @@ namespace AeroShot
             if ((value = _registryKey.GetValue("SaveActiveLight")) != null && value.GetType() == (typeof(int)))
                 saveActiveLightCheckbox = ((int)value & 1) == 1;
             else
-                saveActiveLightCheckbox = true;
+                saveActiveLightCheckbox = HasAeroAfterglow();
 
             if ((value = _registryKey.GetValue("SaveInactiveDark")) != null && value.GetType() == (typeof(int)))
                 saveInactiveDarkCheckbox = ((int)value & 1) == 1;
@@ -145,22 +160,22 @@ namespace AeroShot
             if ((value = _registryKey.GetValue("SaveInactiveLight")) != null && value.GetType() == (typeof(int)))
                 saveInactiveLightCheckbox = ((int)value & 1) == 1;
             else
-                saveInactiveLightCheckbox = true;
+                saveInactiveLightCheckbox = HasAeroAfterglow();
 
             if ((value = _registryKey.GetValue("SaveMask")) != null && value.GetType() == (typeof(int)))
                 saveMaskCheckbox = ((int)value & 1) == 1;
             else
-                saveMaskCheckbox = true;
+                saveMaskCheckbox = HasAeroTransparency();
 
             if ((value = _registryKey.GetValue("SaveActiveTransparent")) != null && value.GetType() == (typeof(int)))
                 saveActiveTransparentCheckbox = ((int)value & 1) == 1;
             else
-                saveActiveTransparentCheckbox = true;
+                saveActiveTransparentCheckbox = HasAeroAfterglow();
 
             if ((value = _registryKey.GetValue("SaveInactiveTransparent")) != null && value.GetType() == (typeof(int)))
                 saveInactiveTransparentCheckbox = ((int)value & 1) == 1;
             else
-                saveInactiveTransparentCheckbox = true;
+                saveInactiveTransparentCheckbox = HasAeroAfterglow();
 
             if ((value = _registryKey.GetValue("OptimizeVista")) != null && value.GetType() == (typeof(int)))
                 optimizeVistaCheckbox = ((int)value & 1) == 1;
