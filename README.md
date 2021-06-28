@@ -1,4 +1,4 @@
-AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of Windows Crazy Error videos. This program saves 7 screenshots with the following file name suffixes:
+AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of Windows Crazy Error videos and fix certain bugs from the original software. This program saves 7 screenshots with the following file name suffixes:
 * b1 - Optimized for dark/black backgrounds, active titlebar
 * b2 - Optimized for dark/black backgrounds, inactive titlebar
 * w1 - Optimized for light/white backgrounds, active titlebar
@@ -8,6 +8,26 @@ AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of W
 * mask - A black mask showing the shape of the window without shadows
 
 ## Changelog
+### 1.9.1
+* Reworked how the backdrop is being created
+  * Fixes most of the cases where background removal failed
+* Fixed an oversight that made the crop based on the inactive screenshot capture 
+  * This also addresses screenshots not being saved if inactive dark optimized screenshot was disabled
+* More sensible defaults based on OS detection
+  * Inactive light optimized is only enabled on operating systems with Afterglow by default (Windows 7 build 6730 - Windows 8 build 8432) or if [Aero Glass for Win8+](https://www.glass8.eu/) is running
+  * Mask and fully transparent screenshot capture is only enabled if an operating system with Aero Glass support is detected (Windows Vista [any supported build] - Windows 8 build 8432)
+* Added support for fully transparent screenshots on Windows Vista
+* New icon by @RUvlad1
+
+### 1.9.0
+* Reworked inactive window capture (way more reliable)
+* Fixed Out of memory errors
+* Fixed a bug that caused the background removal to fail (only a 300x300px rectangle in the top left corner would have the background removed)
+* Removed the "Press OK to start the program" dialog
+* Fixed a typo in the startup notification
+* Added a warning message if background removal fails
+* Improved support for DPI scaling on Windows 10 1607 and above (no more cropped out shadows if the scaling factor is too high)
+
 ### 1.8.3
 * Vista Optimizations no longer have to restart DWM
 
