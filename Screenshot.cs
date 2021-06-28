@@ -255,12 +255,15 @@ namespace AeroShot
                                 graphics.Clear(Color.White);
                                 graphics.DrawImage(s[0], 0, 0, s[0].Width, s[0].Height);
                             }
-                            using (var stream = new MemoryStream())
+                            using (var pngStream = new MemoryStream())
+                            using (var dibStream = new MemoryStream())
                             {
                                 // Save screenshot in clipboard as PNG which some applications support (eg. Microsoft Office)
-                                s[0].Save(stream, ImageFormat.Png);
-                                var pngClipboardData = new DataObject("PNG", stream);
-
+                                s[0].Save(pngStream, ImageFormat.Png);
+                                var pngClipboardData = new DataObject("PNG", pngStream);
+                                Byte[] dibData = DIBConverter.ConvertToDib(s[0]);
+                                dibStream.Write(dibData, 0, dibData.Length);
+                                pngClipboardData.SetData(DataFormats.Dib, false, dibStream);
                                 // Add fallback for applications that don't support PNG from clipboard (eg. Photoshop or Paint)
                                 pngClipboardData.SetData(DataFormats.Bitmap, whiteS);
                                 Clipboard.Clear();
@@ -1058,4 +1061,6 @@ namespace AeroShot
             return (byte)(i > 255 ? 255 : (i < 0 ? 0 : i));
         }
     }
+
+
 }
