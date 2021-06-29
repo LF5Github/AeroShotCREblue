@@ -49,6 +49,7 @@ namespace AeroShot
 
             if (!isFirstInstance)
             {
+                MessageBox.Show("An instance of AeroShot or AeroShotCRE is already running.\r\nPress Alt+PrtSc to take a screenshot.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
 			}
 			//temporary workaround - we need to lose focus for inactive screenshot captures to work
