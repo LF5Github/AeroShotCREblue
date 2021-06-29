@@ -8,6 +8,13 @@ AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of W
 * mask - A black mask showing the shape of the window without shadows
 
 ## Changelog
+### 1.9.2
+* Added support for copying transparent screenshots into the clipboard
+  * Broken on Windows 11 for now
+* Added a warning if the application is already running
+* Reverted to the old backdrop creating mechanism and added a delay between capturing screenshots
+  * This is still an attempt to fix the bug where background removal fails because the screenshot is taken too early
+
 ### 1.9.1
 * Reworked how the backdrop is being created
   * Fixes most of the cases where background removal failed
