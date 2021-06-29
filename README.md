@@ -14,6 +14,7 @@ AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of W
 * Added a warning if the application is already running
 * Reverted to the old backdrop creating mechanism and added a delay between capturing screenshots
   * This is still an attempt to fix the bug where background removal fails because the screenshot is taken too early
+  * Capture is slower as a result but less prone to failure (hopefully)
 
 ### 1.9.1
 * Reworked how the backdrop is being created
