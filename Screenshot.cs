@@ -264,8 +264,9 @@ namespace AeroShot
                                 Byte[] dibData = DIBConverter.ConvertToDib(s[0]);
                                 dibStream.Write(dibData, 0, dibData.Length);
                                 pngClipboardData.SetData(DataFormats.Dib, false, dibStream);
+                                //var pngClipboardData = new DataObject(DataFormats.Dib, false, dibStream);
                                 // Add fallback for applications that don't support PNG from clipboard (eg. Photoshop or Paint)
-                                pngClipboardData.SetData(DataFormats.Bitmap, whiteS);
+                                //pngClipboardData.SetData(DataFormats.Bitmap, s[0]);
                                 Clipboard.Clear();
                                 Clipboard.SetDataObject(pngClipboardData, true);
                             }
@@ -420,9 +421,10 @@ namespace AeroShot
             }
         }
 
-        private static void Backdrop_Shown(object sender, System.EventArgs e)
+        private static void RefreshBackdrop()
         {
-            //MessageBox.Show("test");
+            Application.DoEvents();
+            Thread.Sleep(33); //Waiting for DWM to refresh, assuming 30 Hz refresh rate to be safe
         }
 
         private static unsafe Bitmap[] CaptureCompositeScreenshot(ref ScreenshotTask data)
@@ -482,14 +484,14 @@ namespace AeroShot
 
             };
 
-            backdrop.Shown += new EventHandler(Backdrop_Shown);
+            /*backdrop.Shown += new EventHandler(Backdrop_Shown);
             backdrop.Show();
-            WindowsApi.SetForegroundWindow(data.WindowHandle);
+            WindowsApi.SetForegroundWindow(data.WindowHandle);*/
 
-            //WindowsApi.ShowWindow(backdrop.Handle, 4);
-            //WindowsApi.SetWindowPos(backdrop.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE);
+            WindowsApi.ShowWindow(backdrop.Handle, 4);
+            WindowsApi.SetWindowPos(backdrop.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE);
             //backdrop.Opacity = 1;
-            Application.DoEvents();
+            RefreshBackdrop();
             //SendKeys.SendWait("%{F16}");
             //Thread.Sleep(100); //pls no more arbitrary sleeps i hate arbitrary sleeps, this arbitrary sleep aims to fix the issue where the screenshot is taken before dwm renders the backdrop window
 			// Capture screenshot with white background
@@ -498,7 +500,7 @@ namespace AeroShot
             //whiteShot.Save(@"C:\Users\brabe\Documents\git\aeroshot\bin\Debug\testdir\debug_white.png", ImageFormat.Png);
 
 			backdrop.BackColor = Color.Black;
-            Application.DoEvents();
+            RefreshBackdrop();
 
             // Capture screenshot with black background
             Bitmap blackShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
@@ -566,11 +568,11 @@ namespace AeroShot
                     $"clrGlassReflectionIntensity: {originalParameters.clrGlassReflectionIntensity}");*/
 
                 backdrop.BackColor = Color.White;
-                Application.DoEvents();
+                RefreshBackdrop();
                 Bitmap whiteMaskShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
                 backdrop.BackColor = Color.Black;
-                Application.DoEvents();
+                RefreshBackdrop();
                 Bitmap blackMaskShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
                 transparentMaskImage = CreateMask(DifferentiateAlpha(whiteMaskShot, blackMaskShot, false), minAlpha);
@@ -629,11 +631,11 @@ namespace AeroShot
                     
 
                     backdrop.BackColor = Color.White;
-                    Application.DoEvents();
+                    RefreshBackdrop();
                     Bitmap whiteTransparentShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
                     backdrop.BackColor = Color.Black;
-                    Application.DoEvents();
+                    RefreshBackdrop();
                     Bitmap blackTransparentShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
                     transparentTransparentImage = DifferentiateAlpha(whiteTransparentShot, blackTransparentShot, false);
@@ -673,14 +675,14 @@ namespace AeroShot
             if (data.SaveInactiveDark || data.SaveInactiveLight)
             {
                 backdrop.BackColor = Color.White;
-                Application.DoEvents();
+                RefreshBackdrop();
 
                 // Capture inactive screenshot with white background
                 //emptyForm.Show();
                 Bitmap whiteInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
                 backdrop.BackColor = Color.Black;
-                Application.DoEvents();
+                RefreshBackdrop();
 
                 // Capture inactive screenshot with black background
                 //emptyForm.Show();
@@ -713,11 +715,11 @@ namespace AeroShot
                     WindowsApi.DwmSetColorizationParameters(ref parameters, false);
 
                     backdrop.BackColor = Color.White;
-                    Application.DoEvents();
+                    RefreshBackdrop();
                     Bitmap whiteTransparentInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
                     backdrop.BackColor = Color.Black;
-                    Application.DoEvents();
+                    RefreshBackdrop();
                     Bitmap blackTransparentInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
                     transparentTransparentInactiveImage = DifferentiateAlpha(whiteTransparentInactiveShot, blackTransparentInactiveShot, false);
