@@ -50,6 +50,8 @@ namespace AeroShot
         public bool saveActiveTransparentCheckbox;
         public bool saveInactiveTransparentCheckbox;
         public bool optimizeVistaCheckbox;
+        public bool cropModeRemoveAllButton;
+        public bool cropModeKeepCenteredButton;
         private readonly RegistryKey _registryKey;
 
         bool AeroGlassForWin8IsRunning()
@@ -135,6 +137,19 @@ namespace AeroShot
 
             if ((value = _registryKey.GetValue("CapturePointer")) != null && value.GetType() == (typeof(int)))
                 mouseCheckbox = ((int)value & 1) == 1;
+
+            if ((value = _registryKey.GetValue("CropMode")) != null && value.GetType() == (typeof(int)))
+				switch ((int)value)
+				{
+                    case 1:
+                        cropModeKeepCenteredButton = true;
+                        break;
+                    default:
+                        cropModeRemoveAllButton = true;
+                        break;
+                }
+            else
+                cropModeRemoveAllButton = true;
 
             if ((value = _registryKey.GetValue("ClearType")) != null && value.GetType() == (typeof(int)))
                 clearTypeCheckbox = ((int)value & 1) == 1;

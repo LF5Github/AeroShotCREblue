@@ -53,6 +53,7 @@ namespace AeroShot
         public bool SaveInactiveLight;
         public bool SaveInactiveTransparent;
         public bool OptimizeVista;
+        public bool CropMode;
         public bool SaveMask;
 
         public ScreenshotTask(IntPtr window, bool clipboard, string file,
@@ -63,7 +64,7 @@ namespace AeroShot
                               bool saveInactiveLight, bool saveMask, bool saveActiveTransparent,
                               bool saveInactiveTransparent,
                               bool canvas, int canvasX, int canvasY,
-                              bool optimizeVista)
+                              bool optimizeVista, bool cropMode)
         {
             WindowHandle = window;
             ClipboardNotDisk = clipboard;
@@ -87,6 +88,7 @@ namespace AeroShot
             SaveInactiveTransparent = saveInactiveTransparent;
             SaveMask = saveMask;
             OptimizeVista = optimizeVista;
+            CropMode = cropMode;
         }
     }
 
@@ -240,7 +242,7 @@ namespace AeroShot
                         WindowsApi.ShowWindow(taskbar, 1);
                     }
 
-                    if (s == null)
+                    if (s == null || s[0] == null)
                     {
                         MessageBox.Show("The screenshot taken was blank, it will not be saved.",
                             "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -315,7 +317,7 @@ namespace AeroShot
                             if (data.SaveMask)
                                 s[4].Save(pathMask, ImageFormat.Png);
 
-                            if (data.SaveActiveTransparent) //data.savetransparent
+                            if (data.SaveActiveTransparent)
                                 s[5].Save(pathTransparentActive, ImageFormat.Png);
 
                             if (data.SaveInactiveTransparent)
@@ -925,6 +927,29 @@ namespace AeroShot
 
             if (rightSize >= b1[0].Width || bottomSize >= b1[0].Height)
                 MessageBox.Show("Background removal very likely failed, please check the final screenshot after capture.");
+
+            if (data.CropMode) //if crop mode: keep window centered
+			{
+                if (b1[0].Width - rightSize - left > left)
+                    rightSize = b1[0].Width - (2 * left);
+				else
+                {
+                    int oldLeft = left;
+                    left = b1[0].Width - rightSize - left;
+                    rightSize += (oldLeft - left);
+                }
+
+                if (b1[0].Height - bottomSize - top > top)
+                    bottomSize = b1[0].Height - (2 * top);
+				else
+                {
+                    int oldTop = top;
+                    top = b1[0].Height - bottomSize - top;
+                    bottomSize += (oldTop - top);
+
+                }
+
+            }
             
             int canvasRightSize = rightSize % 2 == 0 ? rightSize : rightSize + 1;
             int canvasBottomSize = bottomSize % 2 == 0 ? bottomSize : bottomSize + 1;

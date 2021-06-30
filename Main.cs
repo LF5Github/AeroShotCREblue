@@ -58,6 +58,9 @@ namespace AeroShot
             shadowCheckbox.Checked = _settings.shadowCheckbox;
             optimizeVistaCheckbox.Checked = _settings.optimizeVistaCheckbox;
 
+            cropModeRemoveAllButton.Checked = _settings.cropModeRemoveAllButton;
+            cropModeKeepCenteredButton.Checked = _settings.cropModeKeepCenteredButton;
+
             saveActiveDarkCheckbox.Checked = _settings.saveActiveDarkCheckbox;
             saveActiveLightCheckbox.Checked = _settings.saveActiveLightCheckbox;
             saveInactiveDarkCheckbox.Checked = _settings.saveInactiveDarkCheckbox;
@@ -300,6 +303,8 @@ namespace AeroShot
             _registryKey.SetValue("SaveInactiveTransparent", saveInactiveTransparentCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
 
             _registryKey.SetValue("OptimizeVista", optimizeVistaCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
+
+            _registryKey.SetValue("CropMode", cropModeKeepCenteredButton.Checked ? 1 : 0, RegistryValueKind.DWord);
 
             // Save delay settings in an 8-byte long
             b = new byte[8];
