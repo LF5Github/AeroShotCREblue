@@ -771,9 +771,10 @@ namespace AeroShot
             // optimizeVistaCheckbox
             // 
             this.optimizeVistaCheckbox.AutoSize = true;
+            this.optimizeVistaCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.optimizeVistaCheckbox.Location = new System.Drawing.Point(19, 392);
             this.optimizeVistaCheckbox.Name = "optimizeVistaCheckbox";
-            this.optimizeVistaCheckbox.Size = new System.Drawing.Size(159, 17);
+            this.optimizeVistaCheckbox.Size = new System.Drawing.Size(176, 17);
             this.optimizeVistaCheckbox.TabIndex = 70;
             this.optimizeVistaCheckbox.Text = "Windows Vista optimizations";
             this.optimizeVistaCheckbox.UseVisualStyleBackColor = true;
