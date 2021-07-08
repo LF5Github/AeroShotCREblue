@@ -33,7 +33,7 @@ namespace AeroShot
         public SysTray()
         {
             trayIcon = new NotifyIcon();
-            trayIcon.Text = "AeroShot Mini";
+            trayIcon.Text = "AeroShot CRE";
 
             Icon _trayIcon = new Icon(typeof(SysTray), "icon.ico");
             trayIcon.Icon = new Icon(_trayIcon, 16, 16);
