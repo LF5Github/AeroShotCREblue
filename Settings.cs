@@ -1,5 +1,5 @@
 /*  AeroShot - Transparent screenshot utility for Windows
-    Copyright (C) 2021 Cvolton
+    Copyright (C) 2021 Cvolton, starfrost
     Copyright (C) 2015 toe_head2001
     Copyright (C) 2012 Caleb Joseph
 
@@ -66,7 +66,68 @@ namespace AeroShot
 
         bool HasAeroTransparency()
         {
-            return (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Build < 8432) || AeroGlassForWin8IsRunning();
+            return (Environment.OSVersion.Version.Major == 6
+                && Environment.OSVersion.Version.Major > 5001 // pre-reset is hell, 500x does't have Aero
+                && Environment.OSVersion.Version.Build < 8432 || AeroGlassForWin8IsRunning());
+        }
+
+        public static bool IsWindowsVista() => (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Major == 0); // 6.0.5048-6.0.6469
+
+        public static bool IsWindows7() => (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Major == 1); // 6.1.6519-6.2.7850 
+
+        public static bool IsWindows8() => (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Major == 2); // 6.2.7875-6.3.9299
+
+        public static bool IsWindows81() => (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Major == 3); // 6.3.9364-6.3.9785
+
+        public static bool IsWindows10() => ((Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Major == 4) // 6.4.9821-10.0.21390.2025
+            || Environment.OSVersion.Version.Major == 10);
+
+        public static bool IsWindows11() // 10.0.21990+
+        {
+            if (Environment.OSVersion.Version.Major != 10)
+            {
+                return false;
+            }
+            else
+            {
+                // open the current version
+                RegistryKey RK = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
+
+                if (RK == null)
+                {
+                    return false; // panic, best to assume not running 11
+                }
+                else
+                {
+                    // get the current value 
+                    string BuildNumber = (string)RK.GetValue("CurrentBuild");
+
+                    try
+                    {
+                        int BN = Convert.ToInt32(BuildNumber);
+
+                        if (BN >= 21990)
+                        {
+                            return true; 
+                        }
+                        else
+                        {
+                            return false; 
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        return false;
+
+                    }
+                    catch (OverflowException)
+                    {
+                        return false; 
+                    }
+
+
+                }
+            }
         }
 
         public Settings()

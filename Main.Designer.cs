@@ -85,7 +85,6 @@ namespace AeroShot
             this.aeroColorLabel = new System.Windows.Forms.Label();
             this.aeroColorColorLabel = new System.Windows.Forms.Label();
             this.aeroColorHexBox = new System.Windows.Forms.TextBox();
-            this.aeroColorDisplay = new AeroShot.ColorDisplay();
             this.aeroColorHashLabel = new System.Windows.Forms.Label();
             this.aeroColorDialog = new System.Windows.Forms.ColorDialog();
             this.resizeGroupBox = new System.Windows.Forms.GroupBox();
@@ -131,6 +130,7 @@ namespace AeroShot
             this.cropModeKeepCenteredButton = new System.Windows.Forms.RadioButton();
             this.cropModeRemoveAllButton = new System.Windows.Forms.RadioButton();
             this.cropModeLabel = new System.Windows.Forms.Label();
+            this.aeroColorDisplay = new AeroShot.ColorDisplay();
             ((System.ComponentModel.ISupportInitialize)(this.windowHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.windowWidth)).BeginInit();
             this.aeroColorGroupBox.SuspendLayout();
@@ -308,16 +308,6 @@ namespace AeroShot
             this.aeroColorHexBox.TabIndex = 24;
             this.aeroColorHexBox.Text = "FFFFFF";
             this.aeroColorHexBox.TextChanged += new System.EventHandler(this.AeroColorTextboxTextChange);
-            // 
-            // aeroColorDisplay
-            // 
-            this.aeroColorDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.aeroColorDisplay.Color = System.Drawing.Color.White;
-            this.aeroColorDisplay.Location = new System.Drawing.Point(327, 25);
-            this.aeroColorDisplay.Name = "aeroColorDisplay";
-            this.aeroColorDisplay.Size = new System.Drawing.Size(72, 19);
-            this.aeroColorDisplay.TabIndex = 25;
-            this.aeroColorDisplay.Click += new System.EventHandler(this.AeroColorDisplayClick);
             // 
             // aeroColorHashLabel
             // 
@@ -603,9 +593,10 @@ namespace AeroShot
             // saveInactiveTransparentCheckbox
             // 
             this.saveInactiveTransparentCheckbox.AutoSize = true;
+            this.saveInactiveTransparentCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.saveInactiveTransparentCheckbox.Location = new System.Drawing.Point(194, 66);
             this.saveInactiveTransparentCheckbox.Name = "saveInactiveTransparentCheckbox";
-            this.saveInactiveTransparentCheckbox.Size = new System.Drawing.Size(178, 17);
+            this.saveInactiveTransparentCheckbox.Size = new System.Drawing.Size(196, 17);
             this.saveInactiveTransparentCheckbox.TabIndex = 96;
             this.saveInactiveTransparentCheckbox.Text = "Inactive, fully transparent titlebar";
             this.saveInactiveTransparentCheckbox.UseVisualStyleBackColor = true;
@@ -613,9 +604,10 @@ namespace AeroShot
             // saveActiveTransparentCheckbox
             // 
             this.saveActiveTransparentCheckbox.AutoSize = true;
+            this.saveActiveTransparentCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.saveActiveTransparentCheckbox.Location = new System.Drawing.Point(9, 66);
             this.saveActiveTransparentCheckbox.Name = "saveActiveTransparentCheckbox";
-            this.saveActiveTransparentCheckbox.Size = new System.Drawing.Size(170, 17);
+            this.saveActiveTransparentCheckbox.Size = new System.Drawing.Size(187, 17);
             this.saveActiveTransparentCheckbox.TabIndex = 95;
             this.saveActiveTransparentCheckbox.Text = "Active, fully transparent titlebar";
             this.saveActiveTransparentCheckbox.UseVisualStyleBackColor = true;
@@ -623,9 +615,10 @@ namespace AeroShot
             // saveMaskCheckbox
             // 
             this.saveMaskCheckbox.AutoSize = true;
+            this.saveMaskCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.saveMaskCheckbox.Location = new System.Drawing.Point(9, 89);
             this.saveMaskCheckbox.Name = "saveMaskCheckbox";
-            this.saveMaskCheckbox.Size = new System.Drawing.Size(120, 17);
+            this.saveMaskCheckbox.Size = new System.Drawing.Size(126, 17);
             this.saveMaskCheckbox.TabIndex = 97;
             this.saveMaskCheckbox.Text = "Black window mask";
             this.saveMaskCheckbox.UseVisualStyleBackColor = true;
@@ -633,9 +626,10 @@ namespace AeroShot
             // saveInactiveLightCheckbox
             // 
             this.saveInactiveLightCheckbox.AutoSize = true;
+            this.saveInactiveLightCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.saveInactiveLightCheckbox.Location = new System.Drawing.Point(194, 43);
             this.saveInactiveLightCheckbox.Name = "saveInactiveLightCheckbox";
-            this.saveInactiveLightCheckbox.Size = new System.Drawing.Size(169, 17);
+            this.saveInactiveLightCheckbox.Size = new System.Drawing.Size(184, 17);
             this.saveInactiveLightCheckbox.TabIndex = 94;
             this.saveInactiveLightCheckbox.Text = "Inactive, for light backgrounds";
             this.saveInactiveLightCheckbox.UseVisualStyleBackColor = true;
@@ -643,9 +637,10 @@ namespace AeroShot
             // saveInactiveDarkCheckbox
             // 
             this.saveInactiveDarkCheckbox.AutoSize = true;
+            this.saveInactiveDarkCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.saveInactiveDarkCheckbox.Location = new System.Drawing.Point(194, 20);
             this.saveInactiveDarkCheckbox.Name = "saveInactiveDarkCheckbox";
-            this.saveInactiveDarkCheckbox.Size = new System.Drawing.Size(171, 17);
+            this.saveInactiveDarkCheckbox.Size = new System.Drawing.Size(183, 17);
             this.saveInactiveDarkCheckbox.TabIndex = 92;
             this.saveInactiveDarkCheckbox.Text = "Inactive, for dark backgrounds";
             this.saveInactiveDarkCheckbox.UseVisualStyleBackColor = true;
@@ -653,9 +648,10 @@ namespace AeroShot
             // saveActiveLightCheckbox
             // 
             this.saveActiveLightCheckbox.AutoSize = true;
+            this.saveActiveLightCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.saveActiveLightCheckbox.Location = new System.Drawing.Point(9, 43);
             this.saveActiveLightCheckbox.Name = "saveActiveLightCheckbox";
-            this.saveActiveLightCheckbox.Size = new System.Drawing.Size(161, 17);
+            this.saveActiveLightCheckbox.Size = new System.Drawing.Size(175, 17);
             this.saveActiveLightCheckbox.TabIndex = 93;
             this.saveActiveLightCheckbox.Text = "Active, for light backgrounds";
             this.saveActiveLightCheckbox.UseVisualStyleBackColor = true;
@@ -663,9 +659,10 @@ namespace AeroShot
             // saveActiveDarkCheckbox
             // 
             this.saveActiveDarkCheckbox.AutoSize = true;
+            this.saveActiveDarkCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.saveActiveDarkCheckbox.Location = new System.Drawing.Point(9, 20);
             this.saveActiveDarkCheckbox.Name = "saveActiveDarkCheckbox";
-            this.saveActiveDarkCheckbox.Size = new System.Drawing.Size(163, 17);
+            this.saveActiveDarkCheckbox.Size = new System.Drawing.Size(174, 17);
             this.saveActiveDarkCheckbox.TabIndex = 91;
             this.saveActiveDarkCheckbox.Text = "Active, for dark backgrounds";
             this.saveActiveDarkCheckbox.UseVisualStyleBackColor = true;
@@ -673,9 +670,10 @@ namespace AeroShot
             // screenshotLabel
             // 
             this.screenshotLabel.AutoSize = true;
+            this.screenshotLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.screenshotLabel.Location = new System.Drawing.Point(6, 0);
             this.screenshotLabel.Name = "screenshotLabel";
-            this.screenshotLabel.Size = new System.Drawing.Size(141, 13);
+            this.screenshotLabel.Size = new System.Drawing.Size(149, 13);
             this.screenshotLabel.TabIndex = 90;
             this.screenshotLabel.Text = "Choose screenshots to save";
             // 
@@ -813,9 +811,10 @@ namespace AeroShot
             // cropModeKeepCenteredButton
             // 
             this.cropModeKeepCenteredButton.AutoSize = true;
+            this.cropModeKeepCenteredButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.cropModeKeepCenteredButton.Location = new System.Drawing.Point(194, 19);
             this.cropModeKeepCenteredButton.Name = "cropModeKeepCenteredButton";
-            this.cropModeKeepCenteredButton.Size = new System.Drawing.Size(134, 17);
+            this.cropModeKeepCenteredButton.Size = new System.Drawing.Size(143, 17);
             this.cropModeKeepCenteredButton.TabIndex = 92;
             this.cropModeKeepCenteredButton.TabStop = true;
             this.cropModeKeepCenteredButton.Text = "Keep window centered";
@@ -824,9 +823,10 @@ namespace AeroShot
             // cropModeRemoveAllButton
             // 
             this.cropModeRemoveAllButton.AutoSize = true;
+            this.cropModeRemoveAllButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.cropModeRemoveAllButton.Location = new System.Drawing.Point(9, 19);
             this.cropModeRemoveAllButton.Name = "cropModeRemoveAllButton";
-            this.cropModeRemoveAllButton.Size = new System.Drawing.Size(141, 17);
+            this.cropModeRemoveAllButton.Size = new System.Drawing.Size(146, 17);
             this.cropModeRemoveAllButton.TabIndex = 91;
             this.cropModeRemoveAllButton.TabStop = true;
             this.cropModeRemoveAllButton.Text = "Remove all empty space";
@@ -835,11 +835,22 @@ namespace AeroShot
             // cropModeLabel
             // 
             this.cropModeLabel.AutoSize = true;
+            this.cropModeLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.cropModeLabel.Location = new System.Drawing.Point(6, 0);
             this.cropModeLabel.Name = "cropModeLabel";
-            this.cropModeLabel.Size = new System.Drawing.Size(58, 13);
+            this.cropModeLabel.Size = new System.Drawing.Size(64, 13);
             this.cropModeLabel.TabIndex = 90;
             this.cropModeLabel.Text = "Crop mode";
+            // 
+            // aeroColorDisplay
+            // 
+            this.aeroColorDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.aeroColorDisplay.Color = System.Drawing.Color.White;
+            this.aeroColorDisplay.Location = new System.Drawing.Point(327, 25);
+            this.aeroColorDisplay.Name = "aeroColorDisplay";
+            this.aeroColorDisplay.Size = new System.Drawing.Size(72, 19);
+            this.aeroColorDisplay.TabIndex = 25;
+            this.aeroColorDisplay.Click += new System.EventHandler(this.AeroColorDisplayClick);
             // 
             // MainForm
             // 
