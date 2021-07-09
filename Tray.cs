@@ -1,5 +1,5 @@
 /*  AeroShot - Transparent screenshot utility for Windows
-    Copyright (C) 2021 Cvolton
+    Copyright (C) 2021 Cvolton, starfrost
     Copyright (C) 2015 toe_head2001
 
     AeroShot is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@ namespace AeroShot
         MainForm _window = new MainForm();
         Hotkeys _hotkeys = new Hotkeys();
         Settings _settings = new Settings();
+        About _about = new About(); 
 
         public SysTray()
         {
@@ -42,6 +43,7 @@ namespace AeroShot
             trayMenu = new ContextMenu();
             trayMenu.MenuItems.Add("Settings...", ShowWindow);
             trayMenu.MenuItems.Add("-");
+            trayMenu.MenuItems.Add("About", LoadAboutWindow);
             trayMenu.MenuItems.Add("Exit", OnExit);
 
             // Add menu to tray icon and show it.
@@ -117,5 +119,24 @@ namespace AeroShot
 			this.ResumeLayout(false);
 
 		}
+
+        /// <summary>
+        /// Launches the About Window. Parameters disregarded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LoadAboutWindow(object sender, EventArgs e)
+        {
+            // check if we got killed or it's been previously closed
+            if (_about.IsDisposed)
+            {
+                _about = new About();
+            }
+
+            if (!_about.Visible) _about.Show();
+
+            _about.Activate(); 
+        }
+        
 	}
 }
