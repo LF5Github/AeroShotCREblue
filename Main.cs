@@ -1,5 +1,5 @@
 /*  AeroShot - Transparent screenshot utility for Windows
-    Copyright (C) 2021 Cvolton
+    Copyright (C) 2021 Cvolton, starfrost
     Copyright (C) 2015 toe_head2001
     Copyright (C) 2012 Caleb Joseph
 
@@ -56,7 +56,17 @@ namespace AeroShot
             delaySeconds.Value = _settings.delaySeconds;
             clearTypeCheckbox.Checked = _settings.clearTypeCheckbox;
             shadowCheckbox.Checked = _settings.shadowCheckbox;
-            optimizeVistaCheckbox.Checked = _settings.optimizeVistaCheckbox;
+
+            // July 9, 2021 starfrost: disable if not true
+            if (!Settings.IsWindowsVista())
+            {
+                optimizeVistaCheckbox.Enabled = false;
+                optimizeVistaGroupBox.Enabled = false; 
+            }
+            else
+            {
+                optimizeVistaCheckbox.Checked = _settings.optimizeVistaCheckbox;
+            }
 
             cropModeRemoveAllButton.Checked = _settings.cropModeRemoveAllButton;
             cropModeKeepCenteredButton.Checked = _settings.cropModeKeepCenteredButton;
