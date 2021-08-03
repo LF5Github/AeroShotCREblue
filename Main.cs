@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -28,6 +29,10 @@ namespace AeroShot
     {
         private const uint SPI_GETFONTSMOOTHING = 0x004A;
         private const uint SPI_GETFONTSMOOTHINGTYPE = 0x200A;
+
+        private int hotkeyKey;
+        private int hotkeyModifier;
+        private bool needsRestart = false;
 
         private readonly RegistryKey _registryKey;
         Settings _settings = new Settings();
@@ -56,17 +61,6 @@ namespace AeroShot
             delaySeconds.Value = _settings.delaySeconds;
             clearTypeCheckbox.Checked = _settings.clearTypeCheckbox;
             shadowCheckbox.Checked = _settings.shadowCheckbox;
-
-            // July 9, 2021 starfrost: disable if not true
-            if (!Settings.IsWindowsVista())
-            {
-                optimizeVistaCheckbox.Enabled = false;
-                optimizeVistaGroupBox.Enabled = false; 
-            }
-            else
-            {
-                optimizeVistaCheckbox.Checked = _settings.optimizeVistaCheckbox;
-            }
 
             cropModeRemoveAllButton.Checked = _settings.cropModeRemoveAllButton;
             cropModeKeepCenteredButton.Checked = _settings.cropModeKeepCenteredButton;
@@ -104,7 +98,12 @@ namespace AeroShot
             aeroColorGroupBox.Enabled = aeroColorCheckbox.Checked;
             shadowGroupBox.Enabled = shadowCheckbox.Checked;
 
+            hotkeyKey = _settings.hotkeyKey;
+            hotkeyModifier = _settings.hotkeyModifier;
+
             _registryKey = Registry.CurrentUser.CreateSubKey(@"Software\AeroShot");
+
+            UpdateVisibleHotkey();
         }
 
         private static bool GlassAvailable()
@@ -312,9 +311,11 @@ namespace AeroShot
 
             _registryKey.SetValue("SaveInactiveTransparent", saveInactiveTransparentCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
 
-            _registryKey.SetValue("OptimizeVista", optimizeVistaCheckbox.Checked ? 1 : 0, RegistryValueKind.DWord);
-
             _registryKey.SetValue("CropMode", cropModeKeepCenteredButton.Checked ? 1 : 0, RegistryValueKind.DWord);
+
+            _registryKey.SetValue("HotkeyKey", hotkeyKey, RegistryValueKind.DWord);
+
+            _registryKey.SetValue("HotkeyModifier", hotkeyModifier, RegistryValueKind.DWord);
 
             // Save delay settings in an 8-byte long
             b = new byte[8];
@@ -325,6 +326,9 @@ namespace AeroShot
             data = BitConverter.ToInt64(b, 0);
             _registryKey.SetValue("Delay", data, RegistryValueKind.QWord);
 
+            if (needsRestart)
+                Application.Restart();
+
             this.Close();
         }
 
@@ -332,9 +336,36 @@ namespace AeroShot
         {
             this.Close();
         }
-    }
 
-    public class ColorDisplay : UserControl
+        private void UpdateVisibleHotkey()
+		{
+            keyboardShortcutButton.Text = $"{KeyHelpers.modifiers[hotkeyModifier]} + {((Keys)hotkeyKey).ToString()}";
+        }
+
+		private void keyboardShortcutButton_Click(object sender, EventArgs e)
+		{
+            Button sndr = sender as Button;
+            sndr.Text = "...";
+		}
+
+		private void keyboardShortcutButton_KeyUp(object sender, KeyEventArgs e)
+		{
+            Button sndr = sender as Button;
+            //TODO: can i just detect if its a modifier key?
+            if (sndr.Text == "..."
+                && !(e.KeyCode == Keys.Alt || e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.ShiftKey || e.KeyCode == Keys.LWin || e.KeyCode == Keys.RWin)
+                && KeyHelpers.modifierCodes.ContainsKey(e.Modifiers))
+			{
+                hotkeyModifier = KeyHelpers.modifierCodes[e.Modifiers];
+                hotkeyKey = (int)e.KeyCode;
+                needsRestart = true;
+            }
+
+            UpdateVisibleHotkey();
+        }
+	}
+
+	public class ColorDisplay : UserControl
     {
         private readonly SolidBrush _border = new SolidBrush(SystemColors.Window);
 

@@ -55,7 +55,11 @@
   <PropertyGroup>
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -65,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DIBConverter.cs" />
+    <Compile Include="KeyHelpers.cs" />
     <Compile Include="Hotkeys.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +86,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UnsafeBitmap.cs" />
+    <Compile Include="VersionHelpers.cs" />
     <Compile Include="WindowsAPI.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="app.manifest" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>

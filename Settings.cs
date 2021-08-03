@@ -52,83 +52,9 @@ namespace AeroShot
         public bool optimizeVistaCheckbox;
         public bool cropModeRemoveAllButton;
         public bool cropModeKeepCenteredButton;
+        public int hotkeyKey = 44;
+        public int hotkeyModifier = 1;
         private readonly RegistryKey _registryKey;
-
-        bool AeroGlassForWin8IsRunning()
-        {
-            return Process.GetProcessesByName("aerohost").Length > 0;
-        }
-
-        bool HasAeroAfterglow()
-        {
-            return (Environment.OSVersion.Version.Build >= 6730 && Environment.OSVersion.Version.Build < 8432) || AeroGlassForWin8IsRunning();
-        }
-
-        bool HasAeroTransparency()
-        {
-            return (Environment.OSVersion.Version.Major == 6
-                && Environment.OSVersion.Version.Major > 5001 // pre-reset is hell, 500x does't have Aero
-                && Environment.OSVersion.Version.Build < 8432 || AeroGlassForWin8IsRunning());
-        }
-
-        public static bool IsWindowsVista() => (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Major == 0); // 6.0.5048-6.0.6469
-
-        public static bool IsWindows7() => (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Major == 1); // 6.1.6519-6.2.7850 
-
-        public static bool IsWindows8() => (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Major == 2); // 6.2.7875-6.3.9299
-
-        public static bool IsWindows81() => (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Major == 3); // 6.3.9364-6.3.9785
-
-        public static bool IsWindows10() => ((Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Major == 4) // 6.4.9821-10.0.21390.2025
-            || Environment.OSVersion.Version.Major == 10);
-
-        public static bool IsWindows11() // 10.0.21990+
-        {
-            if (Environment.OSVersion.Version.Major != 10)
-            {
-                return false;
-            }
-            else
-            {
-                // open the current version
-                RegistryKey RK = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
-
-                if (RK == null)
-                {
-                    return false; // panic, best to assume not running 11
-                }
-                else
-                {
-                    // get the current value 
-                    string BuildNumber = (string)RK.GetValue("CurrentBuild");
-
-                    try
-                    {
-                        int BN = Convert.ToInt32(BuildNumber);
-
-                        if (BN >= 21990)
-                        {
-                            return true; 
-                        }
-                        else
-                        {
-                            return false; 
-                        }
-                    }
-                    catch (FormatException)
-                    {
-                        return false;
-
-                    }
-                    catch (OverflowException)
-                    {
-                        return false; 
-                    }
-
-
-                }
-            }
-        }
 
         public Settings()
         {
@@ -226,7 +152,7 @@ namespace AeroShot
             if ((value = _registryKey.GetValue("SaveActiveLight")) != null && value.GetType() == (typeof(int)))
                 saveActiveLightCheckbox = ((int)value & 1) == 1;
             else
-                saveActiveLightCheckbox = HasAeroAfterglow();
+                saveActiveLightCheckbox = VersionHelpers.HasAeroAfterglow();
 
             if ((value = _registryKey.GetValue("SaveInactiveDark")) != null && value.GetType() == (typeof(int)))
                 saveInactiveDarkCheckbox = ((int)value & 1) == 1;
@@ -236,27 +162,33 @@ namespace AeroShot
             if ((value = _registryKey.GetValue("SaveInactiveLight")) != null && value.GetType() == (typeof(int)))
                 saveInactiveLightCheckbox = ((int)value & 1) == 1;
             else
-                saveInactiveLightCheckbox = HasAeroAfterglow();
+                saveInactiveLightCheckbox = VersionHelpers.HasAeroAfterglow();
 
             if ((value = _registryKey.GetValue("SaveMask")) != null && value.GetType() == (typeof(int)))
                 saveMaskCheckbox = ((int)value & 1) == 1;
             else
-                saveMaskCheckbox = HasAeroTransparency();
+                saveMaskCheckbox = VersionHelpers.HasAeroTransparency();
 
             if ((value = _registryKey.GetValue("SaveActiveTransparent")) != null && value.GetType() == (typeof(int)))
                 saveActiveTransparentCheckbox = ((int)value & 1) == 1;
             else
-                saveActiveTransparentCheckbox = HasAeroTransparency();
+                saveActiveTransparentCheckbox = VersionHelpers.HasAeroTransparency();
 
             if ((value = _registryKey.GetValue("SaveInactiveTransparent")) != null && value.GetType() == (typeof(int)))
                 saveInactiveTransparentCheckbox = ((int)value & 1) == 1;
             else
-                saveInactiveTransparentCheckbox = HasAeroTransparency();
+                saveInactiveTransparentCheckbox = VersionHelpers.HasAeroTransparency();
 
-            if ((value = _registryKey.GetValue("OptimizeVista")) != null && value.GetType() == (typeof(int)))
+            /*if ((value = _registryKey.GetValue("OptimizeVista")) != null && value.GetType() == (typeof(int)))
                 optimizeVistaCheckbox = ((int)value & 1) == 1;
             else
-                optimizeVistaCheckbox = (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0) ? true : false;
+                optimizeVistaCheckbox = (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0) ? true : false;*/
+
+            if ((value = _registryKey.GetValue("HotkeyKey")) != null && value.GetType() == (typeof(int)))
+                hotkeyKey = (int)value;
+
+            if ((value = _registryKey.GetValue("HotkeyModifier")) != null && value.GetType() == (typeof(int)))
+                hotkeyModifier = (int)value;
 
             if ((value = _registryKey.GetValue("Delay")) != null && value.GetType() == (typeof(long)))
             {

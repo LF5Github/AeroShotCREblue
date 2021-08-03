@@ -16,6 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -31,10 +32,10 @@ using System.Windows.Forms;
 
 namespace AeroShot
 {
-    internal static class Program
+    class Program : WindowsFormsApplicationBase
     {
-        [STAThread]
-        private static void Main()
+        //[STAThread]
+        public Program()
         {
             /*if (Environment.OSVersion.Version.Major < 6)
             {
@@ -42,7 +43,7 @@ namespace AeroShot
                 return;
             }*/
 
-			bool isFirstInstance;
+            /*bool isFirstInstance;
 
             // set if truly first instance:
             var mutex = new System.Threading.Mutex(true, "AeroShot", out isFirstInstance);
@@ -51,14 +52,36 @@ namespace AeroShot
             {
                 MessageBox.Show("An instance of AeroShot or AeroShotCRE is already running.\r\nPress Alt+PrtSc to take a screenshot.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
-			}
-			//temporary workaround - we need to lose focus for inactive screenshot captures to work
-			//MessageBox.Show("Press OK to start the application", Application.ProductName);
+			}*/
+            //temporary workaround - we need to lose focus for inactive screenshot captures to work
+            //MessageBox.Show("Press OK to start the application", Application.ProductName);
+            EnableVisualStyles = true;
+            MainForm = new SysTray();
+            IsSingleInstance = true;
 
-			Application.EnableVisualStyles();
+            /*Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SysTray());
-            GC.KeepAlive(mutex);
+            Application.Run(new SysTray());*/
+            //GC.KeepAlive(mutex);
         }
+
+        public static void Main(string[] args)
+        {
+            Instance = new Program();
+            Instance.Run(args);
+        }
+
+        public static void Restart()
+        {
+            Instance.IsSingleInstance = false;
+            Application.Restart();
+        }
+
+        protected override void OnStartupNextInstance(StartupNextInstanceEventArgs eventArgs)
+        {
+            MessageBox.Show("An instance of AeroShot or AeroShotCRE is already running.\r\nPress Alt+PrtSc to take a screenshot.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private static Program Instance;
     }
 }
