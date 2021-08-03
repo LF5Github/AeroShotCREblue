@@ -112,7 +112,6 @@ namespace AeroShot
                     _settings.canvasSizeCheckbox,
                     _settings.canvasWidth,
                     _settings.canvasHeight,
-                    _settings.optimizeVistaCheckbox,
                     _settings.cropModeKeepCenteredButton);
         }
     }

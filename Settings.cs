@@ -49,7 +49,6 @@ namespace AeroShot
         public bool saveMaskCheckbox;
         public bool saveActiveTransparentCheckbox;
         public bool saveInactiveTransparentCheckbox;
-        public bool optimizeVistaCheckbox;
         public bool cropModeRemoveAllButton;
         public bool cropModeKeepCenteredButton;
         public int hotkeyKey = 44;
@@ -178,11 +177,6 @@ namespace AeroShot
                 saveInactiveTransparentCheckbox = ((int)value & 1) == 1;
             else
                 saveInactiveTransparentCheckbox = VersionHelpers.HasAeroTransparency();
-
-            /*if ((value = _registryKey.GetValue("OptimizeVista")) != null && value.GetType() == (typeof(int)))
-                optimizeVistaCheckbox = ((int)value & 1) == 1;
-            else
-                optimizeVistaCheckbox = (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0) ? true : false;*/
 
             if ((value = _registryKey.GetValue("HotkeyKey")) != null && value.GetType() == (typeof(int)))
                 hotkeyKey = (int)value;

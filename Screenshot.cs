@@ -52,7 +52,6 @@ namespace AeroShot
         public bool SaveInactiveDark;
         public bool SaveInactiveLight;
         public bool SaveInactiveTransparent;
-        public bool OptimizeVista;
         public bool CropMode;
         public bool SaveMask;
 
@@ -64,7 +63,7 @@ namespace AeroShot
                               bool saveInactiveLight, bool saveMask, bool saveActiveTransparent,
                               bool saveInactiveTransparent,
                               bool canvas, int canvasX, int canvasY,
-                              bool optimizeVista, bool cropMode)
+                              bool cropMode)
         {
             WindowHandle = window;
             ClipboardNotDisk = clipboard;
@@ -87,7 +86,6 @@ namespace AeroShot
             SaveInactiveLight = saveInactiveLight;
             SaveInactiveTransparent = saveInactiveTransparent;
             SaveMask = saveMask;
-            OptimizeVista = optimizeVista;
             CropMode = cropMode;
         }
     }
