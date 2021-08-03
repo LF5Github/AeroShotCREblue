@@ -489,7 +489,11 @@ namespace AeroShot
             WindowsApi.SetForegroundWindow(data.WindowHandle);*/
 
             WindowsApi.ShowWindow(backdrop.Handle, 4);
-            WindowsApi.SetWindowPos(backdrop.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE);
+            if (!WindowsApi.SetWindowPos(backdrop.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE))
+			{
+                WindowsApi.SetWindowPos(backdrop.Handle, backdrop.Handle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE);
+                WindowsApi.SetForegroundWindow(data.WindowHandle).ToString();
+            }
             //backdrop.Opacity = 1;
             RefreshBackdrop();
             //SendKeys.SendWait("%{F16}");
