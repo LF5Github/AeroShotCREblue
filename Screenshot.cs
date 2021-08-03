@@ -483,6 +483,8 @@ namespace AeroShot
             WindowsApi.ShowWindow(backdrop.Handle, 4);
             if (!WindowsApi.SetWindowPos(backdrop.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE))
 			{
+                // We are unable to put backdrop directly behind the window, so we will put it into the foreground and then put the original window on top of it
+                // This likely happens because the program we're trying to capture is running as administrator
                 WindowsApi.SetWindowPos(backdrop.Handle, backdrop.Handle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE);
                 WindowsApi.SetForegroundWindow(data.WindowHandle).ToString();
             }
