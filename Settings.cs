@@ -182,7 +182,7 @@ namespace AeroShot
                 hotkeyKey = (int)value;
 
             if ((value = _registryKey.GetValue("HotkeyModifier")) != null && value.GetType() == (typeof(int)))
-                hotkeyModifier = (int)value;
+                hotkeyModifier = (int)value % 8;
 
             if ((value = _registryKey.GetValue("Delay")) != null && value.GetType() == (typeof(long)))
             {
