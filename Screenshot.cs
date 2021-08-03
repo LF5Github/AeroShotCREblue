@@ -155,7 +155,7 @@ namespace AeroShot
                                 $"clrGlassReflectionIntensity: {originalParameters.clrGlassReflectionIntensity}");*/
                             if (data.CustomGlass && AeroEnabled())
                             {
-                                if (data.OptimizeVista)
+                                if (VersionHelpers.IsWindowsVista())
                                 {
                                     WindowsApi.DwmGetColorizationColor(out ColorizationColor, out ColorizationOpaqueBlend);
                                     WindowsApi.DwmpSetColorization(ColorToBgra(data.AeroColor), true, 0xFF);
@@ -215,7 +215,7 @@ namespace AeroShot
 					
                     if (AeroColorToggled && Environment.OSVersion.Version.Major >= 6)
                     {
-                        if (data.OptimizeVista)
+                        if (VersionHelpers.IsWindowsVista())
                         {
                             WindowsApi.DwmpSetColorization(ColorizationColor, ColorizationOpaqueBlend, 0xFF);
                         }
@@ -543,7 +543,7 @@ namespace AeroShot
                 //We can't disable shadows on Vista without disabling DWM, which would cause the mask to be inaccurate
                 UInt32 ColorizationColor = 0;
                 bool fOpaque = true;
-                if (isCompositing && data.OptimizeVista)
+                if (isCompositing && (VersionHelpers.IsWindowsVista() || VersionHelpers.IsWindows11()))
                 {
                     minAlpha = 254;
 
@@ -606,7 +606,7 @@ namespace AeroShot
                     bool fOpaque = true;
 
 
-                    if (data.OptimizeVista)
+                    if (VersionHelpers.IsWindowsVista())
                     {
 
                         WindowsApi.DwmGetColorizationColor(out ColorizationColor, out fOpaque);
@@ -644,7 +644,7 @@ namespace AeroShot
                     whiteTransparentShot.Dispose();
                     blackTransparentShot.Dispose();
 
-                    if (data.OptimizeVista)
+                    if (VersionHelpers.IsWindowsVista())
                     {
                         WindowsApi.DwmpSetColorization(ColorizationColor, fOpaque, 0xFF);
                     }
