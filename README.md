@@ -8,6 +8,13 @@ AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of W
 * mask - A black mask showing the shape of the window without shadows
 
 ## Changelog
+### 1.9.3
+* Added "Keep window centered" crop mode (useful on Windows 11)
+* Fixed fonts in the main settings UI
+* Custom keyboard shortcut support
+* Removed the dedicated Windows Vista Optimizations mode
+  * Optimizations are now applied per-OS as needed
+
 ### 1.9.2
 * Added support for copying transparent screenshots into the clipboard
   * Broken on Windows 11 for now
