@@ -146,11 +146,6 @@ namespace AeroShot
 					{
                         try
                         {
-                            /*MessageBox.Show($"clrAfterGlow: {originalParameters.clrAfterGlow.ToString("X")}\r\n" +
-                                $"clrAfterGlowBalance: {originalParameters.clrAfterGlowBalance}\r\n" +
-                                $"clrBlurBalance: {originalParameters.clrBlurBalance}\r\n" +
-                                $"clrColor: {originalParameters.clrColor.ToString("X")}\r\n" +
-                                $"clrGlassReflectionIntensity: {originalParameters.clrGlassReflectionIntensity}");*/
                             if (data.CustomGlass && AeroEnabled())
                             {
                                 if (VersionHelpers.IsWindowsVista())
@@ -160,10 +155,8 @@ namespace AeroShot
                                 }
                                 else
                                 {
-                                    WindowsApi.DwmGetColorizationParameters(out originalParameters);
-
                                     // Original colorization parameters
-                                    //originalParameters.clrGlassReflectionIntensity = 50;
+                                    WindowsApi.DwmGetColorizationParameters(out originalParameters);
 
                                     // Custom colorization parameters
                                     WindowsApi.DWM_COLORIZATION_PARAMS parameters;
@@ -348,7 +341,6 @@ namespace AeroShot
                         WindowsApi.ShowWindow(start, 1);
                         WindowsApi.ShowWindow(taskbar, 1);
                     }
-                    //File.WriteAllText(@"C:\aeroshoterror.txt", e.ToString());
 
                     MessageBox.Show("An error occurred while trying to take a screenshot.\r\n\r\nPlease make sure you have selected a valid window.\r\n\r\n" + e.ToString(),
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -445,6 +437,7 @@ namespace AeroShot
                 
             }
 
+            // Get DPI of the window (this only works properly on Win 10 1607+) but it is not really needed until Win 11 anyway
             int DPI = 96;
             try
             {
@@ -452,6 +445,7 @@ namespace AeroShot
             }
             catch { }
 
+            // Adjust margin for DPI
             double scalingFactor = DPI / 96;
             int backdropOffset = Convert.ToInt32(100 * scalingFactor);
 
@@ -471,6 +465,8 @@ namespace AeroShot
             if (rct.Bottom > totalSize.Bottom)
                 rct.Bottom = totalSize.Bottom;
 
+            // Spawning backdrop
+            // Handling as much as possible in the constructor makes this easier to render, which makes capture less likely to fail on underpowered PCs
             Color tmpColor = Color.White;
             var backdrop = new Form
             {
@@ -484,32 +480,23 @@ namespace AeroShot
 
             };
 
-            /*backdrop.Shown += new EventHandler(Backdrop_Shown);
-            backdrop.Show();
-            WindowsApi.SetForegroundWindow(data.WindowHandle);*/
-
             WindowsApi.ShowWindow(backdrop.Handle, 4);
             if (!WindowsApi.SetWindowPos(backdrop.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE))
 			{
                 WindowsApi.SetWindowPos(backdrop.Handle, backdrop.Handle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, SWP_NOACTIVATE);
                 WindowsApi.SetForegroundWindow(data.WindowHandle).ToString();
             }
-            //backdrop.Opacity = 1;
-            RefreshBackdrop();
-            //SendKeys.SendWait("%{F16}");
-            //Thread.Sleep(100); //pls no more arbitrary sleeps i hate arbitrary sleeps, this arbitrary sleep aims to fix the issue where the screenshot is taken before dwm renders the backdrop window
-			// Capture screenshot with white background
-			Bitmap whiteShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
-            //whiteShot.Save(@"C:\Users\brabe\Documents\git\aeroshot\bin\Debug\testdir\debug_white.png", ImageFormat.Png);
+            RefreshBackdrop();
+            
+            // Capture screenshot with white background
+			Bitmap whiteShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
 			backdrop.BackColor = Color.Black;
             RefreshBackdrop();
 
             // Capture screenshot with black background
             Bitmap blackShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
-
-            //blackShot.Save(@"C:\Users\brabe\Documents\git\aeroshot\bin\Debug\testdir\debug_black.png", ImageFormat.Png);
 
             Bitmap transparentImage;
             Bitmap transparentInactiveImage = null;
@@ -550,7 +537,6 @@ namespace AeroShot
                     minAlpha = 254;
 
                     WindowsApi.DwmGetColorizationColor(out ColorizationColor, out fOpaque);
-                    //MessageBox.Show($"{fOpaque}");
 
                     if (fOpaque == false)
                     {
@@ -564,12 +550,6 @@ namespace AeroShot
                     WindowsApi.SystemParametersInfo(SPI_SETDROPSHADOW, 0, false, 0);
                     ShadowToggled = true;
                 }
-
-                /*MessageBox.Show($"clrAfterGlow: {originalParameters.clrAfterGlow.ToString("X")}\r\n" +
-                    $"clrAfterGlowBalance: {originalParameters.clrAfterGlowBalance}\r\n" +
-                    $"clrBlurBalance: {originalParameters.clrBlurBalance}\r\n" +
-                    $"clrColor: {originalParameters.clrColor.ToString("X")}\r\n" +
-                    $"clrGlassReflectionIntensity: {originalParameters.clrGlassReflectionIntensity}");*/
 
                 backdrop.BackColor = Color.White;
                 RefreshBackdrop();
@@ -673,8 +653,6 @@ namespace AeroShot
             WindowsApi.SetWindowPos(emptyForm.Handle, data.WindowHandle, rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top, 0);
             WindowsApi.SetForegroundWindow(emptyForm.Handle);
 
-            //backdrop.Dispose();
-
             // Capture inactive screenshots
             if (data.SaveInactiveDark || data.SaveInactiveLight)
             {
@@ -682,14 +660,12 @@ namespace AeroShot
                 RefreshBackdrop();
 
                 // Capture inactive screenshot with white background
-                //emptyForm.Show();
                 Bitmap whiteInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
                 backdrop.BackColor = Color.Black;
                 RefreshBackdrop();
 
                 // Capture inactive screenshot with black background
-                //emptyForm.Show();
                 Bitmap blackInactiveShot = CaptureScreenRegion(new Rectangle(rct.Left, rct.Top, rct.Right - rct.Left, rct.Bottom - rct.Top));
 
 

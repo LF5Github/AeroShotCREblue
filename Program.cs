@@ -34,35 +34,11 @@ namespace AeroShot
 {
     class Program : WindowsFormsApplicationBase
     {
-        //[STAThread]
         public Program()
         {
-            /*if (Environment.OSVersion.Version.Major < 6)
-            {
-                MessageBox.Show("Windows Vista or newer is required.", Application.ProductName);
-                return;
-            }*/
-
-            /*bool isFirstInstance;
-
-            // set if truly first instance:
-            var mutex = new System.Threading.Mutex(true, "AeroShot", out isFirstInstance);
-
-            if (!isFirstInstance)
-            {
-                MessageBox.Show("An instance of AeroShot or AeroShotCRE is already running.\r\nPress Alt+PrtSc to take a screenshot.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-			}*/
-            //temporary workaround - we need to lose focus for inactive screenshot captures to work
-            //MessageBox.Show("Press OK to start the application", Application.ProductName);
             EnableVisualStyles = true;
             MainForm = new SysTray();
             IsSingleInstance = true;
-
-            /*Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SysTray());*/
-            //GC.KeepAlive(mutex);
         }
 
         public static void Main(string[] args)
