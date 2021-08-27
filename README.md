@@ -8,6 +8,10 @@ AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of W
 * mask - A black mask showing the shape of the window without shadows
 
 ## Changelog
+### 1.9.4
+* [Microsoft Store only release](https://www.microsoft.com/store/productId/9NNBCDGN1ZS8)
+* Attempted to make capture of admin windows more reliable when the program itself is not running as admin
+
 ### 1.9.3
 * Added "Keep window centered" crop mode (useful on Windows 11)
 * Fixed fonts in the main settings UI
