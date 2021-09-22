@@ -8,6 +8,10 @@ AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of W
 * mask - A black mask showing the shape of the window without shadows
 
 ## Changelog
+### 1.9.5
+* [Microsoft Store only release](https://www.microsoft.com/store/productId/9NNBCDGN1ZS8)
+* Fixed the Browse button in .NET 4.6 builds
+
 ### 1.9.4
 * [Microsoft Store only release](https://www.microsoft.com/store/productId/9NNBCDGN1ZS8)
 * Attempted to make capture of admin windows more reliable when the program itself is not running as admin
