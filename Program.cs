@@ -41,6 +41,7 @@ namespace AeroShot
             IsSingleInstance = true;
         }
 
+        [STAThreadAttribute]
         public static void Main(string[] args)
         {
             Instance = new Program();
