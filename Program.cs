@@ -22,10 +22,10 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-[assembly: AssemblyTitle("AeroShotCRE")]
-[assembly: AssemblyProduct("AeroShotCRE")]
+[assembly: AssemblyTitle("AeroShotCRE blue")]
+[assembly: AssemblyProduct("AeroShotCRE blue")]
 [assembly: AssemblyDescription("Screenshot capture utility for Windows Aero")]
-[assembly: AssemblyCopyright("\u00a9 2021 Cvolton")]
+[assembly: AssemblyCopyright("\u00a9 2022 Cvolton and LF5")]
 [assembly: AssemblyVersion("1.9.5.0")]
 [assembly: AssemblyFileVersion("1.9.5.0")]
 [assembly: ComVisible(false)]

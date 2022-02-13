@@ -18,6 +18,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -363,9 +365,15 @@ namespace AeroShot
 
             UpdateVisibleHotkey();
         }
-	}
 
-	public class ColorDisplay : UserControl
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Environment.CurrentDirectory = Environment.SystemDirectory;
+            Process.Start(@"systempropertiesperformance.exe");
+        }
+    }
+
+    public class ColorDisplay : UserControl
     {
         private readonly SolidBrush _border = new SolidBrush(SystemColors.Window);
 
