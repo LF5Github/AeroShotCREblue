@@ -1,4 +1,5 @@
 /*  AeroShot - Transparent screenshot utility for Windows
+    Copyright (C) 2022 LF5
     Copyright (C) 2021 Cvolton, starfrost
     Copyright (C) 2015 toe_head2001
     Copyright (C) 2012 Caleb Joseph
@@ -370,6 +371,16 @@ namespace AeroShot
         {
             Environment.CurrentDirectory = Environment.SystemDirectory;
             Process.Start(@"systempropertiesperformance.exe");
+        }
+
+        private void shadowGroupBox_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Exit_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(2);
         }
     }
 

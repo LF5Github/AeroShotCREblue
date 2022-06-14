@@ -28,7 +28,6 @@ namespace AeroShot
         private System.Windows.Forms.FolderBrowserDialog folderSelectionDialog;
         private System.Windows.Forms.TextBox folderTextBox;
         private System.Windows.Forms.GroupBox resizeGroupBox;
-        private System.Windows.Forms.Label saveToLabel;
         private System.Windows.Forms.Label resizeLabel;
         private System.Windows.Forms.Label xLabel;
 
@@ -70,7 +69,6 @@ namespace AeroShot
         /// </summary>
         private void InitializeComponent()
         {
-            this.saveToLabel = new System.Windows.Forms.Label();
             this.folderTextBox = new System.Windows.Forms.TextBox();
             this.browseButton = new System.Windows.Forms.Button();
             this.folderSelectionDialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -130,9 +128,12 @@ namespace AeroShot
             this.shadowLabel = new System.Windows.Forms.Label();
             this.tabAdvanced = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.aeroColorDisplay = new AeroShot.ColorDisplay();
             this.appearanceSettings = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.saveToLabel = new System.Windows.Forms.Label();
+            this.aeroColorDisplay = new AeroShot.ColorDisplay();
+            this.Exit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.windowHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.windowWidth)).BeginInit();
             this.aeroColorGroupBox.SuspendLayout();
@@ -151,39 +152,29 @@ namespace AeroShot
             this.tabAdvanced.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // saveToLabel
-            // 
-            this.saveToLabel.AutoSize = true;
-            this.saveToLabel.BackColor = System.Drawing.Color.Transparent;
-            this.saveToLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveToLabel.ForeColor = System.Drawing.Color.White;
-            this.saveToLabel.Location = new System.Drawing.Point(9, 9);
-            this.saveToLabel.Name = "saveToLabel";
-            this.saveToLabel.Size = new System.Drawing.Size(108, 13);
-            this.saveToLabel.TabIndex = 3;
-            this.saveToLabel.Text = "Save screenshots to";
             // 
             // folderTextBox
             // 
             this.folderTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
             this.folderTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.folderTextBox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.folderTextBox.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.folderTextBox.ForeColor = System.Drawing.Color.White;
-            this.folderTextBox.Location = new System.Drawing.Point(12, 25);
+            this.folderTextBox.Location = new System.Drawing.Point(6, 66);
             this.folderTextBox.Name = "folderTextBox";
-            this.folderTextBox.Size = new System.Drawing.Size(309, 22);
+            this.folderTextBox.Size = new System.Drawing.Size(424, 27);
             this.folderTextBox.TabIndex = 2;
             // 
             // browseButton
             // 
             this.browseButton.BackColor = System.Drawing.Color.RoyalBlue;
-            this.browseButton.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.browseButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.browseButton.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.browseButton.ForeColor = System.Drawing.Color.White;
-            this.browseButton.Location = new System.Drawing.Point(327, 24);
+            this.browseButton.Location = new System.Drawing.Point(6, 99);
             this.browseButton.Name = "browseButton";
-            this.browseButton.Size = new System.Drawing.Size(90, 23);
+            this.browseButton.Size = new System.Drawing.Size(90, 28);
             this.browseButton.TabIndex = 3;
             this.browseButton.Text = "Browse";
             this.browseButton.UseVisualStyleBackColor = false;
@@ -213,7 +204,7 @@ namespace AeroShot
             this.windowHeight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
             this.windowHeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.windowHeight.ForeColor = System.Drawing.Color.White;
-            this.windowHeight.Location = new System.Drawing.Point(338, 25);
+            this.windowHeight.Location = new System.Drawing.Point(353, 19);
             this.windowHeight.Maximum = new decimal(new int[] {
             16777215,
             0,
@@ -225,7 +216,7 @@ namespace AeroShot
             0,
             0});
             this.windowHeight.Name = "windowHeight";
-            this.windowHeight.Size = new System.Drawing.Size(60, 23);
+            this.windowHeight.Size = new System.Drawing.Size(60, 27);
             this.windowHeight.TabIndex = 14;
             this.windowHeight.Value = new decimal(new int[] {
             480,
@@ -236,20 +227,20 @@ namespace AeroShot
             // xLabel
             // 
             this.xLabel.AutoSize = true;
-            this.xLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xLabel.Font = new System.Drawing.Font("Segoe UI", 15.75F);
             this.xLabel.ForeColor = System.Drawing.Color.White;
-            this.xLabel.Location = new System.Drawing.Point(324, 27);
+            this.xLabel.Location = new System.Drawing.Point(320, 16);
             this.xLabel.Name = "xLabel";
-            this.xLabel.Size = new System.Drawing.Size(12, 13);
+            this.xLabel.Size = new System.Drawing.Size(27, 30);
             this.xLabel.TabIndex = 13;
-            this.xLabel.Text = "x";
+            this.xLabel.Text = "×";
             // 
             // windowWidth
             // 
             this.windowWidth.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
             this.windowWidth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.windowWidth.ForeColor = System.Drawing.Color.White;
-            this.windowWidth.Location = new System.Drawing.Point(262, 25);
+            this.windowWidth.Location = new System.Drawing.Point(254, 19);
             this.windowWidth.Maximum = new decimal(new int[] {
             16777215,
             0,
@@ -261,7 +252,7 @@ namespace AeroShot
             0,
             0});
             this.windowWidth.Name = "windowWidth";
-            this.windowWidth.Size = new System.Drawing.Size(60, 23);
+            this.windowWidth.Size = new System.Drawing.Size(60, 27);
             this.windowWidth.TabIndex = 12;
             this.windowWidth.Value = new decimal(new int[] {
             640,
@@ -291,7 +282,7 @@ namespace AeroShot
             this.aeroColorGroupBox.Controls.Add(this.aeroColorHashLabel);
             this.aeroColorGroupBox.Location = new System.Drawing.Point(3, 67);
             this.aeroColorGroupBox.Name = "aeroColorGroupBox";
-            this.aeroColorGroupBox.Size = new System.Drawing.Size(405, 55);
+            this.aeroColorGroupBox.Size = new System.Drawing.Size(421, 55);
             this.aeroColorGroupBox.TabIndex = 19;
             this.aeroColorGroupBox.TabStop = false;
             // 
@@ -303,32 +294,32 @@ namespace AeroShot
             this.aeroColorLabel.ForeColor = System.Drawing.Color.White;
             this.aeroColorLabel.Location = new System.Drawing.Point(6, 20);
             this.aeroColorLabel.Name = "aeroColorLabel";
-            this.aeroColorLabel.Size = new System.Drawing.Size(153, 26);
+            this.aeroColorLabel.Size = new System.Drawing.Size(163, 26);
             this.aeroColorLabel.TabIndex = 21;
-            this.aeroColorLabel.Text = "The color of Aero Glass will\r\nbe changed for screenshots.";
+            this.aeroColorLabel.Text = "The color of Aero Glass will be\r\nchanged for screenshots.";
             // 
             // aeroColorColorLabel
             // 
             this.aeroColorColorLabel.AutoSize = true;
             this.aeroColorColorLabel.BackColor = System.Drawing.Color.Transparent;
-            this.aeroColorColorLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aeroColorColorLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aeroColorColorLabel.ForeColor = System.Drawing.Color.White;
-            this.aeroColorColorLabel.Location = new System.Drawing.Point(192, 27);
+            this.aeroColorColorLabel.Location = new System.Drawing.Point(199, 22);
             this.aeroColorColorLabel.Name = "aeroColorColorLabel";
-            this.aeroColorColorLabel.Size = new System.Drawing.Size(38, 13);
+            this.aeroColorColorLabel.Size = new System.Drawing.Size(106, 21);
             this.aeroColorColorLabel.TabIndex = 22;
-            this.aeroColorColorLabel.Text = "Color:";
+            this.aeroColorColorLabel.Text = "Color (in hex):";
             // 
             // aeroColorHexBox
             // 
             this.aeroColorHexBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
             this.aeroColorHexBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.aeroColorHexBox.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aeroColorHexBox.Font = new System.Drawing.Font("Lucida Console", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aeroColorHexBox.ForeColor = System.Drawing.Color.White;
-            this.aeroColorHexBox.Location = new System.Drawing.Point(265, 25);
+            this.aeroColorHexBox.Location = new System.Drawing.Point(329, 20);
             this.aeroColorHexBox.MaxLength = 6;
             this.aeroColorHexBox.Name = "aeroColorHexBox";
-            this.aeroColorHexBox.Size = new System.Drawing.Size(56, 20);
+            this.aeroColorHexBox.Size = new System.Drawing.Size(84, 28);
             this.aeroColorHexBox.TabIndex = 24;
             this.aeroColorHexBox.Text = "FFFFFF";
             this.aeroColorHexBox.TextChanged += new System.EventHandler(this.AeroColorTextboxTextChange);
@@ -337,11 +328,11 @@ namespace AeroShot
             // 
             this.aeroColorHashLabel.AutoSize = true;
             this.aeroColorHashLabel.BackColor = System.Drawing.Color.Transparent;
-            this.aeroColorHashLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aeroColorHashLabel.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aeroColorHashLabel.ForeColor = System.Drawing.Color.White;
-            this.aeroColorHashLabel.Location = new System.Drawing.Point(250, 27);
+            this.aeroColorHashLabel.Location = new System.Drawing.Point(303, 18);
             this.aeroColorHashLabel.Name = "aeroColorHashLabel";
-            this.aeroColorHashLabel.Size = new System.Drawing.Size(14, 13);
+            this.aeroColorHashLabel.Size = new System.Drawing.Size(25, 30);
             this.aeroColorHashLabel.TabIndex = 23;
             this.aeroColorHashLabel.Text = "#";
             // 
@@ -358,7 +349,7 @@ namespace AeroShot
             this.resizeGroupBox.Controls.Add(this.xLabel);
             this.resizeGroupBox.Location = new System.Drawing.Point(3, 6);
             this.resizeGroupBox.Name = "resizeGroupBox";
-            this.resizeGroupBox.Size = new System.Drawing.Size(405, 55);
+            this.resizeGroupBox.Size = new System.Drawing.Size(421, 55);
             this.resizeGroupBox.TabIndex = 9;
             this.resizeGroupBox.TabStop = false;
             // 
@@ -380,14 +371,17 @@ namespace AeroShot
             this.diskButton.AutoSize = true;
             this.diskButton.BackColor = System.Drawing.Color.Transparent;
             this.diskButton.Checked = true;
-            this.diskButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.diskButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.diskButton.FlatAppearance.BorderSize = 2;
+            this.diskButton.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
+            this.diskButton.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.diskButton.ForeColor = System.Drawing.Color.White;
-            this.diskButton.Location = new System.Drawing.Point(118, 7);
+            this.diskButton.Location = new System.Drawing.Point(11, 36);
             this.diskButton.Name = "diskButton";
-            this.diskButton.Size = new System.Drawing.Size(46, 17);
+            this.diskButton.Size = new System.Drawing.Size(55, 24);
             this.diskButton.TabIndex = 0;
             this.diskButton.TabStop = true;
-            this.diskButton.Text = "disk";
+            this.diskButton.Text = "Disk";
             this.diskButton.UseVisualStyleBackColor = false;
             this.diskButton.CheckedChanged += new System.EventHandler(this.DiskButtonStateChange);
             // 
@@ -395,11 +389,11 @@ namespace AeroShot
             // 
             this.orLabel.AutoSize = true;
             this.orLabel.BackColor = System.Drawing.Color.Transparent;
-            this.orLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.orLabel.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.orLabel.ForeColor = System.Drawing.Color.White;
-            this.orLabel.Location = new System.Drawing.Point(160, 9);
+            this.orLabel.Location = new System.Drawing.Point(73, 38);
             this.orLabel.Name = "orLabel";
-            this.orLabel.Size = new System.Drawing.Size(18, 13);
+            this.orLabel.Size = new System.Drawing.Size(23, 20);
             this.orLabel.TabIndex = 5;
             this.orLabel.Text = "or";
             // 
@@ -407,13 +401,16 @@ namespace AeroShot
             // 
             this.clipboardButton.AutoSize = true;
             this.clipboardButton.BackColor = System.Drawing.Color.Transparent;
-            this.clipboardButton.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clipboardButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.clipboardButton.FlatAppearance.BorderSize = 2;
+            this.clipboardButton.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
+            this.clipboardButton.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.clipboardButton.ForeColor = System.Drawing.Color.White;
-            this.clipboardButton.Location = new System.Drawing.Point(180, 7);
+            this.clipboardButton.Location = new System.Drawing.Point(110, 36);
             this.clipboardButton.Name = "clipboardButton";
-            this.clipboardButton.Size = new System.Drawing.Size(74, 17);
+            this.clipboardButton.Size = new System.Drawing.Size(93, 24);
             this.clipboardButton.TabIndex = 1;
-            this.clipboardButton.Text = "clipboard";
+            this.clipboardButton.Text = "Clipboard";
             this.clipboardButton.UseVisualStyleBackColor = false;
             this.clipboardButton.CheckedChanged += new System.EventHandler(this.ClipboardButtonStateChange);
             // 
@@ -436,7 +433,7 @@ namespace AeroShot
             this.mouseGroupBox.Controls.Add(this.mouseLabel);
             this.mouseGroupBox.Location = new System.Drawing.Point(3, 6);
             this.mouseGroupBox.Name = "mouseGroupBox";
-            this.mouseGroupBox.Size = new System.Drawing.Size(405, 42);
+            this.mouseGroupBox.Size = new System.Drawing.Size(421, 42);
             this.mouseGroupBox.TabIndex = 29;
             this.mouseGroupBox.TabStop = false;
             // 
@@ -473,7 +470,7 @@ namespace AeroShot
             this.delayGroupBox.Controls.Add(this.secondsLabel);
             this.delayGroupBox.Location = new System.Drawing.Point(3, 54);
             this.delayGroupBox.Name = "delayGroupBox";
-            this.delayGroupBox.Size = new System.Drawing.Size(405, 55);
+            this.delayGroupBox.Size = new System.Drawing.Size(421, 44);
             this.delayGroupBox.TabIndex = 39;
             this.delayGroupBox.TabStop = false;
             // 
@@ -492,9 +489,10 @@ namespace AeroShot
             // delaySeconds
             // 
             this.delaySeconds.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
-            this.delaySeconds.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.delaySeconds.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.delaySeconds.ForeColor = System.Drawing.Color.White;
-            this.delaySeconds.Location = new System.Drawing.Point(327, 25);
+            this.delaySeconds.InterceptArrowKeys = false;
+            this.delaySeconds.Location = new System.Drawing.Point(339, 15);
             this.delaySeconds.Maximum = new decimal(new int[] {
             10,
             0,
@@ -517,10 +515,11 @@ namespace AeroShot
             // secondsLabel
             // 
             this.secondsLabel.AutoSize = true;
+            this.secondsLabel.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.secondsLabel.ForeColor = System.Drawing.Color.White;
-            this.secondsLabel.Location = new System.Drawing.Point(375, 27);
+            this.secondsLabel.Location = new System.Drawing.Point(385, 15);
             this.secondsLabel.Name = "secondsLabel";
-            this.secondsLabel.Size = new System.Drawing.Size(24, 15);
+            this.secondsLabel.Size = new System.Drawing.Size(30, 20);
             this.secondsLabel.TabIndex = 43;
             this.secondsLabel.Text = "sec";
             // 
@@ -543,7 +542,7 @@ namespace AeroShot
             this.clearTypeGroupBox.Controls.Add(this.clearTypeLabel);
             this.clearTypeGroupBox.Location = new System.Drawing.Point(3, 115);
             this.clearTypeGroupBox.Name = "clearTypeGroupBox";
-            this.clearTypeGroupBox.Size = new System.Drawing.Size(405, 55);
+            this.clearTypeGroupBox.Size = new System.Drawing.Size(421, 55);
             this.clearTypeGroupBox.TabIndex = 49;
             this.clearTypeGroupBox.TabStop = false;
             // 
@@ -564,10 +563,14 @@ namespace AeroShot
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.BackColor = System.Drawing.Color.RoyalBlue;
+            this.cancelButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.cancelButton.FlatAppearance.BorderSize = 3;
+            this.cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cancelButton.Font = new System.Drawing.Font("Segoe UI", 15.75F);
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(343, 456);
+            this.cancelButton.Location = new System.Drawing.Point(333, 389);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.Size = new System.Drawing.Size(128, 40);
             this.cancelButton.TabIndex = 101;
             this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = false;
@@ -575,12 +578,16 @@ namespace AeroShot
             // 
             // okButton
             // 
-            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.okButton.BackColor = System.Drawing.Color.RoyalBlue;
+            this.okButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.okButton.FlatAppearance.BorderSize = 3;
+            this.okButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.okButton.Font = new System.Drawing.Font("Segoe UI", 15.75F);
             this.okButton.ForeColor = System.Drawing.Color.White;
-            this.okButton.Location = new System.Drawing.Point(259, 456);
+            this.okButton.Location = new System.Drawing.Point(201, 389);
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(75, 23);
+            this.okButton.Size = new System.Drawing.Size(128, 40);
             this.okButton.TabIndex = 100;
             this.okButton.Text = "&Save";
             this.okButton.UseVisualStyleBackColor = false;
@@ -589,9 +596,9 @@ namespace AeroShot
             // shadowCheckbox
             // 
             this.shadowCheckbox.AutoSize = true;
-            this.shadowCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.shadowCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.shadowCheckbox.ForeColor = System.Drawing.Color.White;
-            this.shadowCheckbox.Location = new System.Drawing.Point(10, 176);
+            this.shadowCheckbox.Location = new System.Drawing.Point(7, 0);
             this.shadowCheckbox.Name = "shadowCheckbox";
             this.shadowCheckbox.Size = new System.Drawing.Size(158, 17);
             this.shadowCheckbox.TabIndex = 60;
@@ -611,7 +618,7 @@ namespace AeroShot
             this.groupBox1.Controls.Add(this.screenshotLabel);
             this.groupBox1.Location = new System.Drawing.Point(3, 241);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(405, 116);
+            this.groupBox1.Size = new System.Drawing.Size(421, 116);
             this.groupBox1.TabIndex = 89;
             this.groupBox1.TabStop = false;
             // 
@@ -732,7 +739,7 @@ namespace AeroShot
             this.groupBox2.Controls.Add(this.x2Label);
             this.groupBox2.Location = new System.Drawing.Point(3, 128);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(405, 55);
+            this.groupBox2.Size = new System.Drawing.Size(421, 55);
             this.groupBox2.TabIndex = 79;
             this.groupBox2.TabStop = false;
             // 
@@ -753,7 +760,7 @@ namespace AeroShot
             this.canvasHeight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
             this.canvasHeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.canvasHeight.ForeColor = System.Drawing.Color.White;
-            this.canvasHeight.Location = new System.Drawing.Point(338, 25);
+            this.canvasHeight.Location = new System.Drawing.Point(354, 19);
             this.canvasHeight.Maximum = new decimal(new int[] {
             16777215,
             0,
@@ -765,7 +772,7 @@ namespace AeroShot
             0,
             0});
             this.canvasHeight.Name = "canvasHeight";
-            this.canvasHeight.Size = new System.Drawing.Size(60, 23);
+            this.canvasHeight.Size = new System.Drawing.Size(60, 27);
             this.canvasHeight.TabIndex = 84;
             this.canvasHeight.Value = new decimal(new int[] {
             720,
@@ -778,7 +785,7 @@ namespace AeroShot
             this.canvasWidth.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
             this.canvasWidth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.canvasWidth.ForeColor = System.Drawing.Color.White;
-            this.canvasWidth.Location = new System.Drawing.Point(262, 25);
+            this.canvasWidth.Location = new System.Drawing.Point(255, 19);
             this.canvasWidth.Maximum = new decimal(new int[] {
             16777215,
             0,
@@ -790,7 +797,7 @@ namespace AeroShot
             0,
             0});
             this.canvasWidth.Name = "canvasWidth";
-            this.canvasWidth.Size = new System.Drawing.Size(60, 23);
+            this.canvasWidth.Size = new System.Drawing.Size(60, 27);
             this.canvasWidth.TabIndex = 82;
             this.canvasWidth.Value = new decimal(new int[] {
             1280,
@@ -801,13 +808,13 @@ namespace AeroShot
             // x2Label
             // 
             this.x2Label.AutoSize = true;
-            this.x2Label.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.x2Label.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.x2Label.ForeColor = System.Drawing.Color.White;
-            this.x2Label.Location = new System.Drawing.Point(324, 27);
+            this.x2Label.Location = new System.Drawing.Point(321, 16);
             this.x2Label.Name = "x2Label";
-            this.x2Label.Size = new System.Drawing.Size(12, 13);
+            this.x2Label.Size = new System.Drawing.Size(27, 30);
             this.x2Label.TabIndex = 83;
-            this.x2Label.Text = "x";
+            this.x2Label.Text = "×";
             // 
             // cropModeGroupBox
             // 
@@ -816,7 +823,7 @@ namespace AeroShot
             this.cropModeGroupBox.Controls.Add(this.cropModeLabel);
             this.cropModeGroupBox.Location = new System.Drawing.Point(3, 189);
             this.cropModeGroupBox.Name = "cropModeGroupBox";
-            this.cropModeGroupBox.Size = new System.Drawing.Size(405, 46);
+            this.cropModeGroupBox.Size = new System.Drawing.Size(421, 46);
             this.cropModeGroupBox.TabIndex = 98;
             this.cropModeGroupBox.TabStop = false;
             // 
@@ -852,6 +859,7 @@ namespace AeroShot
             this.cropModeLabel.BackColor = System.Drawing.Color.Navy;
             this.cropModeLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.cropModeLabel.ForeColor = System.Drawing.Color.White;
+            this.cropModeLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cropModeLabel.Location = new System.Drawing.Point(6, 0);
             this.cropModeLabel.Name = "cropModeLabel";
             this.cropModeLabel.Size = new System.Drawing.Size(64, 13);
@@ -864,17 +872,21 @@ namespace AeroShot
             this.keyboardShortcutGroupBox.Controls.Add(this.keyboardShortcutLabel);
             this.keyboardShortcutGroupBox.Location = new System.Drawing.Point(3, 225);
             this.keyboardShortcutGroupBox.Name = "keyboardShortcutGroupBox";
-            this.keyboardShortcutGroupBox.Size = new System.Drawing.Size(405, 54);
+            this.keyboardShortcutGroupBox.Size = new System.Drawing.Size(273, 82);
             this.keyboardShortcutGroupBox.TabIndex = 69;
             this.keyboardShortcutGroupBox.TabStop = false;
             // 
             // keyboardShortcutButton
             // 
-            this.keyboardShortcutButton.BackColor = System.Drawing.Color.RoyalBlue;
-            this.keyboardShortcutButton.ForeColor = System.Drawing.Color.White;
-            this.keyboardShortcutButton.Location = new System.Drawing.Point(173, 21);
+            this.keyboardShortcutButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.keyboardShortcutButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.keyboardShortcutButton.FlatAppearance.BorderSize = 3;
+            this.keyboardShortcutButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.keyboardShortcutButton.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.keyboardShortcutButton.ForeColor = System.Drawing.Color.Black;
+            this.keyboardShortcutButton.Location = new System.Drawing.Point(10, 37);
             this.keyboardShortcutButton.Name = "keyboardShortcutButton";
-            this.keyboardShortcutButton.Size = new System.Drawing.Size(226, 23);
+            this.keyboardShortcutButton.Size = new System.Drawing.Size(252, 34);
             this.keyboardShortcutButton.TabIndex = 1;
             this.keyboardShortcutButton.Text = "Ctrl + Shift + Alt + PrintScreen";
             this.keyboardShortcutButton.UseVisualStyleBackColor = false;
@@ -885,21 +897,25 @@ namespace AeroShot
             // 
             this.keyboardShortcutLabel.AutoSize = true;
             this.keyboardShortcutLabel.BackColor = System.Drawing.Color.Transparent;
+            this.keyboardShortcutLabel.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.keyboardShortcutLabel.ForeColor = System.Drawing.Color.White;
-            this.keyboardShortcutLabel.Location = new System.Drawing.Point(9, 25);
+            this.keyboardShortcutLabel.Location = new System.Drawing.Point(6, 14);
             this.keyboardShortcutLabel.Name = "keyboardShortcutLabel";
-            this.keyboardShortcutLabel.Size = new System.Drawing.Size(148, 15);
+            this.keyboardShortcutLabel.Size = new System.Drawing.Size(182, 20);
             this.keyboardShortcutLabel.TabIndex = 0;
             this.keyboardShortcutLabel.Text = "Custom keyboard shortcut";
             // 
             // shadowGroupBox
             // 
             this.shadowGroupBox.Controls.Add(this.shadowLabel);
-            this.shadowGroupBox.Location = new System.Drawing.Point(3, 177);
+            this.shadowGroupBox.Controls.Add(this.shadowCheckbox);
+            this.shadowGroupBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.shadowGroupBox.Location = new System.Drawing.Point(3, 176);
             this.shadowGroupBox.Name = "shadowGroupBox";
-            this.shadowGroupBox.Size = new System.Drawing.Size(405, 42);
+            this.shadowGroupBox.Size = new System.Drawing.Size(421, 43);
             this.shadowGroupBox.TabIndex = 59;
             this.shadowGroupBox.TabStop = false;
+            this.shadowGroupBox.Enter += new System.EventHandler(this.shadowGroupBox_Enter);
             // 
             // shadowLabel
             // 
@@ -914,18 +930,25 @@ namespace AeroShot
             // 
             // tabAdvanced
             // 
+            this.tabAdvanced.Alignment = System.Windows.Forms.TabAlignment.Left;
             this.tabAdvanced.Controls.Add(this.tabPage1);
             this.tabAdvanced.Controls.Add(this.tabPage2);
-            this.tabAdvanced.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabAdvanced.Location = new System.Drawing.Point(0, 53);
+            this.tabAdvanced.Controls.Add(this.tabPage3);
+            this.tabAdvanced.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tabAdvanced.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabAdvanced.Location = new System.Drawing.Point(0, 0);
+            this.tabAdvanced.Multiline = true;
             this.tabAdvanced.Name = "tabAdvanced";
+            this.tabAdvanced.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tabAdvanced.SelectedIndex = 0;
-            this.tabAdvanced.Size = new System.Drawing.Size(431, 391);
+            this.tabAdvanced.Size = new System.Drawing.Size(473, 381);
+            this.tabAdvanced.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabAdvanced.TabIndex = 2;
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
+            this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabPage1.Controls.Add(this.appearanceSettings);
             this.tabPage1.Controls.Add(this.mouseCheckbox);
             this.tabPage1.Controls.Add(this.mouseGroupBox);
@@ -934,18 +957,35 @@ namespace AeroShot
             this.tabPage1.Controls.Add(this.delayGroupBox);
             this.tabPage1.Controls.Add(this.clearTypeCheckbox);
             this.tabPage1.Controls.Add(this.clearTypeGroupBox);
-            this.tabPage1.Controls.Add(this.shadowCheckbox);
             this.tabPage1.Controls.Add(this.shadowGroupBox);
-            this.tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.tabPage1.Location = new System.Drawing.Point(30, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(423, 363);
+            this.tabPage1.Size = new System.Drawing.Size(439, 373);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Basic";
+            // 
+            // appearanceSettings
+            // 
+            this.appearanceSettings.BackColor = System.Drawing.Color.RoyalBlue;
+            this.appearanceSettings.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.appearanceSettings.FlatAppearance.BorderSize = 3;
+            this.appearanceSettings.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.appearanceSettings.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.appearanceSettings.ForeColor = System.Drawing.Color.White;
+            this.appearanceSettings.Location = new System.Drawing.Point(13, 311);
+            this.appearanceSettings.Margin = new System.Windows.Forms.Padding(1);
+            this.appearanceSettings.Name = "appearanceSettings";
+            this.appearanceSettings.Size = new System.Drawing.Size(252, 31);
+            this.appearanceSettings.TabIndex = 1;
+            this.appearanceSettings.Text = "Change appearance settings";
+            this.appearanceSettings.UseVisualStyleBackColor = false;
+            this.appearanceSettings.Click += new System.EventHandler(this.button1_Click);
             // 
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
+            this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabPage2.Controls.Add(this.aeroColorCheckbox);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.resizeCheckbox);
@@ -954,12 +994,42 @@ namespace AeroShot
             this.tabPage2.Controls.Add(this.resizeGroupBox);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.cropModeGroupBox);
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Location = new System.Drawing.Point(30, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(423, 363);
+            this.tabPage2.Size = new System.Drawing.Size(439, 373);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Advanced";
+            this.tabPage2.ToolTipText = "Things that barely anyone uses, except for Choosing screenshots to save";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
+            this.tabPage3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage3.Controls.Add(this.browseButton);
+            this.tabPage3.Controls.Add(this.folderTextBox);
+            this.tabPage3.Controls.Add(this.saveToLabel);
+            this.tabPage3.Controls.Add(this.clipboardButton);
+            this.tabPage3.Controls.Add(this.orLabel);
+            this.tabPage3.Controls.Add(this.diskButton);
+            this.tabPage3.Location = new System.Drawing.Point(30, 4);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(439, 373);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Save to...";
+            // 
+            // saveToLabel
+            // 
+            this.saveToLabel.AutoSize = true;
+            this.saveToLabel.BackColor = System.Drawing.Color.Transparent;
+            this.saveToLabel.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveToLabel.ForeColor = System.Drawing.Color.White;
+            this.saveToLabel.Location = new System.Drawing.Point(6, 3);
+            this.saveToLabel.Name = "saveToLabel";
+            this.saveToLabel.Size = new System.Drawing.Size(196, 30);
+            this.saveToLabel.TabIndex = 3;
+            this.saveToLabel.Text = "Save screenshots to";
             // 
             // aeroColorDisplay
             // 
@@ -971,33 +1041,33 @@ namespace AeroShot
             this.aeroColorDisplay.TabIndex = 25;
             this.aeroColorDisplay.Click += new System.EventHandler(this.AeroColorDisplayClick);
             // 
-            // appearanceSettings
+            // Exit
             // 
-            this.appearanceSettings.BackColor = System.Drawing.Color.RoyalBlue;
-            this.appearanceSettings.ForeColor = System.Drawing.Color.White;
-            this.appearanceSettings.Location = new System.Drawing.Point(8, 334);
-            this.appearanceSettings.Name = "appearanceSettings";
-            this.appearanceSettings.Size = new System.Drawing.Size(226, 23);
-            this.appearanceSettings.TabIndex = 1;
-            this.appearanceSettings.Text = "Change appearance settings";
-            this.appearanceSettings.UseVisualStyleBackColor = false;
-            this.appearanceSettings.Click += new System.EventHandler(this.button1_Click);
+            this.Exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Exit.BackColor = System.Drawing.Color.Crimson;
+            this.Exit.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.Exit.FlatAppearance.BorderSize = 3;
+            this.Exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Exit.Font = new System.Drawing.Font("Segoe UI", 15.75F);
+            this.Exit.ForeColor = System.Drawing.Color.White;
+            this.Exit.Location = new System.Drawing.Point(12, 389);
+            this.Exit.Name = "Exit";
+            this.Exit.Size = new System.Drawing.Size(56, 40);
+            this.Exit.TabIndex = 102;
+            this.Exit.Text = "E&xit";
+            this.Exit.UseVisualStyleBackColor = false;
+            this.Exit.Click += new System.EventHandler(this.Exit_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
-            this.ClientSize = new System.Drawing.Size(430, 491);
-            this.Controls.Add(this.tabAdvanced);
+            this.ClientSize = new System.Drawing.Size(473, 441);
+            this.Controls.Add(this.Exit);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.cancelButton);
-            this.Controls.Add(this.folderTextBox);
-            this.Controls.Add(this.browseButton);
-            this.Controls.Add(this.saveToLabel);
-            this.Controls.Add(this.orLabel);
-            this.Controls.Add(this.clipboardButton);
-            this.Controls.Add(this.diskButton);
+            this.Controls.Add(this.tabAdvanced);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -1035,8 +1105,9 @@ namespace AeroShot
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
         #endregion
@@ -1069,5 +1140,8 @@ namespace AeroShot
         private TabPage tabPage1;
         private TabPage tabPage2;
         private Button appearanceSettings;
+        private TabPage tabPage3;
+        private Label saveToLabel;
+        private Button Exit;
     }
 }

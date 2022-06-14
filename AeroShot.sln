@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31612.314
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AeroShot", "AeroShot.csproj", "{BB3288F3-948F-4CD9-AFB3-CEFB91B1A512}"
 EndProject
@@ -39,8 +39,8 @@ Global
 		{BB3288F3-948F-4CD9-AFB3-CEFB91B1A512}.Release|ARM64.Build.0 = Release|Any CPU
 		{BB3288F3-948F-4CD9-AFB3-CEFB91B1A512}.Release|x64.ActiveCfg = Release|Any CPU
 		{BB3288F3-948F-4CD9-AFB3-CEFB91B1A512}.Release|x64.Build.0 = Release|Any CPU
-		{BB3288F3-948F-4CD9-AFB3-CEFB91B1A512}.Release|x86.ActiveCfg = Release|Any CPU
-		{BB3288F3-948F-4CD9-AFB3-CEFB91B1A512}.Release|x86.Build.0 = Release|Any CPU
+		{BB3288F3-948F-4CD9-AFB3-CEFB91B1A512}.Release|x86.ActiveCfg = Release|x86
+		{BB3288F3-948F-4CD9-AFB3-CEFB91B1A512}.Release|x86.Build.0 = Release|x86
 		{1CE47111-6359-4B58-A5E6-EE8E79783952}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1CE47111-6359-4B58-A5E6-EE8E79783952}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CE47111-6359-4B58-A5E6-EE8E79783952}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
