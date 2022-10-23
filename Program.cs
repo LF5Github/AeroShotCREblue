@@ -1,4 +1,5 @@
 /*  AeroShot - Transparent screenshot utility for Windows
+    Copyright (C) 2022 LF5
     Copyright (C) 2021 Cvolton, starfrost
     Copyright (C) 2015 toe_head2001
     Copyright (C) 2012 Caleb Joseph
@@ -26,8 +27,8 @@ using System.Windows.Forms;
 [assembly: AssemblyProduct("AeroShotCRE blue")]
 [assembly: AssemblyDescription("Screenshot capture utility for Windows Aero")]
 [assembly: AssemblyCopyright("\u00a9 2022 Cvolton and LF5")]
-[assembly: AssemblyVersion("1.9.6.0")]
-[assembly: AssemblyFileVersion("1.9.6.0")]
+[assembly: AssemblyVersion("1.9.7.0")]
+[assembly: AssemblyFileVersion("1.9.7.0")]
 [assembly: ComVisible(false)]
 
 namespace AeroShot

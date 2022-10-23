@@ -416,7 +416,7 @@ namespace AeroShot
         private static void RefreshBackdrop()
         {
             Application.DoEvents();
-            Thread.Sleep(33); //Waiting for DWM to refresh, assuming 30 Hz refresh rate to be safe
+            Thread.Sleep(30); //Waiting for DWM to refresh, assuming 30 Hz refresh rate to be safe
         }
 
         private static unsafe Bitmap[] CaptureCompositeScreenshot(ref ScreenshotTask data)

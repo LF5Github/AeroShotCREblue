@@ -26,6 +26,7 @@ using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
+
 namespace AeroShot
 {
     public sealed partial class MainForm : Form
@@ -37,6 +38,17 @@ namespace AeroShot
         private int hotkeyModifier;
         private bool needsRestart = false;
 
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+            if (m.Msg == WM_NCHITTEST)
+                m.Result = (IntPtr)(HT_CAPTION);
+        }
+
+        private const int WM_NCHITTEST = 0x84;
+        private const int HT_CLIENT = 0x1;
+        private const int HT_CAPTION = 0x2;
+
         private readonly RegistryKey _registryKey;
         Settings _settings = new Settings();
 
@@ -47,6 +59,8 @@ namespace AeroShot
             InitializeComponent();
 
             Text = string.Format(Text, Application.ProductName, Application.ProductVersion);
+
+            nameVersion.Text = string.Format(Text, Application.ProductName, Application.ProductVersion);
 
             folderTextBox.Text = _settings.folderTextBox;
             clipboardButton.Checked = _settings.clipboardButton;
@@ -334,7 +348,6 @@ namespace AeroShot
 
             this.Close();
         }
-
         private void CancelButtonClick(object sender, EventArgs e)
         {
             this.Close();
@@ -381,6 +394,26 @@ namespace AeroShot
         private void Exit_Click(object sender, EventArgs e)
         {
             Environment.Exit(2);
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == true)
+            {
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true); // enables this to automatically start with windows
+                key.SetValue("AeroShotCRE blue", Application.ExecutablePath);
+
+                string message = "AeroShotCRE blue has been set to startup with the system starting up.";
+                string title = Application.ProductName;
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                DialogResult result = MessageBox.Show(message, title, buttons, MessageBoxIcon.Information);
+            }
+            else
+            {
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                key.DeleteValue("AeroShotCRE blue", false); // Disables it to not automatically start with Windows
+            } // Thank you Mohammad Fathi Mimfa... I couldn't have done this without you.
+
         }
     }
 

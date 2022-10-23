@@ -28,12 +28,10 @@ namespace AeroShot
         private System.Windows.Forms.FolderBrowserDialog folderSelectionDialog;
         private System.Windows.Forms.TextBox folderTextBox;
         private System.Windows.Forms.GroupBox resizeGroupBox;
-        private System.Windows.Forms.Label resizeLabel;
         private System.Windows.Forms.Label xLabel;
 
         private System.Windows.Forms.CheckBox aeroColorCheckbox;
         private System.Windows.Forms.GroupBox aeroColorGroupBox;
-        private System.Windows.Forms.Label aeroColorLabel;
         private System.Windows.Forms.Label aeroColorColorLabel;
         private System.Windows.Forms.ColorDialog aeroColorDialog;
         private AeroShot.ColorDisplay aeroColorDisplay;
@@ -117,10 +115,6 @@ namespace AeroShot
             this.canvasHeight = new System.Windows.Forms.NumericUpDown();
             this.canvasWidth = new System.Windows.Forms.NumericUpDown();
             this.x2Label = new System.Windows.Forms.Label();
-            this.cropModeGroupBox = new System.Windows.Forms.GroupBox();
-            this.cropModeKeepCenteredButton = new System.Windows.Forms.RadioButton();
-            this.cropModeRemoveAllButton = new System.Windows.Forms.RadioButton();
-            this.cropModeLabel = new System.Windows.Forms.Label();
             this.keyboardShortcutGroupBox = new System.Windows.Forms.GroupBox();
             this.keyboardShortcutButton = new System.Windows.Forms.Button();
             this.keyboardShortcutLabel = new System.Windows.Forms.Label();
@@ -128,12 +122,18 @@ namespace AeroShot
             this.shadowLabel = new System.Windows.Forms.Label();
             this.tabAdvanced = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.appearanceSettings = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.cropModeGroupBox = new System.Windows.Forms.GroupBox();
+            this.cropModeKeepCenteredButton = new System.Windows.Forms.RadioButton();
+            this.cropModeRemoveAllButton = new System.Windows.Forms.RadioButton();
+            this.cropModeLabel = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.saveToLabel = new System.Windows.Forms.Label();
-            this.aeroColorDisplay = new AeroShot.ColorDisplay();
             this.Exit = new System.Windows.Forms.Button();
+            this.nameVersion = new System.Windows.Forms.Label();
+            this.aeroColorDisplay = new AeroShot.ColorDisplay();
             ((System.ComponentModel.ISupportInitialize)(this.windowHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.windowWidth)).BeginInit();
             this.aeroColorGroupBox.SuspendLayout();
@@ -146,12 +146,12 @@ namespace AeroShot
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvasHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.canvasWidth)).BeginInit();
-            this.cropModeGroupBox.SuspendLayout();
             this.keyboardShortcutGroupBox.SuspendLayout();
             this.shadowGroupBox.SuspendLayout();
             this.tabAdvanced.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.cropModeGroupBox.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -189,11 +189,11 @@ namespace AeroShot
             // 
             this.resizeCheckbox.AutoSize = true;
             this.resizeCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.resizeCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resizeCheckbox.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.resizeCheckbox.ForeColor = System.Drawing.Color.White;
             this.resizeCheckbox.Location = new System.Drawing.Point(10, 6);
             this.resizeCheckbox.Name = "resizeCheckbox";
-            this.resizeCheckbox.Size = new System.Drawing.Size(103, 17);
+            this.resizeCheckbox.Size = new System.Drawing.Size(126, 24);
             this.resizeCheckbox.TabIndex = 10;
             this.resizeCheckbox.Text = "Resize window";
             this.resizeCheckbox.UseVisualStyleBackColor = false;
@@ -264,11 +264,11 @@ namespace AeroShot
             // 
             this.aeroColorCheckbox.AutoSize = true;
             this.aeroColorCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.aeroColorCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aeroColorCheckbox.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.aeroColorCheckbox.ForeColor = System.Drawing.Color.White;
             this.aeroColorCheckbox.Location = new System.Drawing.Point(10, 67);
             this.aeroColorCheckbox.Name = "aeroColorCheckbox";
-            this.aeroColorCheckbox.Size = new System.Drawing.Size(126, 17);
+            this.aeroColorCheckbox.Size = new System.Drawing.Size(156, 24);
             this.aeroColorCheckbox.TabIndex = 20;
             this.aeroColorCheckbox.Text = "Custom Glass Color";
             this.aeroColorCheckbox.UseVisualStyleBackColor = false;
@@ -297,6 +297,7 @@ namespace AeroShot
             this.aeroColorLabel.Size = new System.Drawing.Size(163, 26);
             this.aeroColorLabel.TabIndex = 21;
             this.aeroColorLabel.Text = "The color of Aero Glass will be\r\nchanged for screenshots.";
+            this.aeroColorLabel.Visible = false;
             // 
             // aeroColorColorLabel
             // 
@@ -365,6 +366,7 @@ namespace AeroShot
             this.resizeLabel.TabIndex = 11;
             this.resizeLabel.Text = "Sets the exact resolution screenshots are\r\ncaptured in, if the window supports re" +
     "sizing.";
+            this.resizeLabel.Visible = false;
             // 
             // diskButton
             // 
@@ -418,11 +420,11 @@ namespace AeroShot
             // 
             this.mouseCheckbox.AutoSize = true;
             this.mouseCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.mouseCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mouseCheckbox.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.mouseCheckbox.ForeColor = System.Drawing.Color.White;
             this.mouseCheckbox.Location = new System.Drawing.Point(10, 6);
             this.mouseCheckbox.Name = "mouseCheckbox";
-            this.mouseCheckbox.Size = new System.Drawing.Size(145, 17);
+            this.mouseCheckbox.Size = new System.Drawing.Size(180, 24);
             this.mouseCheckbox.TabIndex = 30;
             this.mouseCheckbox.Text = "Capture mouse pointer";
             this.mouseCheckbox.UseVisualStyleBackColor = false;
@@ -448,16 +450,17 @@ namespace AeroShot
             this.mouseLabel.Size = new System.Drawing.Size(311, 13);
             this.mouseLabel.TabIndex = 31;
             this.mouseLabel.Text = "The system mouse pointer will be preserved in screenshots.";
+            this.mouseLabel.Visible = false;
             // 
             // delayCheckbox
             // 
             this.delayCheckbox.AutoSize = true;
             this.delayCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.delayCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.delayCheckbox.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.delayCheckbox.ForeColor = System.Drawing.Color.White;
             this.delayCheckbox.Location = new System.Drawing.Point(10, 54);
             this.delayCheckbox.Name = "delayCheckbox";
-            this.delayCheckbox.Size = new System.Drawing.Size(96, 17);
+            this.delayCheckbox.Size = new System.Drawing.Size(120, 24);
             this.delayCheckbox.TabIndex = 40;
             this.delayCheckbox.Text = "Delay capture";
             this.delayCheckbox.UseVisualStyleBackColor = false;
@@ -485,6 +488,7 @@ namespace AeroShot
             this.delayLabel.Size = new System.Drawing.Size(244, 13);
             this.delayLabel.TabIndex = 41;
             this.delayLabel.Text = "Adds a delay before screenshots are captured.";
+            this.delayLabel.Visible = false;
             // 
             // delaySeconds
             // 
@@ -527,11 +531,11 @@ namespace AeroShot
             // 
             this.clearTypeCheckbox.AutoSize = true;
             this.clearTypeCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.clearTypeCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clearTypeCheckbox.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.clearTypeCheckbox.ForeColor = System.Drawing.Color.White;
             this.clearTypeCheckbox.Location = new System.Drawing.Point(10, 115);
             this.clearTypeCheckbox.Name = "clearTypeCheckbox";
-            this.clearTypeCheckbox.Size = new System.Drawing.Size(116, 17);
+            this.clearTypeCheckbox.Size = new System.Drawing.Size(147, 24);
             this.clearTypeCheckbox.TabIndex = 50;
             this.clearTypeCheckbox.Text = "Disable ClearType";
             this.clearTypeCheckbox.UseVisualStyleBackColor = false;
@@ -558,19 +562,20 @@ namespace AeroShot
             this.clearTypeLabel.TabIndex = 51;
             this.clearTypeLabel.Text = "ClearType font smoothing will be disabled while screenshots are being \r\ncaptured." +
     "";
+            this.clearTypeLabel.Visible = false;
             // 
             // cancelButton
             // 
-            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.BackColor = System.Drawing.Color.RoyalBlue;
             this.cancelButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.cancelButton.FlatAppearance.BorderSize = 3;
             this.cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cancelButton.Font = new System.Drawing.Font("Segoe UI", 15.75F);
+            this.cancelButton.Font = new System.Drawing.Font("Segoe UI Semilight", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(333, 389);
+            this.cancelButton.Location = new System.Drawing.Point(379, 3);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(128, 40);
+            this.cancelButton.Size = new System.Drawing.Size(90, 40);
             this.cancelButton.TabIndex = 101;
             this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = false;
@@ -578,16 +583,16 @@ namespace AeroShot
             // 
             // okButton
             // 
-            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.BackColor = System.Drawing.Color.RoyalBlue;
             this.okButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.okButton.FlatAppearance.BorderSize = 3;
             this.okButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.okButton.Font = new System.Drawing.Font("Segoe UI", 15.75F);
+            this.okButton.Font = new System.Drawing.Font("Segoe UI Semilight", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.okButton.ForeColor = System.Drawing.Color.White;
-            this.okButton.Location = new System.Drawing.Point(201, 389);
+            this.okButton.Location = new System.Drawing.Point(283, 3);
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(128, 40);
+            this.okButton.Size = new System.Drawing.Size(90, 40);
             this.okButton.TabIndex = 100;
             this.okButton.Text = "&Save";
             this.okButton.UseVisualStyleBackColor = false;
@@ -596,11 +601,11 @@ namespace AeroShot
             // shadowCheckbox
             // 
             this.shadowCheckbox.AutoSize = true;
-            this.shadowCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shadowCheckbox.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.shadowCheckbox.ForeColor = System.Drawing.Color.White;
             this.shadowCheckbox.Location = new System.Drawing.Point(7, 0);
             this.shadowCheckbox.Name = "shadowCheckbox";
-            this.shadowCheckbox.Size = new System.Drawing.Size(158, 17);
+            this.shadowCheckbox.Size = new System.Drawing.Size(195, 24);
             this.shadowCheckbox.TabIndex = 60;
             this.shadowCheckbox.Text = "Disable window shadows";
             this.shadowCheckbox.UseVisualStyleBackColor = true;
@@ -710,11 +715,11 @@ namespace AeroShot
             // 
             this.screenshotLabel.AutoSize = true;
             this.screenshotLabel.BackColor = System.Drawing.Color.Navy;
-            this.screenshotLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.screenshotLabel.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.screenshotLabel.ForeColor = System.Drawing.Color.White;
             this.screenshotLabel.Location = new System.Drawing.Point(6, 0);
             this.screenshotLabel.Name = "screenshotLabel";
-            this.screenshotLabel.Size = new System.Drawing.Size(149, 13);
+            this.screenshotLabel.Size = new System.Drawing.Size(189, 20);
             this.screenshotLabel.TabIndex = 90;
             this.screenshotLabel.Text = "Choose screenshots to save";
             // 
@@ -722,11 +727,11 @@ namespace AeroShot
             // 
             this.canvasSizeCheckbox.AutoSize = true;
             this.canvasSizeCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.canvasSizeCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.canvasSizeCheckbox.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.canvasSizeCheckbox.ForeColor = System.Drawing.Color.White;
             this.canvasSizeCheckbox.Location = new System.Drawing.Point(10, 128);
             this.canvasSizeCheckbox.Name = "canvasSizeCheckbox";
-            this.canvasSizeCheckbox.Size = new System.Drawing.Size(124, 17);
+            this.canvasSizeCheckbox.Size = new System.Drawing.Size(155, 24);
             this.canvasSizeCheckbox.TabIndex = 80;
             this.canvasSizeCheckbox.Text = "Custom canvas size";
             this.canvasSizeCheckbox.UseVisualStyleBackColor = false;
@@ -754,6 +759,7 @@ namespace AeroShot
             this.canvasLabel.Size = new System.Drawing.Size(216, 26);
             this.canvasLabel.TabIndex = 81;
             this.canvasLabel.Text = "Sets the exact resolution screenshots are\r\ncaptured in with added empty space.";
+            this.canvasLabel.Visible = false;
             // 
             // canvasHeight
             // 
@@ -816,56 +822,6 @@ namespace AeroShot
             this.x2Label.TabIndex = 83;
             this.x2Label.Text = "×";
             // 
-            // cropModeGroupBox
-            // 
-            this.cropModeGroupBox.Controls.Add(this.cropModeKeepCenteredButton);
-            this.cropModeGroupBox.Controls.Add(this.cropModeRemoveAllButton);
-            this.cropModeGroupBox.Controls.Add(this.cropModeLabel);
-            this.cropModeGroupBox.Location = new System.Drawing.Point(3, 189);
-            this.cropModeGroupBox.Name = "cropModeGroupBox";
-            this.cropModeGroupBox.Size = new System.Drawing.Size(421, 46);
-            this.cropModeGroupBox.TabIndex = 98;
-            this.cropModeGroupBox.TabStop = false;
-            // 
-            // cropModeKeepCenteredButton
-            // 
-            this.cropModeKeepCenteredButton.AutoSize = true;
-            this.cropModeKeepCenteredButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.cropModeKeepCenteredButton.ForeColor = System.Drawing.Color.White;
-            this.cropModeKeepCenteredButton.Location = new System.Drawing.Point(194, 19);
-            this.cropModeKeepCenteredButton.Name = "cropModeKeepCenteredButton";
-            this.cropModeKeepCenteredButton.Size = new System.Drawing.Size(143, 17);
-            this.cropModeKeepCenteredButton.TabIndex = 92;
-            this.cropModeKeepCenteredButton.TabStop = true;
-            this.cropModeKeepCenteredButton.Text = "Keep window centered";
-            this.cropModeKeepCenteredButton.UseVisualStyleBackColor = true;
-            // 
-            // cropModeRemoveAllButton
-            // 
-            this.cropModeRemoveAllButton.AutoSize = true;
-            this.cropModeRemoveAllButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.cropModeRemoveAllButton.ForeColor = System.Drawing.Color.White;
-            this.cropModeRemoveAllButton.Location = new System.Drawing.Point(9, 19);
-            this.cropModeRemoveAllButton.Name = "cropModeRemoveAllButton";
-            this.cropModeRemoveAllButton.Size = new System.Drawing.Size(146, 17);
-            this.cropModeRemoveAllButton.TabIndex = 91;
-            this.cropModeRemoveAllButton.TabStop = true;
-            this.cropModeRemoveAllButton.Text = "Remove all empty space";
-            this.cropModeRemoveAllButton.UseVisualStyleBackColor = true;
-            // 
-            // cropModeLabel
-            // 
-            this.cropModeLabel.AutoSize = true;
-            this.cropModeLabel.BackColor = System.Drawing.Color.Navy;
-            this.cropModeLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.cropModeLabel.ForeColor = System.Drawing.Color.White;
-            this.cropModeLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cropModeLabel.Location = new System.Drawing.Point(6, 0);
-            this.cropModeLabel.Name = "cropModeLabel";
-            this.cropModeLabel.Size = new System.Drawing.Size(64, 13);
-            this.cropModeLabel.TabIndex = 90;
-            this.cropModeLabel.Text = "Crop mode";
-            // 
             // keyboardShortcutGroupBox
             // 
             this.keyboardShortcutGroupBox.Controls.Add(this.keyboardShortcutButton);
@@ -927,6 +883,7 @@ namespace AeroShot
             this.shadowLabel.Size = new System.Drawing.Size(404, 13);
             this.shadowLabel.TabIndex = 61;
             this.shadowLabel.Text = "Shadows on windows will be disabled while screenshots are being captured.";
+            this.shadowLabel.Visible = false;
             // 
             // tabAdvanced
             // 
@@ -934,14 +891,13 @@ namespace AeroShot
             this.tabAdvanced.Controls.Add(this.tabPage1);
             this.tabAdvanced.Controls.Add(this.tabPage2);
             this.tabAdvanced.Controls.Add(this.tabPage3);
-            this.tabAdvanced.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabAdvanced.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabAdvanced.Location = new System.Drawing.Point(0, 0);
+            this.tabAdvanced.Location = new System.Drawing.Point(0, 44);
             this.tabAdvanced.Multiline = true;
             this.tabAdvanced.Name = "tabAdvanced";
             this.tabAdvanced.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tabAdvanced.SelectedIndex = 0;
-            this.tabAdvanced.Size = new System.Drawing.Size(473, 381);
+            this.tabAdvanced.Size = new System.Drawing.Size(473, 385);
             this.tabAdvanced.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabAdvanced.TabIndex = 2;
             // 
@@ -949,6 +905,7 @@ namespace AeroShot
             // 
             this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage1.Controls.Add(this.checkBox1);
             this.tabPage1.Controls.Add(this.appearanceSettings);
             this.tabPage1.Controls.Add(this.mouseCheckbox);
             this.tabPage1.Controls.Add(this.mouseGroupBox);
@@ -961,9 +918,22 @@ namespace AeroShot
             this.tabPage1.Location = new System.Drawing.Point(30, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(439, 373);
+            this.tabPage1.Size = new System.Drawing.Size(439, 377);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Basic";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.checkBox1.ForeColor = System.Drawing.Color.White;
+            this.checkBox1.Location = new System.Drawing.Point(6, 343);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(360, 24);
+            this.checkBox1.TabIndex = 70;
+            this.checkBox1.Text = "Automatically start AeroShotCRE blue with startup";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // appearanceSettings
             // 
@@ -997,10 +967,60 @@ namespace AeroShot
             this.tabPage2.Location = new System.Drawing.Point(30, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(439, 373);
+            this.tabPage2.Size = new System.Drawing.Size(439, 377);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Advanced";
             this.tabPage2.ToolTipText = "Things that barely anyone uses, except for Choosing screenshots to save";
+            // 
+            // cropModeGroupBox
+            // 
+            this.cropModeGroupBox.Controls.Add(this.cropModeKeepCenteredButton);
+            this.cropModeGroupBox.Controls.Add(this.cropModeRemoveAllButton);
+            this.cropModeGroupBox.Controls.Add(this.cropModeLabel);
+            this.cropModeGroupBox.Location = new System.Drawing.Point(3, 189);
+            this.cropModeGroupBox.Name = "cropModeGroupBox";
+            this.cropModeGroupBox.Size = new System.Drawing.Size(421, 46);
+            this.cropModeGroupBox.TabIndex = 98;
+            this.cropModeGroupBox.TabStop = false;
+            // 
+            // cropModeKeepCenteredButton
+            // 
+            this.cropModeKeepCenteredButton.AutoSize = true;
+            this.cropModeKeepCenteredButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.cropModeKeepCenteredButton.ForeColor = System.Drawing.Color.White;
+            this.cropModeKeepCenteredButton.Location = new System.Drawing.Point(194, 19);
+            this.cropModeKeepCenteredButton.Name = "cropModeKeepCenteredButton";
+            this.cropModeKeepCenteredButton.Size = new System.Drawing.Size(143, 17);
+            this.cropModeKeepCenteredButton.TabIndex = 92;
+            this.cropModeKeepCenteredButton.TabStop = true;
+            this.cropModeKeepCenteredButton.Text = "Keep window centered";
+            this.cropModeKeepCenteredButton.UseVisualStyleBackColor = true;
+            // 
+            // cropModeRemoveAllButton
+            // 
+            this.cropModeRemoveAllButton.AutoSize = true;
+            this.cropModeRemoveAllButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.cropModeRemoveAllButton.ForeColor = System.Drawing.Color.White;
+            this.cropModeRemoveAllButton.Location = new System.Drawing.Point(9, 19);
+            this.cropModeRemoveAllButton.Name = "cropModeRemoveAllButton";
+            this.cropModeRemoveAllButton.Size = new System.Drawing.Size(146, 17);
+            this.cropModeRemoveAllButton.TabIndex = 91;
+            this.cropModeRemoveAllButton.TabStop = true;
+            this.cropModeRemoveAllButton.Text = "Remove all empty space";
+            this.cropModeRemoveAllButton.UseVisualStyleBackColor = true;
+            // 
+            // cropModeLabel
+            // 
+            this.cropModeLabel.AutoSize = true;
+            this.cropModeLabel.BackColor = System.Drawing.Color.Navy;
+            this.cropModeLabel.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.cropModeLabel.ForeColor = System.Drawing.Color.White;
+            this.cropModeLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.cropModeLabel.Location = new System.Drawing.Point(6, 0);
+            this.cropModeLabel.Name = "cropModeLabel";
+            this.cropModeLabel.Size = new System.Drawing.Size(84, 20);
+            this.cropModeLabel.TabIndex = 90;
+            this.cropModeLabel.Text = "Crop mode";
             // 
             // tabPage3
             // 
@@ -1015,7 +1035,7 @@ namespace AeroShot
             this.tabPage3.Location = new System.Drawing.Point(30, 4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(439, 373);
+            this.tabPage3.Size = new System.Drawing.Size(439, 377);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Save to...";
             // 
@@ -1031,6 +1051,38 @@ namespace AeroShot
             this.saveToLabel.TabIndex = 3;
             this.saveToLabel.Text = "Save screenshots to";
             // 
+            // Exit
+            // 
+            this.Exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.Exit.BackColor = System.Drawing.Color.Crimson;
+            this.Exit.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.Exit.FlatAppearance.BorderSize = 3;
+            this.Exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Exit.Font = new System.Drawing.Font("Segoe UI Semilight", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Exit.ForeColor = System.Drawing.Color.White;
+            this.Exit.Location = new System.Drawing.Point(221, 3);
+            this.Exit.Name = "Exit";
+            this.Exit.Size = new System.Drawing.Size(56, 40);
+            this.Exit.TabIndex = 102;
+            this.Exit.Text = "E&xit";
+            this.Exit.UseVisualStyleBackColor = false;
+            this.Exit.Click += new System.EventHandler(this.Exit_Click);
+            // 
+            // nameVersion
+            // 
+            this.nameVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.nameVersion.AutoSize = true;
+            this.nameVersion.Enabled = false;
+            this.nameVersion.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.nameVersion.Font = new System.Drawing.Font("Segoe UI Semilight", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nameVersion.ForeColor = System.Drawing.Color.White;
+            this.nameVersion.Location = new System.Drawing.Point(8, 432);
+            this.nameVersion.Name = "nameVersion";
+            this.nameVersion.Size = new System.Drawing.Size(62, 30);
+            this.nameVersion.TabIndex = 103;
+            this.nameVersion.Text = "{0} {1}";
+            this.nameVersion.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
             // aeroColorDisplay
             // 
             this.aeroColorDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1041,38 +1093,21 @@ namespace AeroShot
             this.aeroColorDisplay.TabIndex = 25;
             this.aeroColorDisplay.Click += new System.EventHandler(this.AeroColorDisplayClick);
             // 
-            // Exit
-            // 
-            this.Exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Exit.BackColor = System.Drawing.Color.Crimson;
-            this.Exit.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.Exit.FlatAppearance.BorderSize = 3;
-            this.Exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Exit.Font = new System.Drawing.Font("Segoe UI", 15.75F);
-            this.Exit.ForeColor = System.Drawing.Color.White;
-            this.Exit.Location = new System.Drawing.Point(12, 389);
-            this.Exit.Name = "Exit";
-            this.Exit.Size = new System.Drawing.Size(56, 40);
-            this.Exit.TabIndex = 102;
-            this.Exit.Text = "E&xit";
-            this.Exit.UseVisualStyleBackColor = false;
-            this.Exit.Click += new System.EventHandler(this.Exit_Click);
-            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(11)))), ((int)(((byte)(60)))));
-            this.ClientSize = new System.Drawing.Size(473, 441);
+            this.ClientSize = new System.Drawing.Size(473, 463);
+            this.Controls.Add(this.nameVersion);
             this.Controls.Add(this.Exit);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.tabAdvanced);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "{0} {1} - Settings";
             ((System.ComponentModel.ISupportInitialize)(this.windowHeight)).EndInit();
@@ -1094,8 +1129,6 @@ namespace AeroShot
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvasHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.canvasWidth)).EndInit();
-            this.cropModeGroupBox.ResumeLayout(false);
-            this.cropModeGroupBox.PerformLayout();
             this.keyboardShortcutGroupBox.ResumeLayout(false);
             this.keyboardShortcutGroupBox.PerformLayout();
             this.shadowGroupBox.ResumeLayout(false);
@@ -1105,9 +1138,12 @@ namespace AeroShot
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.cropModeGroupBox.ResumeLayout(false);
+            this.cropModeGroupBox.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
         #endregion
@@ -1123,14 +1159,9 @@ namespace AeroShot
         private CheckBox saveActiveTransparentCheckbox;
         private CheckBox canvasSizeCheckbox;
         private GroupBox groupBox2;
-        private Label canvasLabel;
         private NumericUpDown canvasHeight;
         private NumericUpDown canvasWidth;
         private Label x2Label;
-		private GroupBox cropModeGroupBox;
-		private RadioButton cropModeKeepCenteredButton;
-		private RadioButton cropModeRemoveAllButton;
-		private Label cropModeLabel;
 		private GroupBox keyboardShortcutGroupBox;
 		private Button keyboardShortcutButton;
 		private Label keyboardShortcutLabel;
@@ -1143,5 +1174,14 @@ namespace AeroShot
         private TabPage tabPage3;
         private Label saveToLabel;
         private Button Exit;
+        private CheckBox checkBox1;
+        private GroupBox cropModeGroupBox;
+        private RadioButton cropModeKeepCenteredButton;
+        private RadioButton cropModeRemoveAllButton;
+        private Label cropModeLabel;
+        private Label aeroColorLabel;
+        private Label resizeLabel;
+        private Label canvasLabel;
+        private Label nameVersion;
     }
 }
