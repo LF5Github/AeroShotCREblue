@@ -11,6 +11,7 @@ AeroShotCRE is a fork of AeroShot aiming to add features useful to creators of W
 ### 1.9.7
 * Fixed some DPI issues
 * A new Titlebar design
+* New icon for v1.9.7
 ### 1.9.6.1
 * Added a feature that allows you to start AeroShotCRE blue on startup
 * Some text are hidden to have more simplicity
